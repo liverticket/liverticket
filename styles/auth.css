@@ -1,0 +1,199 @@
+/* Login */
+.loginPage {
+  min-height: calc(100vh - 78px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.16) 0%, transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.05) 0%, transparent 22%),
+    radial-gradient(circle at 70% 75%, rgba(229, 9, 20, 0.1) 0%, transparent 25%),
+    linear-gradient(135deg, #0a0a0c 0%, #111216 45%, #161821 100%);
+}
+
+.loginPage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, transparent 0%, transparent 58%, rgba(255, 255, 255, 0.03) 58.5%, transparent 62%),
+    linear-gradient(300deg, transparent 0%, transparent 70%, rgba(229, 9, 20, 0.08) 70.5%, transparent 74%);
+  pointer-events: none;
+}
+
+.loginPage::after {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  right: -140px;
+  bottom: -180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.18) 0%, rgba(229, 9, 20, 0.04) 45%, transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.loginCard {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  background: rgba(245, 245, 245, 0.97);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 42px 34px;
+  color: #111;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.loginCard h1 {
+  margin: 0 0 12px;
+  font-size: 52px;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.loginSubtitle {
+  color: #444;
+  margin: 0 0 28px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loginForm input {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid #b9bcc4;
+  background: #fff;
+  color: #111;
+  font-size: 16px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.loginForm input:focus {
+  border-color: #e50914;
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.12);
+}
+
+.loginLink {
+  font-size: 15px;
+  color: #111;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.loginButton {
+  margin-top: 8px;
+  background: #e50914;
+  color: #fff;
+  border: none;
+  padding: 15px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.loginButton:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.loginButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loginRegister {
+  margin-top: 10px;
+  font-size: 15px;
+  color: #222;
+}
+
+.loginRegister a {
+  color: #e50914;
+  font-weight: 800;
+}
+
+/* Reglas contraseña */
+.passwordRules {
+  list-style: none;
+  padding: 0;
+  margin: -6px 0 4px;
+  text-align: left;
+  font-size: 13px;
+  color: #777;
+}
+
+.passwordRules li {
+  margin-bottom: 6px;
+  padding-left: 18px;
+  position: relative;
+  transition: 0.2s ease;
+}
+
+.passwordRules li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #999;
+  font-weight: 700;
+}
+
+.passwordRules li.ok {
+  color: #0b7a3d;
+  font-weight: 700;
+}
+
+.passwordRules li.ok::before {
+  content: "✓";
+  color: #0b7a3d;
+}
+
+/* Mensajes formulario */
+.formError {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(229, 9, 20, 0.1);
+  color: #b3000c;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.formSuccess {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(10, 150, 70, 0.12);
+  color: #0b7a3d;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.fieldHelp {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}

@@ -1,0 +1,316 @@
+/* Responsive */
+@media (max-width: 1200px) {
+  .searchBarAdvanced {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ticketsTableHeader,
+  .ticketsTableRow {
+    grid-template-columns: 100px 1.35fr 1fr 1.2fr 0.75fr 0.9fr 0.95fr 0.85fr;
+  }
+}
+
+@media (max-width: 980px) {
+  .navbarInner {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 14px 0;
+  }
+
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .heroTitle {
+    font-size: 38px;
+  }
+
+  .footerInner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .eventImageLarge {
+    height: 260px;
+  }
+
+  .ticketsHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ticketsFilterBox {
+    min-width: 100%;
+  }
+
+  .ticketActions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+  }
+
+  .ticketModalBody {
+    grid-template-columns: 1fr;
+  }
+
+  .ticketModalPosterCol,
+  .ticketModalQrCol {
+    justify-content: flex-start;
+  }
+
+  .checkoutGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkoutSummaryCard {
+    position: static;
+  }
+
+  .checkoutEventHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .checkoutEventImage {
+    height: 280px;
+  }
+
+  .checkoutAttendeeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .searchBarAdvanced {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .eventDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .eventImageLarge {
+    border-radius: 16px;
+  }
+
+  .ticketsTableHeader {
+    display: none;
+  }
+
+  .ticketsTableRow {
+    grid-template-columns: 1fr;
+    background: #ffffff;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+    border-top: none;
+  }
+
+  .ticketsCell {
+    padding: 12px 16px;
+  }
+
+  .ticketsCellPoster {
+    justify-content: flex-start;
+    padding-top: 18px;
+  }
+
+  .ticketsTablePoster {
+    width: 110px;
+    height: 145px;
+  }
+
+  .ticketsCellAction {
+    justify-content: flex-start;
+    padding-bottom: 18px;
+  }
+
+  .ticketsEventName {
+    font-size: 24px;
+  }
+
+  .ticketsPriceValue,
+  .ticketsCodeValue,
+  .ticketsOrderValue,
+  .ticketsTypeName,
+  .ticketsVenueName {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 780px) {
+  .createEventShell {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .createEventHeader h1 {
+    font-size: 34px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .createEventActions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .btnGhost,
+  .createEventSubmit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .ticketsHeader h1,
+  .ticketsEmptyCard h1 {
+    font-size: 34px;
+  }
+
+  .ticketsEmptyCard {
+    padding: 28px 22px;
+    border-radius: 20px;
+  }
+
+  .ticketMeta,
+  .ticketDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticketCard {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .ticketCard h2 {
+    font-size: 30px;
+  }
+
+  .ticketRequestTicketPrice {
+    text-align: left;
+    min-width: 100%;
+  }
+
+  .ticketRequestActions .btn,
+  .ticketRejectButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .searchBarAdvanced {
+    grid-template-columns: 1fr;
+  }
+
+  .searchSubmitButton {
+    width: 100%;
+  }
+
+  .loginCard {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .loginCard h1 {
+    font-size: 38px;
+  }
+
+  .loginSubtitle {
+    font-size: 16px;
+  }
+
+  .profileCard {
+    padding: 22px;
+  }
+
+  .profileTop {
+    align-items: flex-start;
+  }
+
+  .profileIntro h2 {
+    font-size: 22px;
+  }
+
+  .profileActions {
+    flex-direction: column;
+  }
+
+  .profileActions .btn,
+  .profileActions .btnGhost {
+    width: 100%;
+  }
+
+  .checkoutMainCard,
+  .checkoutSummaryCard {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .checkoutEventInfo h1 {
+    font-size: 30px;
+  }
+
+  .checkoutTicketContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkoutTicketPrice {
+    font-size: 21px;
+  }
+
+  .checkoutActionRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .checkoutAddButton {
+    width: 100%;
+  }
+
+  .checkoutEventGroupHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .checkoutEventGroupImage {
+    height: 220px;
+  }
+
+  .checkoutCartItem {
+    flex-direction: column;
+  }
+
+  .checkoutCartItemRight {
+    align-items: flex-start;
+  }
+
+  .ticketModalCard {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .ticketModalInfoCol h2 {
+    font-size: 28px;
+  }
+
+  .ticketPlace {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .eventCardAction {
+    opacity: 1;
+    transform: none;
+  }
+
+  .eventBody h3 {
+    font-size: 19px;
+  }
+
+  .eventMeta {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

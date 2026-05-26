@@ -1,0 +1,489 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navbarInner {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.navbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.logoAccent {
+  color: #ff0000;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex: 1;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #f4f4f4;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.navLinks a:hover {
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.navbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cartNavButton {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cartNavButton:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cartNavIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.cartNavCount {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ff0000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(255, 0, 0, 0.35);
+}
+
+.adminBtn {
+  text-decoration: none;
+}
+
+.adminWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.adminWrapper:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.adminWrapper.hasPending {
+  background: rgba(255, 0, 0, 0.16);
+  border: 1px solid rgba(255, 0, 0, 0.24);
+}
+
+.adminText {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.adminBadge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ff0000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userMenuSkeleton {
+  min-width: 120px;
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #d7d7d7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.desktopLoginButton {
+  min-height: 50px;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+.loginButton {
+  border-radius: 14px;
+  background: #ff0000;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.28);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.loginButton:hover {
+  background: #d90000;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.mobileUserAccess {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileUserAccessIcon {
+  font-size: 1.2rem;
+  filter: grayscale(1) brightness(2);
+}
+
+.userMenuWrapper {
+  position: relative;
+}
+
+.userMenuButton {
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.userMenuButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.userDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #25d366;
+  box-shadow: 0 0 12px rgba(37, 211, 102, 0.5);
+}
+
+.userName {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.userArrow {
+  transition: transform 0.2s ease;
+}
+
+.userArrow.open {
+  transform: rotate(180deg);
+}
+
+.userDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: #111214;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  padding: 8px;
+  z-index: 1100;
+}
+
+.userDropdownItem {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.userDropdownItem:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.logoutItem {
+  color: #ffb4b4;
+}
+
+.mobileMenuButton {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mobileMenuButton span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  background: #fff;
+  border-radius: 999px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobileMenuButton.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobileMenuButton.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobileMenuButton.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobileOnlyCart {
+  display: none;
+}
+
+.mobileNavOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 1190;
+}
+
+.mobileNavOverlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileSideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(84vw, 320px);
+  height: 100vh;
+  background: #0d0d0f;
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  z-index: 1200;
+  padding: 20px 16px 28px;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+  overflow-y: auto;
+}
+
+.mobileSideMenu.open {
+  transform: translateX(0);
+}
+
+.mobileSideMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.mobileSideMenuTitle {
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mobileSideMenuClose {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mobileSideNav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileSideNav a,
+.mobileLogoutButton {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  text-align: left;
+  padding: 13px 8px;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobileSideNav a:hover,
+.mobileLogoutButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mobileLogoutButton {
+  color: #ffb4b4;
+}
+
+@media (max-width: 900px) {
+  .navbarInner {
+    min-height: 78px;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 2.2rem;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: inline-flex;
+  }
+
+  .mobileOnlyCart {
+    display: inline-flex;
+  }
+
+  .desktopLoginButton {
+    display: none;
+  }
+
+  .mobileUserAccess {
+    display: inline-flex;
+  }
+
+  .userMenuButton {
+    min-height: 46px;
+    padding: 0 12px;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .userDropdown {
+    right: 0;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbarInner {
+    min-height: 74px;
+  }
+
+  .logo {
+    font-size: 1.95rem;
+  }
+
+  .cartNavButton {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+  }
+
+  .userMenuButton {
+    min-height: 44px;
+    padding: 0 10px;
+  }
+
+  .userMenuSkeleton {
+    min-width: 100px;
+    height: 44px;
+    font-size: 0.88rem;
+  }
+}

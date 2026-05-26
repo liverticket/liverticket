@@ -1,0 +1,73 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Base */
+body {
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.12) 0%, transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 22%),
+    radial-gradient(circle at 70% 75%, rgba(229, 9, 20, 0.08) 0%, transparent 25%),
+    linear-gradient(135deg, #0a0a0c 0%, #111216 45%, #161821 100%);
+  color: #f5f5f5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Layout general */
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.12) 0%, transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 22%),
+    radial-gradient(circle at 70% 75%, rgba(229, 9, 20, 0.08) 0%, transparent 25%),
+    linear-gradient(135deg, #0a0a0c 0%, #111216 45%, #161821 100%);
+}
+
+.container {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.section {
+  padding: 30px 0 60px;
+}
+
+.sectionHeader {
+  margin-bottom: 22px;
+}
+
+.sectionHeader h1,
+.sectionHeader h2 {
+  font-size: 30px;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: #b8b8b8;
+}

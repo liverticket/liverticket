@@ -1,0 +1,519 @@
+/* Hero */
+.hero {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.14) 0%, transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 22%),
+    linear-gradient(180deg, #0f1013 0%, #171920 100%);
+  padding: 70px 0 40px;
+}
+
+.heroContent {
+  text-align: center;
+}
+
+.heroTag {
+  color: #e50914;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.heroTitle {
+  font-size: 52px;
+  margin: 0 0 16px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.heroText {
+  color: #c3c3c3;
+  max-width: 720px;
+  margin: 0 auto 30px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Buscador */
+.searchBar {
+  display: grid;
+  gap: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 14px;
+  border-radius: 16px;
+}
+
+.searchBar input,
+.searchBar select {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  color: #111;
+  background: #fff;
+  min-height: 50px;
+  width: 100%;
+}
+
+.searchBar input[type="date"] {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  color: #111;
+  background: #fff;
+  min-height: 50px;
+  width: 100%;
+}
+
+.searchBar select:disabled {
+  background: #f3f3f3;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.searchBarAdvanced {
+  grid-template-columns: 2.3fr 1.15fr 0.95fr 0.95fr 1.15fr auto;
+  align-items: center;
+}
+
+.searchBarAdvanced input[type="text"] {
+  min-width: 0;
+}
+
+.searchSubmitButton {
+  min-height: 50px;
+  white-space: nowrap;
+}
+
+/* Grid eventos */
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* Card evento */
+.eventCardLink {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.eventCard {
+  height: 100%;
+  background: linear-gradient(180deg, #1b1c21 0%, #15161a 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.eventCardLink:hover .eventCard {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.42);
+  border-color: rgba(229, 9, 20, 0.5);
+}
+
+.eventImageWrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.eventImage {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+
+.eventCardLink:hover .eventImage {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+}
+
+.eventBody {
+  padding: 18px;
+}
+
+.eventBadge {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #24262d;
+  color: #ff4b55;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.eventBody h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.eventPlace {
+  margin: 0 0 12px;
+  color: #c3c3c3;
+}
+
+.eventMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: #e2e2e2;
+  font-size: 14px;
+}
+
+.eventAge {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.eventFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.eventPrice {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.eventPrice.soldOut {
+  color: #ff4b55;
+}
+
+.eventCardAction {
+  color: #e50914;
+  font-size: 13px;
+  font-weight: 900;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.eventCardLink:hover .eventCardAction {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.eventSoldOutBadge {
+  position: absolute;
+  top: 35px;
+  left: -95px;
+  z-index: 3;
+  width: 340px;
+  text-align: center;
+  background: linear-gradient(135deg, #ff1a1a, #b30000);
+  color: #fff;
+  padding: 18px 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  transform: rotate(-35deg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.eventBuyDisabled {
+  pointer-events: none;
+  opacity: 0.7;
+  background: #555 !important;
+}
+
+/* Cajas principales */
+.ctaBox,
+.simpleBox {
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1a1c22, #111319);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  padding: 40px;
+}
+
+.ctaBox {
+  text-align: center;
+}
+
+.ctaBox h2,
+.simpleBox h1 {
+  margin: 0 0 12px;
+  font-size: 34px;
+  color: #ffffff;
+}
+
+.ctaBox p,
+.simpleBox p,
+.simpleBox li {
+  color: #c2c2c2;
+  line-height: 1.6;
+}
+
+.detailActions {
+  margin-top: 24px;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 0;
+}
+
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #999;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 16px;
+}
+
+/* Contacto */
+.contactBox {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.contactCard {
+  background: #1a1b20;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.contactCard h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.contactCard p {
+  color: #c2c2c2;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+/* Buscador simplificado en celular */
+@media (max-width: 900px) {
+  .searchBarAdvanced {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .searchBarAdvanced input[name="query"] {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    height: 52px;
+    padding: 0 14px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+
+  .searchBarAdvanced select,
+  .searchBarAdvanced input[type="date"] {
+    display: none !important;
+  }
+
+  .searchBarAdvanced .searchSubmitButton {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    min-width: 88px;
+    max-width: 88px;
+    height: 52px;
+    min-height: 52px;
+    padding: 0;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* Vista móvil profesional */
+@media (max-width: 700px) {
+  .hero {
+    padding: 38px 0 26px;
+  }
+
+  .heroTag {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 38px;
+    line-height: 1.08;
+    margin-bottom: 14px;
+  }
+
+  .heroText {
+    display: none;
+  }
+
+  .searchBar {
+    border-radius: 18px;
+    padding: 10px;
+  }
+
+  .searchBar input,
+  .searchBar select,
+  .searchBar input[type="date"] {
+    min-height: 54px;
+    font-size: 16px;
+  }
+
+  .section {
+    padding: 24px 0 42px;
+  }
+
+  .sectionHeader {
+    margin-bottom: 16px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .sectionHeader p {
+    font-size: 17px;
+  }
+
+  .eventsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .eventCard {
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    min-height: 128px;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .eventImageWrap {
+    height: 100%;
+  }
+
+  .eventImage {
+    width: 118px;
+    height: 100%;
+    min-height: 128px;
+    object-fit: cover;
+  }
+
+  .eventBody {
+    padding: 14px;
+    min-width: 0;
+  }
+
+  .eventBadge {
+    margin-bottom: 7px;
+    padding: 0;
+    background: transparent;
+    color: #b46cff;
+    font-size: 11px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+  }
+
+  .eventBody h3 {
+    font-size: 17px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .eventPlace {
+    font-size: 13px;
+    line-height: 1.3;
+    margin-bottom: 7px;
+    color: #b9b9b9;
+  }
+
+  .eventMeta {
+    margin-top: 6px;
+  }
+
+  .eventMeta span {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b9b9b9;
+    white-space: nowrap;
+  }
+
+  .eventAge {
+    display: none;
+  }
+
+  .eventFooter {
+    margin-top: 8px;
+  }
+
+  .eventPrice {
+    font-size: 13px;
+  }
+
+  .eventCardAction {
+    display: none;
+  }
+
+  .eventCardLink:hover .eventCard {
+    transform: none;
+  }
+
+  .eventCardLink:hover .eventImage {
+    transform: none;
+    filter: none;
+  }
+
+  .eventSoldOutBadge {
+    top: 18px;
+    left: -78px;
+    width: 230px;
+    padding: 10px 0;
+    font-size: 12px;
+  }
+
+  .ctaBox {
+    display: none;
+  }
+}

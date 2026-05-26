@@ -1,0 +1,335 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  name              String
+  paternalLastName  String?
+  maternalLastName  String?
+  email             String   @unique
+  phone             String?
+  password          String
+  role              Role     @default(USER)
+
+  tickets   Ticket[]
+  orders    Order[]
+  events    Event[]        @relation("OrganizerEvents")
+  sessions  Session[]
+  requests  EventRequest[]
+  cartItems CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+}
+
+model PendingUser {
+  id                String   @id @default(cuid())
+  name              String
+  email             String   @unique
+  password          String
+  verificationToken String   @unique
+  expiresAt         DateTime
+
+  createdAt         DateTime @default(now())
+
+  @@index([email])
+  @@index([verificationToken])
+  @@index([expiresAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Event {
+  id              String          @id @default(cuid())
+  title           String
+  description     String?
+  imageUrl        String?
+
+  location        String
+  venue           String?
+  city            String?
+  region          String?
+  address         String?
+
+  minAge          Int
+  eventTime       String
+
+  date            DateTime
+  visibility      EventVisibility @default(PUBLISHED)
+
+  categoryId      String?
+  organizerId     String
+  sourceRequestId String?         @unique
+
+  organizer       User            @relation("OrganizerEvents", fields: [organizerId], references: [id], onDelete: Restrict)
+  category        Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  sourceRequest   EventRequest?   @relation(fields: [sourceRequestId], references: [id], onDelete: SetNull)
+
+  ticketTypes     TicketType[]
+  tickets         Ticket[]
+  orderItems      OrderItem[]
+  cartItems       CartItem[]
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([organizerId])
+  @@index([categoryId])
+  @@index([date])
+  @@index([city])
+  @@index([region])
+  @@index([visibility])
+}
+
+model EventRequest {
+  id             String                  @id @default(cuid())
+  userId         String
+  firstName      String
+  lastName       String
+  company        String
+  email          String
+  phone          String
+  eventName      String
+  category       String
+  tentativeDate  DateTime
+
+  minAge         Int
+  eventTime      String
+
+  region         String?
+  city           String
+  venue          String
+  address        String?
+
+  message        String
+  flyerUrl       String
+  status         EventRequestStatus      @default(PENDING)
+
+  user           User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event          Event?
+  ticketRequests EventRequestTicketType[]
+
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([tentativeDate])
+  @@index([email])
+  @@index([city])
+  @@index([region])
+}
+
+model EventRequestTicketType {
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  price          Int
+  stock          Int?
+  unlimitedStock Boolean      @default(false)
+
+  eventRequestId String
+  eventRequest   EventRequest @relation(fields: [eventRequestId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([eventRequestId])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+
+  events    Event[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model TicketType {
+  id             String    @id @default(cuid())
+  name           String
+  description    String?
+  price          Int
+  stock          Int?
+  unlimitedStock Boolean   @default(false)
+
+  eventId        String
+  event          Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  tickets        Ticket[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([eventId])
+}
+
+model CartItem {
+  id                     String     @id @default(cuid())
+
+  userId                 String
+  user                   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId                String
+  event                  Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  ticketTypeId           String
+  ticketType             TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
+
+  quantity               Int        @default(1)
+  price                  Int
+
+  attendeeName           String
+  attendeeDocumentType   String
+  attendeeDocumentNumber String
+
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([ticketTypeId])
+  @@index([attendeeDocumentType])
+  @@index([attendeeDocumentNumber])
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  buyOrder          String      @unique
+  sessionId         String?
+  amount            Int
+  status            OrderStatus @default(PENDING)
+  paymentMethod     String      @default("webpay")
+  authorizationCode String?
+  transactionDate   DateTime?
+  rawResponse       Json?
+
+  userId            String
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items             OrderItem[]
+  tickets           Ticket[]
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([buyOrder])
+}
+
+model OrderItem {
+  id                     String     @id @default(cuid())
+  quantity               Int
+  unitPrice              Int
+  totalPrice             Int
+
+  attendeeName           String
+  attendeeDocumentType   String
+  attendeeDocumentNumber String
+
+  orderId                String
+  order                  Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  eventId                String
+  event                  Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  ticketTypeId           String
+  ticketType             TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
+
+  createdAt              DateTime   @default(now())
+
+  @@index([orderId])
+  @@index([eventId])
+  @@index([ticketTypeId])
+  @@index([attendeeDocumentType])
+  @@index([attendeeDocumentNumber])
+}
+
+model Ticket {
+  id                     String       @id @default(cuid())
+  code                   String       @unique
+  qrToken                String       @unique
+  status                 TicketStatus @default(VALID)
+
+  attendeeName           String
+  attendeeDocumentType   String
+  attendeeDocumentNumber String
+  pricePaid              Int?
+
+  orderId                String
+  order                  Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  userId                 String
+  user                   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId                String
+  event                  Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  ticketTypeId           String
+  ticketType             TicketType   @relation(fields: [ticketTypeId], references: [id], onDelete: Restrict)
+
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+
+  @@index([orderId])
+  @@index([userId])
+  @@index([eventId])
+  @@index([ticketTypeId])
+  @@index([status])
+  @@index([attendeeDocumentType])
+  @@index([attendeeDocumentNumber])
+}
+
+enum Role {
+  USER
+  ORGANIZER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+}
+
+enum EventRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EventVisibility {
+  DRAFT
+  PUBLISHED
+}

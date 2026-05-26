@@ -1,0 +1,557 @@
+.eventDetailSection {
+  padding-top: 22px;
+}
+
+.eventDetailContainer {
+  max-width: 760px;
+}
+
+.eventBackLink {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #d0d0d0;
+  font-size: 0.95rem;
+}
+
+.eventDetailMainCard {
+  background: #ffffff;
+  color: #111111;
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
+}
+
+.eventDetailLeft,
+.eventDetailRight {
+  min-width: 0;
+}
+
+.eventImageLarge {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: 22px;
+  display: block;
+  margin-bottom: 22px;
+  background: #111111;
+}
+
+.eventInfoBlock {
+  padding: 0 4px;
+}
+
+.eventDetailBadge {
+  display: inline-flex;
+  color: #9b4dff;
+  font-weight: 900;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+.eventInfoBlock h1 {
+  margin: 0 0 20px;
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  line-height: 1;
+  color: #111111;
+  letter-spacing: -1.5px;
+}
+
+.eventDetailMetaCompact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #e4e4e4;
+  border-radius: 22px;
+  overflow: hidden;
+  margin-bottom: 26px;
+  background: #fafafa;
+}
+
+.eventDetailMetaCompact > div {
+  padding: 16px 18px;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.eventDetailMetaCompact > div:nth-child(1),
+.eventDetailMetaCompact > div:nth-child(3) {
+  border-right: 1px solid #e4e4e4;
+}
+
+.eventDetailMetaCompact > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.eventDetailMetaCompact .wide {
+  grid-column: span 2;
+  border-right: 0 !important;
+}
+
+.eventDetailMetaCompact span {
+  display: block;
+  color: #888888;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+}
+
+.eventDetailMetaCompact strong {
+  display: block;
+  color: #111111;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.eventDescriptionBox,
+.eventTicketsBox,
+.eventAttendeeBox,
+.eventSummaryBox,
+.eventLocationBox {
+  margin-top: 26px;
+}
+
+.eventDescriptionBox h2,
+.eventTicketsBox h2,
+.eventAttendeeBox h2,
+.eventSummaryBox h2,
+.eventLocationHeader h2 {
+  margin: 0 0 14px;
+  color: #111111;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+
+.eventDescriptionBox p,
+.eventAttendeeBox p,
+.eventSummaryEmpty {
+  margin: 0;
+  color: #555555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.eventTicketList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.eventTicketOption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid #e2e2e2;
+  border-radius: 20px;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.eventTicketOption.selected {
+  border-color: #e50914;
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.08);
+}
+
+.eventTicketOption.soldOut {
+  opacity: 0.55;
+}
+
+.eventTicketOption strong {
+  display: block;
+  color: #111111;
+  font-size: 1.25rem;
+  margin-bottom: 5px;
+}
+
+.eventTicketOption p {
+  margin: 0 0 8px;
+  color: #666666;
+  line-height: 1.4;
+}
+
+.eventTicketOption span {
+  color: #777777;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.eventTicketBuy {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.eventTicketBuy strong {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.eventTicketBuy .btn {
+  min-height: 56px;
+  padding: 0 24px;
+  border-radius: 18px;
+}
+
+.eventNoTickets {
+  border: 1px dashed #d8d8d8;
+  border-radius: 18px;
+  padding: 18px;
+  background: #fafafa;
+}
+
+.eventNoTickets p {
+  margin: 0;
+  color: #666666;
+}
+
+.eventAttendeeBox {
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.eventAttendeeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.eventAttendeeGrid .field label {
+  display: block;
+  color: #333333;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+
+.eventAttendeeGrid .field input,
+.eventAttendeeGrid .field select {
+  width: 100%;
+  border: 1px solid #dcdcdc;
+  border-radius: 14px;
+  padding: 14px 15px;
+  color: #111111;
+  background: #ffffff;
+}
+
+.eventActionRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.eventActionRow .btn {
+  flex: 1;
+}
+
+.eventSummaryBox {
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.eventCartList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eventCartItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+}
+
+.eventCartItem span {
+  display: block;
+  color: #666666;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+.eventCartItem button {
+  border: 0;
+  background: transparent;
+  color: #e50914;
+  font-weight: 900;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.eventTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0;
+  padding-top: 18px;
+  border-top: 1px solid #dddddd;
+  font-size: 1.2rem;
+}
+
+.eventTotalRow strong {
+  font-size: 1.7rem;
+}
+
+.eventPayButton {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 18px;
+}
+
+.eventLocationBox {
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.eventLocationHeader span {
+  display: block;
+  color: #888888;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+}
+
+.eventLocationHeader h2 {
+  font-size: 1.7rem;
+  margin-bottom: 6px;
+}
+
+.eventLocationHeader p {
+  margin: 0;
+  color: #555555;
+}
+
+.eventMapBox {
+  margin-top: 16px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #111111;
+  border: 1px solid #dddddd;
+}
+
+.eventMapTop {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background: #f5f5f5;
+}
+
+.eventMapLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #111111;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 9px 13px;
+  border-radius: 10px;
+}
+
+.eventMapBox iframe {
+  width: 100%;
+}
+
+/* PC / pantallas grandes: solo compra y resumen a la derecha */
+@media (min-width: 901px) {
+  .eventDetailContainer {
+    max-width: 1180px;
+  }
+
+  .eventDetailMainCard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 26px;
+    align-items: start;
+  }
+
+  .eventDetailRight {
+    position: sticky;
+    top: 110px;
+  }
+
+  .eventDetailRight .eventTicketsBox,
+  .eventDetailRight .eventAttendeeBox,
+  .eventDetailRight .eventSummaryBox {
+    margin-top: 0;
+  }
+
+  .eventDetailRight {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .eventDetailRight .eventTicketOption {
+    grid-template-columns: 1fr;
+  }
+
+  .eventDetailRight .eventTicketBuy {
+    justify-content: space-between;
+  }
+
+  .eventDetailRight .eventTicketBuy .btn {
+    min-width: 120px;
+  }
+}
+
+/* Celular: solo optimizar la info del evento */
+@media (max-width: 640px) {
+  .eventDetailContainer {
+    width: min(100% - 24px, 760px);
+  }
+
+  .eventDetailMainCard {
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .eventImageLarge {
+    border-radius: 18px;
+    margin-bottom: 14px;
+  }
+
+  .eventDetailBadge {
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+  }
+
+  .eventInfoBlock h1 {
+    font-size: 2.05rem;
+    margin-bottom: 12px;
+  }
+
+  .eventDetailMetaCompact {
+    margin-bottom: 14px;
+    border-radius: 18px;
+  }
+
+  .eventDetailMetaCompact > div {
+    padding: 9px 11px;
+  }
+
+  .eventDetailMetaCompact span {
+    font-size: 0.66rem;
+    margin-bottom: 3px;
+  }
+
+  .eventDetailMetaCompact strong {
+    font-size: 0.88rem;
+    line-height: 1.2;
+  }
+
+  .eventTicketOption {
+    grid-template-columns: 1fr;
+  }
+
+  .eventTicketBuy {
+    justify-content: space-between;
+  }
+
+  .eventTicketBuy .btn {
+    min-width: 132px;
+  }
+
+  .eventActionRow {
+    flex-direction: column;
+  }
+
+  .eventCartItem {
+    flex-direction: column;
+  }
+}
+/* Solo celular: el mapa baja al final, después del resumen */
+@media (max-width: 900px) {
+  .eventDetailMainCard {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .eventDetailLeft,
+  .eventDetailRight {
+    display: contents;
+  }
+
+  .eventImageLarge {
+    order: 1;
+  }
+
+  .eventInfoBlock {
+    order: 2;
+  }
+
+  .eventDescriptionBox {
+    order: 3;
+  }
+
+  .eventDetailRight {
+    order: 4;
+  }
+
+  .eventTicketsBox {
+    order: 4;
+  }
+
+  .eventAttendeeBox {
+    order: 5;
+  }
+
+  .eventSummaryBox {
+    order: 6;
+  }
+
+  .eventLocationBox {
+    order: 7;
+  }
+}
+
+.eventInfoBlock .eventMainTitle {
+  font-size: 44px !important;
+  line-height: 0.95 !important;
+  letter-spacing: -2px !important;
+}
+
+.eventDescriptionBox .eventSectionTitle,
+.eventLocationHeader .eventSectionTitle {
+  font-size: 28px !important;
+  line-height: 1.05 !important;
+  letter-spacing: -1px !important;
+}
+
+.eventTicketsBox .eventSidebarTitle,
+.eventSummaryBox .eventSidebarTitle,
+.eventAttendeeBox .eventSidebarTitle {
+  font-size: 26px !important;
+  line-height: 1.05 !important;
+  letter-spacing: -1px !important;
+}
+
+@media (max-width: 768px) {
+  .eventInfoBlock .eventMainTitle {
+    font-size: 34px !important;
+  }
+
+  .eventDescriptionBox .eventSectionTitle,
+  .eventLocationHeader .eventSectionTitle {
+    font-size: 24px !important;
+  }
+
+  .eventTicketsBox .eventSidebarTitle,
+  .eventSummaryBox .eventSidebarTitle,
+  .eventAttendeeBox .eventSidebarTitle {
+    font-size: 23px !important;
+  }
+}
