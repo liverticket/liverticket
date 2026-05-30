@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "../../components/Navbar";
 
-export default function IngresarPage() {
+function IngresarContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
@@ -100,5 +100,13 @@ export default function IngresarPage() {
         </div>
       </main>
     </>
+  );
+}
+
+export default function IngresarPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <IngresarContent />
+    </Suspense>
   );
 }
