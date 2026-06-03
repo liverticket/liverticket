@@ -48,26 +48,29 @@ img {
 }
 
 .container {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1120px, calc(100% - 48px));
   margin: 0 auto;
 }
 
 .section {
-  padding: 30px 0 60px;
+  padding: 22px 0 44px;
 }
 
 .sectionHeader {
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 
 .sectionHeader h1,
 .sectionHeader h2 {
-  font-size: 30px;
-  margin: 0 0 8px;
+  font-size: 24px;
+  margin: 0 0 6px;
   color: #ffffff;
+  line-height: 1.1;
 }
 
 .sectionHeader p {
   margin: 0;
   color: #b8b8b8;
+  font-size: 14px;
+  line-height: 1.5;
 }

@@ -4,7 +4,7 @@
     radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.14) 0%, transparent 28%),
     radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.04) 0%, transparent 22%),
     linear-gradient(180deg, #0f1013 0%, #171920 100%);
-  padding: 70px 0 40px;
+  padding: 46px 0 30px;
 }
 
 .heroContent {
@@ -14,55 +14,48 @@
 .heroTag {
   color: #e50914;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   letter-spacing: 2px;
+  font-size: 12px;
 }
 
 .heroTitle {
-  font-size: 52px;
-  margin: 0 0 16px;
+  font-size: 42px;
+  margin: 0 0 12px;
   font-weight: 900;
   color: #ffffff;
 }
 
 .heroText {
   color: #c3c3c3;
-  max-width: 720px;
-  margin: 0 auto 30px;
-  font-size: 18px;
-  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto 22px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 /* Buscador */
 .searchBar {
   display: grid;
-  gap: 12px;
-  max-width: 1100px;
+  gap: 10px;
+  max-width: 1040px;
   margin: 0 auto;
   background: #fff;
-  padding: 14px;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 15px;
 }
 
 .searchBar input,
-.searchBar select {
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  color: #111;
-  background: #fff;
-  min-height: 50px;
-  width: 100%;
-}
-
+.searchBar select,
 .searchBar input[type="date"] {
-  padding: 14px;
-  border-radius: 10px;
+  padding: 11px 12px;
+  border-radius: 9px;
   border: 1px solid #ddd;
   color: #111;
   background: #fff;
-  min-height: 50px;
+  min-height: 44px;
   width: 100%;
+  font-size: 14px;
 }
 
 .searchBar select:disabled {
@@ -81,15 +74,15 @@
 }
 
 .searchSubmitButton {
-  min-height: 50px;
+  min-height: 44px;
   white-space: nowrap;
 }
 
 /* Grid eventos */
 .eventsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
 }
 
 /* Card evento */
@@ -103,10 +96,10 @@
 .eventCard {
   height: 100%;
   background: linear-gradient(180deg, #1b1c21 0%, #15161a 100%);
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.07);
   transition:
     transform 0.22s ease,
@@ -115,8 +108,8 @@
 }
 
 .eventCardLink:hover .eventCard {
-  transform: translateY(-6px);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.42);
+  transform: translateY(-5px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
   border-color: rgba(229, 9, 20, 0.5);
 }
 
@@ -127,7 +120,7 @@
 
 .eventImage {
   width: 100%;
-  height: 220px;
+  height: 190px;
   object-fit: cover;
   transition: transform 0.28s ease, filter 0.28s ease;
 }
@@ -138,47 +131,49 @@
 }
 
 .eventBody {
-  padding: 18px;
+  padding: 14px;
 }
 
 .eventBadge {
   display: inline-block;
-  margin-bottom: 12px;
-  padding: 6px 10px;
+  margin-bottom: 9px;
+  padding: 5px 9px;
   border-radius: 999px;
   background: #24262d;
   color: #ff4b55;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .eventBody h3 {
-  margin: 0 0 10px;
-  font-size: 22px;
+  margin: 0 0 8px;
+  font-size: 19px;
   color: #ffffff;
+  line-height: 1.2;
 }
 
 .eventPlace {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: #c3c3c3;
+  font-size: 13px;
 }
 
 .eventMeta {
   display: flex;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
   color: #e2e2e2;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .eventAge {
   display: inline-flex;
-  margin-top: 12px;
-  padding: 6px 10px;
+  margin-top: 10px;
+  padding: 5px 9px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -186,13 +181,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 13px;
 }
 
 .eventPrice {
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
 }
 
@@ -202,7 +197,7 @@
 
 .eventCardAction {
   color: #e50914;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
   opacity: 0;
   transform: translateX(-6px);
@@ -218,17 +213,17 @@
 
 .eventSoldOutBadge {
   position: absolute;
-  top: 35px;
-  left: -95px;
+  top: 30px;
+  left: -88px;
   z-index: 3;
-  width: 340px;
+  width: 310px;
   text-align: center;
   background: linear-gradient(135deg, #ff1a1a, #b30000);
   color: #fff;
-  padding: 18px 0;
-  font-size: 18px;
+  padding: 14px 0;
+  font-size: 15px;
   font-weight: 900;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   transform: rotate(-35deg);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
   border-top: 2px solid rgba(255, 255, 255, 0.3);
@@ -249,8 +244,8 @@
   margin: 0 auto;
   background: linear-gradient(135deg, #1a1c22, #111319);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 24px;
-  padding: 40px;
+  border-radius: 20px;
+  padding: 30px;
 }
 
 .ctaBox {
@@ -259,8 +254,8 @@
 
 .ctaBox h2,
 .simpleBox h1 {
-  margin: 0 0 12px;
-  font-size: 34px;
+  margin: 0 0 10px;
+  font-size: 28px;
   color: #ffffff;
 }
 
@@ -268,57 +263,60 @@
 .simpleBox p,
 .simpleBox li {
   color: #c2c2c2;
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
 .detailActions {
-  margin-top: 24px;
+  margin-top: 18px;
 }
 
 /* Footer */
 .footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 24px 0;
+  padding: 18px 0;
 }
 
 .footerInner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   color: #999;
+  font-size: 13px;
 }
 
 .footerLinks {
   display: flex;
-  gap: 16px;
+  gap: 14px;
 }
 
 /* Contacto */
 .contactBox {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
 }
 
 .contactCard {
   background: #1a1b20;
-  padding: 24px;
-  border-radius: 18px;
+  padding: 20px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .contactCard h2 {
   margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 24px;
+  margin-bottom: 10px;
+  font-size: 20px;
   color: #fff;
 }
 
 .contactCard p {
   color: #c2c2c2;
-  line-height: 1.6;
-  margin: 0 0 10px;
+  line-height: 1.5;
+  margin: 0 0 8px;
+  font-size: 14px;
 }
 
 /* Buscador simplificado en celular */
@@ -328,19 +326,19 @@
     flex-direction: row !important;
     align-items: center;
     gap: 8px;
-    padding: 10px;
-    border-radius: 18px;
+    padding: 9px;
+    border-radius: 16px;
   }
 
   .searchBarAdvanced input[name="query"] {
     flex: 1;
     width: 100%;
     min-width: 0;
-    min-height: 52px;
-    height: 52px;
-    padding: 0 14px;
-    border-radius: 14px;
-    font-size: 15px;
+    min-height: 48px;
+    height: 48px;
+    padding: 0 13px;
+    border-radius: 13px;
+    font-size: 14px;
   }
 
   .searchBarAdvanced select,
@@ -352,14 +350,14 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 88px;
-    min-width: 88px;
-    max-width: 88px;
-    height: 52px;
-    min-height: 52px;
+    width: 82px;
+    min-width: 82px;
+    max-width: 82px;
+    height: 48px;
+    min-height: 48px;
     padding: 0;
-    border-radius: 14px;
-    font-size: 14px;
+    border-radius: 13px;
+    font-size: 13px;
     font-weight: 800;
     white-space: nowrap;
     flex-shrink: 0;
@@ -369,7 +367,7 @@
 /* Vista móvil profesional */
 @media (max-width: 700px) {
   .hero {
-    padding: 38px 0 26px;
+    padding: 30px 0 22px;
   }
 
   .heroTag {
@@ -377,9 +375,9 @@
   }
 
   .heroTitle {
-    font-size: 38px;
+    font-size: 31px;
     line-height: 1.08;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .heroText {
@@ -387,45 +385,45 @@
   }
 
   .searchBar {
-    border-radius: 18px;
-    padding: 10px;
+    border-radius: 16px;
+    padding: 9px;
   }
 
   .searchBar input,
   .searchBar select,
   .searchBar input[type="date"] {
-    min-height: 54px;
-    font-size: 16px;
+    min-height: 48px;
+    font-size: 14px;
   }
 
   .section {
-    padding: 24px 0 42px;
+    padding: 20px 0 34px;
   }
 
   .sectionHeader {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .sectionHeader h2 {
-    font-size: 34px;
+    font-size: 26px;
     line-height: 1.1;
   }
 
   .sectionHeader p {
-    font-size: 17px;
+    font-size: 14px;
   }
 
   .eventsGrid {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .eventCard {
     display: grid;
-    grid-template-columns: 118px 1fr;
-    min-height: 128px;
-    border-radius: 18px;
+    grid-template-columns: 108px 1fr;
+    min-height: 118px;
+    border-radius: 16px;
     overflow: hidden;
   }
 
@@ -434,47 +432,47 @@
   }
 
   .eventImage {
-    width: 118px;
+    width: 108px;
     height: 100%;
-    min-height: 128px;
+    min-height: 118px;
     object-fit: cover;
   }
 
   .eventBody {
-    padding: 14px;
+    padding: 12px;
     min-width: 0;
   }
 
   .eventBadge {
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     padding: 0;
     background: transparent;
     color: #b46cff;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.7px;
     text-transform: uppercase;
   }
 
   .eventBody h3 {
-    font-size: 17px;
+    font-size: 15px;
     line-height: 1.2;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
 
   .eventPlace {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.3;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     color: #b9b9b9;
   }
 
   .eventMeta {
-    margin-top: 6px;
+    margin-top: 5px;
   }
 
   .eventMeta span {
     display: inline-block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: #b9b9b9;
     white-space: nowrap;
@@ -485,11 +483,11 @@
   }
 
   .eventFooter {
-    margin-top: 8px;
+    margin-top: 7px;
   }
 
   .eventPrice {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .eventCardAction {
@@ -506,11 +504,11 @@
   }
 
   .eventSoldOutBadge {
-    top: 18px;
-    left: -78px;
-    width: 230px;
-    padding: 10px 0;
-    font-size: 12px;
+    top: 16px;
+    left: -72px;
+    width: 215px;
+    padding: 9px 0;
+    font-size: 11px;
   }
 
   .ctaBox {

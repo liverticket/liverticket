@@ -9,23 +9,23 @@
 }
 
 .navbarInner {
-  min-height: 88px;
+  min-height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 }
 
 .navbarLeft {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .logo {
   text-decoration: none;
   color: #ffffff;
-  font-size: 3rem;
+  font-size: 2.35rem;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -39,14 +39,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 22px;
   flex: 1;
 }
 
 .navLinks a {
   text-decoration: none;
   color: #f4f4f4;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
@@ -59,14 +59,14 @@
 .navbarRight {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .cartNavButton {
   position: relative;
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.07);
   color: #fff;
   text-decoration: none;
@@ -82,7 +82,7 @@
 }
 
 .cartNavIcon {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   line-height: 1;
 }
 
@@ -90,13 +90,13 @@
   position: absolute;
   top: -6px;
   right: -6px;
-  min-width: 22px;
-  height: 22px;
+  min-width: 20px;
+  height: 20px;
   padding: 0 6px;
   border-radius: 999px;
   background: #ff0000;
   color: #fff;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   display: inline-flex;
   align-items: center;
@@ -111,9 +111,9 @@
 .adminWrapper {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 14px;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 12px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
   color: #fff;
@@ -131,18 +131,18 @@
 }
 
 .adminText {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 700;
 }
 
 .adminBadge {
-  min-width: 22px;
-  height: 22px;
+  min-width: 20px;
+  height: 20px;
   padding: 0 6px;
   border-radius: 999px;
   background: #ff0000;
   color: #fff;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   display: inline-flex;
   align-items: center;
@@ -150,29 +150,29 @@
 }
 
 .userMenuSkeleton {
-  min-width: 120px;
-  height: 46px;
-  padding: 0 16px;
+  min-width: 110px;
+  height: 40px;
+  padding: 0 14px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   color: #d7d7d7;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
 }
 
 .desktopLoginButton {
-  min-height: 50px;
-  padding-left: 22px;
-  padding-right: 22px;
+  min-height: 42px;
+  padding-left: 18px;
+  padding-right: 18px;
 }
 
 .loginButton {
-  border-radius: 14px;
+  border-radius: 12px;
   background: #ff0000;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 800;
   text-decoration: none;
   display: inline-flex;
@@ -190,9 +190,9 @@
 
 .mobileUserAccess {
   display: none;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   text-decoration: none;
@@ -201,7 +201,7 @@
 }
 
 .mobileUserAccessIcon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   filter: grayscale(1) brightness(2);
 }
 
@@ -213,13 +213,13 @@
   border: 0;
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  min-height: 50px;
-  padding: 0 16px;
+  min-height: 42px;
+  padding: 0 14px;
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
@@ -229,20 +229,20 @@
 }
 
 .userDot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 999px;
   background: #25d366;
   box-shadow: 0 0 12px rgba(37, 211, 102, 0.5);
 }
 
 .userName {
-  max-width: 150px;
+  max-width: 135px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
 }
 
 .userArrow {
@@ -255,14 +255,14 @@
 
 .userDropdown {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   right: 0;
-  min-width: 220px;
+  min-width: 200px;
   background: #111214;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-  padding: 8px;
+  padding: 7px;
   z-index: 1100;
 }
 
@@ -274,11 +274,11 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 12px;
-  border-radius: 12px;
+  min-height: 40px;
+  padding: 0 11px;
+  border-radius: 11px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   text-align: left;
 }
 
@@ -292,10 +292,10 @@
 
 .mobileMenuButton {
   display: none;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border: 0;
-  border-radius: 14px;
+  border-radius: 13px;
   background: rgba(255, 255, 255, 0.08);
   cursor: pointer;
   padding: 0;
@@ -307,7 +307,7 @@
 
 .mobileMenuButton span {
   display: block;
-  width: 21px;
+  width: 20px;
   height: 2px;
   background: #fff;
   border-radius: 999px;
@@ -349,13 +349,13 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: min(84vw, 320px);
+  width: min(84vw, 300px);
   height: 100vh;
   background: #0d0d0f;
   transform: translateX(100%);
   transition: transform 0.28s ease;
   z-index: 1200;
-  padding: 20px 16px 28px;
+  padding: 18px 14px 24px;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
   overflow-y: auto;
 }
@@ -368,12 +368,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .mobileSideMenuTitle {
   color: #fff;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 800;
 }
 
@@ -381,7 +381,7 @@
   border: 0;
   background: transparent;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   line-height: 1;
   cursor: pointer;
 }
@@ -389,7 +389,7 @@
 .mobileSideNav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .mobileSideNav a,
@@ -400,9 +400,9 @@
   color: #fff;
   text-decoration: none;
   text-align: left;
-  padding: 13px 8px;
-  border-radius: 12px;
-  font-size: 1rem;
+  padding: 11px 8px;
+  border-radius: 11px;
+  font-size: 0.95rem;
   cursor: pointer;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -418,12 +418,12 @@
 
 @media (max-width: 900px) {
   .navbarInner {
-    min-height: 78px;
-    gap: 12px;
+    min-height: 68px;
+    gap: 10px;
   }
 
   .logo {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .navLinks {
@@ -447,8 +447,8 @@
   }
 
   .userMenuButton {
-    min-height: 46px;
-    padding: 0 12px;
+    min-height: 42px;
+    padding: 0 11px;
   }
 
   .userName {
@@ -457,33 +457,33 @@
 
   .userDropdown {
     right: 0;
-    min-width: 200px;
+    min-width: 190px;
   }
 }
 
 @media (max-width: 640px) {
   .navbarInner {
-    min-height: 74px;
+    min-height: 64px;
   }
 
   .logo {
-    font-size: 1.95rem;
+    font-size: 1.8rem;
   }
 
   .cartNavButton {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
   }
 
   .userMenuButton {
-    min-height: 44px;
+    min-height: 40px;
     padding: 0 10px;
   }
 
   .userMenuSkeleton {
-    min-width: 100px;
-    height: 44px;
-    font-size: 0.88rem;
+    min-width: 96px;
+    height: 40px;
+    font-size: 0.82rem;
   }
 }
