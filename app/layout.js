@@ -10,6 +10,7 @@ import "@/styles/checkout.css";
 import "@/styles/profile.css";
 import "@/styles/event-detail.css";
 import "@/styles/responsive.css";
+import "@/styles/my-events.css";
 
 
 export const metadata = {

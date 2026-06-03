@@ -40,6 +40,7 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
   const [toastMessage, setToastMessage] = useState("");
+  const [hasMyEvents, setHasMyEvents] = useState(false);
 
   const userMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -105,10 +106,12 @@ export default function Navbar() {
         } else {
           setUser(null);
           setCartCount(0);
+          setHasMyEvents(false);
         }
       } catch {
         setUser(null);
         setCartCount(0);
+        setHasMyEvents(false);
       } finally {
         setLoadingUser(false);
       }
@@ -120,6 +123,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!user?.id) {
       setCartCount(0);
+      setHasMyEvents(false);
       return;
     }
 
@@ -130,6 +134,35 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("liverticket-cart-updated", loadCartCount);
     };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setHasMyEvents(false);
+      return;
+    }
+
+    async function loadMyEventsVisibility() {
+      try {
+        const res = await fetch("/api/my-events", {
+          cache: "no-store",
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          setHasMyEvents(false);
+          return;
+        }
+
+        const data = await res.json();
+
+        setHasMyEvents(Boolean(data.hasMyEvents));
+      } catch {
+        setHasMyEvents(false);
+      }
+    }
+
+    loadMyEventsVisibility();
   }, [user]);
 
   useEffect(() => {
@@ -252,6 +285,9 @@ export default function Navbar() {
           <nav className="navLinks">
             <a href="/">Cartelera</a>
             <a href="/crearevento">Crear Evento</a>
+
+            {hasMyEvents && <a href="/mis-eventos">Mis Eventos</a>}
+
             <a href="/mis-tickets">Mis Tickets</a>
             <a href="/contacto">Contacto</a>
 
@@ -280,7 +316,11 @@ export default function Navbar() {
           </nav>
 
           <div className="navbarRight">
-            <a href="/carrito" className="cartNavButton mobileOnlyCart" title="Carrito">
+            <a
+              href="/carrito"
+              className="cartNavButton mobileOnlyCart"
+              title="Carrito"
+            >
               <span className="cartNavIcon">🛒</span>
               {cartCount > 0 && (
                 <span className="cartNavCount">{cartCount}</span>
@@ -295,7 +335,11 @@ export default function Navbar() {
                   Iniciar Sesión
                 </a>
 
-                <a href="/ingresar" className="mobileUserAccess" aria-label="Iniciar sesión">
+                <a
+                  href="/ingresar"
+                  className="mobileUserAccess"
+                  aria-label="Iniciar sesión"
+                >
                   <span className="mobileUserAccessIcon">👤</span>
                 </a>
               </>
@@ -325,6 +369,12 @@ export default function Navbar() {
                     <a href="/mis-tickets" className="userDropdownItem">
                       Mis tickets
                     </a>
+
+                    {hasMyEvents && (
+                      <a href="/mis-eventos" className="userDropdownItem">
+                        Mis eventos
+                      </a>
+                    )}
 
                     <a href="/carrito" className="userDropdownItem">
                       Carrito
@@ -376,15 +426,25 @@ export default function Navbar() {
           <a href="/" onClick={closeAllMenus}>
             Cartelera
           </a>
+
           <a href="/crearevento" onClick={closeAllMenus}>
             Crear Evento
           </a>
+
+          {hasMyEvents && (
+            <a href="/mis-eventos" onClick={closeAllMenus}>
+              Mis Eventos
+            </a>
+          )}
+
           <a href="/mis-tickets" onClick={closeAllMenus}>
             Mis Tickets
           </a>
+
           <a href="/contacto" onClick={closeAllMenus}>
             Contacto
           </a>
+
           <a href="/carrito" onClick={closeAllMenus}>
             Carrito
           </a>
@@ -407,6 +467,7 @@ export default function Navbar() {
               <a href="/perfil" onClick={closeAllMenus}>
                 Mi perfil
               </a>
+
               <button
                 type="button"
                 className="mobileLogoutButton"

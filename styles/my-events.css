@@ -1,0 +1,488 @@
+.myEventsPage {
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px 70px;
+}
+
+.myEventsHeader {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.myEventsHeader span {
+  display: inline-block;
+  color: #ff2b36;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.myEventsHeader h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 44px;
+  font-weight: 900;
+}
+
+.myEventsHeader p {
+  margin-top: 10px;
+  color: #bdbdbd;
+  font-size: 15px;
+}
+
+.myEventsEmpty {
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 30px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.myEventsEmpty h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 28px;
+}
+
+.myEventsEmpty p {
+  margin: 0 0 26px;
+  color: #b9b9b9;
+  line-height: 1.6;
+}
+
+.myEventsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.myEventCard {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.myEventCard.premium {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.myEventImageWrap {
+  position: relative;
+  height: 100%;
+  min-height: 210px;
+  overflow: hidden;
+}
+
+.myEventImageWrap.premium {
+  background: #111111;
+}
+
+.myEventImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.myEventImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #181818;
+  color: #888;
+  font-size: 14px;
+}
+
+.myEventStatus {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.status-PENDING {
+  background: rgba(255, 184, 0, 0.16);
+  color: #c98b00;
+}
+
+.status-APPROVED,
+.status-PUBLISHED {
+  background: rgba(0, 214, 102, 0.16);
+  color: #00a552;
+}
+
+.status-REJECTED {
+  background: rgba(255, 59, 72, 0.14);
+  color: #cf2432;
+}
+
+.myEventBody {
+  padding: 20px;
+}
+
+.myEventBody.premium h3 {
+  margin: 0 0 8px;
+  color: #111111;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.myEventBody.premium p {
+  margin: 0 0 8px;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.myEventMiniInfo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.myEventMiniInfo div {
+  padding: 12px;
+  border-radius: 12px;
+  background: #f4f4f4;
+}
+
+.myEventMiniInfo span {
+  display: block;
+  margin-bottom: 4px;
+  color: #888;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.myEventMiniInfo strong {
+  color: #111111;
+  font-size: 14px;
+}
+
+.myEventStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.myEventStats div {
+  padding: 14px;
+  border-radius: 14px;
+  background: #f4f4f4;
+}
+
+.myEventStats span {
+  display: block;
+  margin-bottom: 6px;
+  color: #888;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.myEventStats strong {
+  color: #111111;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.myEventPendingBox,
+.myEventRejectedBox {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.myEventPendingBox {
+  background: rgba(255, 184, 0, 0.12);
+  color: #a87400;
+}
+
+.myEventRejectedBox {
+  background: rgba(255, 59, 72, 0.12);
+  color: #b91d2a;
+}
+
+.myEventActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.myEventButton,
+.myEventsPrimaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: #e50914;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.myEventButton:hover,
+.myEventsPrimaryButton:hover {
+  transform: translateY(-1px);
+  background: #ff1d28;
+}
+
+.myEventButton.secondary {
+  background: #f2f2f2;
+  color: #111111;
+}
+
+.myEventButton.secondary:hover {
+  background: #e7e7e7;
+}
+
+@media (max-width: 700px) {
+  .myEventsPage {
+    padding: 28px 14px 50px;
+  }
+
+  .myEventsHeader h1 {
+    font-size: 34px;
+  }
+
+  .myEventCard.premium {
+    grid-template-columns: 1fr;
+  }
+
+  .myEventImageWrap {
+    min-height: 220px;
+  }
+
+  .myEventBody {
+    padding: 18px;
+  }
+
+  .myEventMiniInfo,
+  .myEventStats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .myEventActions {
+    flex-direction: column;
+  }
+
+  .myEventButton,
+  .myEventsPrimaryButton {
+    width: 100%;
+  }
+}
+
+.myEventDetailPage {
+  padding: 34px 0 70px;
+}
+
+.myEventBack {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #d8d8d8;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.myEventDetailHero {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 22px;
+  color: #111;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+}
+
+.myEventDetailImageWrap {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #111;
+  min-height: 320px;
+}
+
+.myEventDetailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.myEventDetailInfo h1 {
+  margin: 18px 0 10px;
+  color: #111;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.myEventDetailInfo p {
+  margin: 0 0 8px;
+  color: #666;
+  font-size: 14px;
+}
+
+.myEventDetailStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.myEventDetailStats div {
+  padding: 14px;
+  border-radius: 14px;
+  background: #f3f3f3;
+}
+
+.myEventDetailStats span {
+  display: block;
+  margin-bottom: 5px;
+  color: #777;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.myEventDetailStats strong {
+  color: #111;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.myEventDetailBlock {
+  margin-top: 22px;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 22px;
+  color: #111;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.18);
+}
+
+.myEventDetailBlock h2 {
+  margin: 0 0 14px;
+  color: #111;
+  font-size: 24px;
+}
+
+.myEventDetailBlockHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.myEventDetailBlockHeader p {
+  margin: 4px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.myEventTicketList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.myEventTicketRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #f5f5f5;
+}
+
+.myEventTicketRow strong {
+  color: #111;
+}
+
+.myEventTicketRow span {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+  font-size: 13px;
+}
+
+.myEventPrivacyBox {
+  padding: 16px;
+  border-radius: 14px;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.myEventAttendeeTable {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid #e6e6e6;
+}
+
+.myEventAttendeeHead,
+.myEventAttendeeRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1.2fr 1fr 0.8fr;
+  gap: 12px;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.myEventAttendeeHead {
+  background: #111;
+  color: #fff;
+  font-weight: 900;
+}
+
+.myEventAttendeeRow {
+  background: #fff;
+  color: #333;
+  border-top: 1px solid #ececec;
+}
+
+@media (max-width: 700px) {
+  .myEventDetailHero {
+    grid-template-columns: 1fr;
+  }
+
+  .myEventDetailStats {
+    grid-template-columns: 1fr;
+  }
+
+  .myEventAttendeeHead {
+    display: none;
+  }
+
+  .myEventAttendeeRow {
+    grid-template-columns: 1fr;
+  }
+}
