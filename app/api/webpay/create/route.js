@@ -26,10 +26,7 @@ export async function POST(request) {
     const { cartItems } = body;
 
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
-      return NextResponse.json(
-        { error: "El carrito está vacío." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "El carrito está vacío." }, { status: 400 });
     }
 
     const normalizedItems = cartItems.map((item) => ({
@@ -76,6 +73,7 @@ export async function POST(request) {
         eventId: true,
         price: true,
         stock: true,
+        unlimitedStock: true,
         name: true,
       },
     });
@@ -88,7 +86,11 @@ export async function POST(request) {
       if (!ticketType) return true;
       if (ticketType.eventId !== item.eventId) return true;
       if (ticketType.price !== item.price) return true;
-      if (item.quantity > ticketType.stock) return true;
+
+      if (!ticketType.unlimitedStock) {
+        const availableStock = Number(ticketType.stock || 0);
+        if (item.quantity > availableStock) return true;
+      }
 
       return false;
     });
