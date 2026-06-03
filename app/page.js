@@ -48,6 +48,18 @@ function sameDate(dateA, dateB) {
   );
 }
 
+function isUpcomingEvent(date) {
+  if (!date) return false;
+
+  const eventDate = new Date(date);
+  const today = new Date();
+
+  eventDate.setHours(23, 59, 59, 999);
+  today.setHours(0, 0, 0, 0);
+
+  return eventDate >= today;
+}
+
 function normalizeEvent(evento) {
   return {
     ...evento,
@@ -100,6 +112,7 @@ export default function Home() {
   const [filteredEventos, setFilteredEventos] = useState([]);
   const [filters, setFilters] = useState(initialFilters);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     async function loadEvents() {
@@ -172,6 +185,28 @@ export default function Home() {
     setFilteredEventos(results);
   }, [filters, eventos]);
 
+  const upcomingEventos = useMemo(() => {
+    return eventos
+      .filter((evento) => isUpcomingEvent(evento.date) && evento.imageUrl)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+  }, [eventos]);
+
+  useEffect(() => {
+    if (upcomingEventos.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % upcomingEventos.length);
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [upcomingEventos.length]);
+
+  useEffect(() => {
+    if (activeSlide >= upcomingEventos.length) {
+      setActiveSlide(0);
+    }
+  }, [activeSlide, upcomingEventos.length]);
+
   function handleFilterChange(e) {
     const { name, value } = e.target;
 
@@ -195,6 +230,16 @@ export default function Home() {
     // El filtrado ya se aplica automáticamente con useEffect
   }
 
+  function goToPrevSlide() {
+    setActiveSlide((prev) =>
+      prev === 0 ? upcomingEventos.length - 1 : prev - 1
+    );
+  }
+
+  function goToNextSlide() {
+    setActiveSlide((prev) => (prev + 1) % upcomingEventos.length);
+  }
+
   const availableCities = useMemo(() => {
     if (!filters.region) return [];
 
@@ -211,11 +256,7 @@ export default function Home() {
 
       <section className="hero">
         <div className="container heroContent">
-          <p className="heroTag">COMPRA. ENTRA. VIVE.</p>
           <h1 className="heroTitle">Encuentra tus próximos eventos</h1>
-          <p className="heroText">
-            Descubre conciertos, festivales, fiestas y experiencias en todo Chile.
-          </p>
 
           <SearchBar
             filters={filters}
@@ -225,6 +266,39 @@ export default function Home() {
             cities={availableCities}
             categories={categoryOptions}
           />
+
+          {upcomingEventos.length > 0 && (
+            <div className="homeFlyerCarousel">
+              <button
+                type="button"
+                className="homeFlyerArrow homeFlyerArrowLeft"
+                onClick={goToPrevSlide}
+                aria-label="Evento anterior"
+              >
+                ‹
+              </button>
+
+              <Link
+                href={`/evento/${upcomingEventos[activeSlide].id}`}
+                className="homeFlyerSlide"
+              >
+                <img
+                  src={upcomingEventos[activeSlide].imageUrl}
+                  alt={upcomingEventos[activeSlide].title}
+                  className="homeFlyerImage"
+                />
+              </Link>
+
+              <button
+                type="button"
+                className="homeFlyerArrow homeFlyerArrowRight"
+                onClick={goToNextSlide}
+                aria-label="Evento siguiente"
+              >
+                ›
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
