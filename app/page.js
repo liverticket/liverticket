@@ -304,16 +304,6 @@ export default function Home() {
 
       <section className="section">
         <div className="container">
-          <div className="sectionHeader">
-            <h2>Eventos destacados</h2>
-            <p>
-              {loadingEvents
-                ? "Cargando eventos..."
-                : filteredEventos.length > 0
-                ? `Mostrando ${filteredEventos.length} evento(s).`
-                : "No encontramos eventos con esos filtros."}
-            </p>
-          </div>
 
           <div className="eventsGrid">
             {loadingEvents ? (
