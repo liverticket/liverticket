@@ -91,20 +91,24 @@ export async function POST(request) {
           throw new Error(`No existe el tipo de entrada ${item.ticketTypeId}`);
         }
 
-        if (freshTicketType.stock < item.quantity) {
-          throw new Error(
-            `No hay stock suficiente para ${freshTicketType.name}`
-          );
-        }
+        if (!freshTicketType.unlimitedStock) {
+          const availableStock = Number(freshTicketType.stock || 0);
 
-        await txDb.ticketType.update({
-          where: { id: item.ticketTypeId },
-          data: {
-            stock: {
-              decrement: item.quantity,
+          if (availableStock < item.quantity) {
+            throw new Error(
+              `No hay stock suficiente para ${freshTicketType.name}`
+            );
+          }
+
+          await txDb.ticketType.update({
+            where: { id: item.ticketTypeId },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
             },
-          },
-        });
+          });
+        }
       }
 
       await txDb.order.update({
