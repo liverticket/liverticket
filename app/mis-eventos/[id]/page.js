@@ -58,6 +58,8 @@ export default function MyEventDetailPage() {
     }
   }, [params.id]);
 
+  const salesRows = event?.salesByTicketType || [];
+
   return (
     <main className="page">
       <Navbar />
@@ -79,74 +81,53 @@ export default function MyEventDetailPage() {
             </div>
           ) : (
             <>
-              <div className="myEventDetailHero">
-                <div className="myEventDetailImageWrap">
-                  {event.imageUrl ? (
-                    <img
-                      src={event.imageUrl}
-                      alt={event.title}
-                      className="myEventDetailImage"
-                    />
-                  ) : (
-                    <div className="myEventImagePlaceholder">Sin flyer</div>
-                  )}
-                </div>
+              <div className="myEventAdminHeader">
+                <span className="myEventStatus status-PUBLISHED">Publicado</span>
 
-                <div className="myEventDetailInfo">
-                  <span className="myEventStatus status-PUBLISHED">
-                    Publicado
-                  </span>
+                <h1>{event.title}</h1>
 
-                  <h1>{event.title}</h1>
-
-                  <p>
-                    {formatDate(event.date)} · {event.eventTime}
-                  </p>
-
-                  <p>
+                <div className="myEventAdminMeta">
+                  <span>{formatDate(event.date)}</span>
+                  <span>{event.eventTime}</span>
+                  <span>
                     {event.venue || event.location}
                     {event.city ? ` · ${event.city}` : ""}
-                  </p>
-
-                  <p>Edad mínima {event.minAge}+</p>
-
-                  <div className="myEventDetailStats">
-                    <div>
-                      <span>Vendidas</span>
-                      <strong>{event.soldTickets}</strong>
-                    </div>
-
-                    <div>
-                      <span>Recaudación</span>
-                      <strong>{formatMoney(event.totalSales)}</strong>
-                    </div>
-
-                    <div>
-                      <span>Tipos de ticket</span>
-                      <strong>{event.ticketTypes.length}</strong>
-                    </div>
-                  </div>
+                  </span>
+                  <span>Edad mínima {event.minAge}+</span>
                 </div>
               </div>
 
               <div className="myEventDetailBlock">
-                <h2>Tipos de ticket</h2>
+                <div className="myEventDetailBlockHeader">
+                  <div>
+                    <h2>Resumen de ventas</h2>
+                    <p>Detalle contable por tipo de entrada.</p>
+                  </div>
+                </div>
 
-                <div className="myEventTicketList">
-                  {event.ticketTypes.map((ticketType) => (
-                    <div className="myEventTicketRow" key={ticketType.id}>
-                      <div>
-                        <strong>{ticketType.name}</strong>
-                        <span>
-                          {ticketType.unlimitedStock
-                            ? "Stock ilimitado"
-                            : `Stock: ${ticketType.stock ?? 0}`}
-                        </span>
-                      </div>
+                <div className="myEventSalesTable">
+                  <div className="myEventSalesHead">
+                    <span>Tipo de entrada</span>
+                    <span>Vendidas</span>
+                    <span>Precio</span>
+                    <span>Recaudación</span>
+                  </div>
 
-                      <strong>{formatMoney(ticketType.price)}</strong>
+                  {salesRows.map((row) => (
+                    <div className="myEventSalesRow" key={row.id}>
+                      <span>{row.name}</span>
+                      <span>{row.sold}</span>
+                      <span>{formatMoney(row.price)}</span>
+                      <span>{formatMoney(row.revenue)}</span>
                     </div>
                   ))}
+
+                  <div className="myEventSalesRow total">
+                    <span>Total</span>
+                    <span>{event.soldTickets}</span>
+                    <span>—</span>
+                    <span>{formatMoney(event.totalSales)}</span>
+                  </div>
                 </div>
               </div>
 
@@ -155,16 +136,15 @@ export default function MyEventDetailPage() {
                   <div>
                     <h2>Asistentes</h2>
                     <p>
-                      Disponible hasta{" "}
-                      {formatDate(event.attendeesVisibleUntil)}.
+                      Disponible hasta {formatDate(event.attendeesVisibleUntil)}.
                     </p>
                   </div>
                 </div>
 
                 {!event.canViewAttendees ? (
                   <div className="myEventPrivacyBox">
-                    La lista de asistentes expiró por protección de datos.
-                    Solo se mantienen estadísticas generales del evento.
+                    La lista de asistentes expiró por protección de datos. Solo
+                    se mantienen estadísticas generales del evento.
                   </div>
                 ) : event.attendees.length === 0 ? (
                   <div className="myEventPrivacyBox">

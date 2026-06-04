@@ -51,6 +51,28 @@ export async function GET(request, { params }) {
       return sum + (ticket.pricePaid || 0);
     }, 0);
 
+    const salesByTicketType = event.ticketTypes.map((ticketType) => {
+      const ticketsForType = validTickets.filter(
+        (ticket) => ticket.ticketTypeId === ticketType.id
+      );
+
+      const sold = ticketsForType.length;
+
+      const revenue = ticketsForType.reduce((sum, ticket) => {
+        return sum + (ticket.pricePaid || 0);
+      }, 0);
+
+      return {
+        id: ticketType.id,
+        name: ticketType.name,
+        price: ticketType.price,
+        stock: ticketType.stock,
+        unlimitedStock: ticketType.unlimitedStock,
+        sold,
+        revenue,
+      };
+    });
+
     const attendees = canViewAttendees
       ? validTickets.map((ticket) => ({
           id: ticket.id,
@@ -81,6 +103,7 @@ export async function GET(request, { params }) {
         soldTickets,
         totalSales,
         ticketTypes: event.ticketTypes,
+        salesByTicketType,
         attendees,
         canViewAttendees,
         attendeesVisibleUntil: eventEndLimit,
