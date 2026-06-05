@@ -3,9 +3,11 @@ import prisma from "@/lib/prisma";
 
 export async function GET(request, { params }) {
   try {
+    const { qrToken } = await params;
+
     const ticket = await prisma.ticket.findUnique({
       where: {
-        qrToken: params.qrToken,
+        qrToken,
       },
       include: {
         event: true,
@@ -29,13 +31,14 @@ export async function GET(request, { params }) {
       ticket,
     });
   } catch (error) {
-    console.error(error);
+    console.error("TICKET_VALIDATE_ERROR:", error);
 
     return NextResponse.json(
       {
         valid: false,
         title: "Error",
         message: "No se pudo validar la entrada.",
+        detail: error.message,
       },
       { status: 500 }
     );

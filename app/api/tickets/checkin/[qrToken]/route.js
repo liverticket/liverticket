@@ -3,9 +3,11 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request, { params }) {
   try {
+    const { qrToken } = await params;
+
     const ticket = await prisma.ticket.findUnique({
       where: {
-        qrToken: params.qrToken,
+        qrToken,
       },
     });
 
@@ -53,12 +55,13 @@ export async function POST(request, { params }) {
       message: "Ingreso registrado correctamente.",
     });
   } catch (error) {
-    console.error(error);
+    console.error("TICKET_CHECKIN_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
         message: "Error al registrar ingreso.",
+        detail: error.message,
       },
       { status: 500 }
     );
