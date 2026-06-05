@@ -3,6 +3,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
+function getStatusLabel(status) {
+  switch (status) {
+    case "VALID":
+      return "Válida";
+    case "USED":
+      return "Utilizada";
+    case "CANCELLED":
+      return "Cancelada";
+    default:
+      return status || "Sin estado";
+  }
+}
+
 export default function TicketValidationPage() {
   const params = useParams();
 
@@ -13,10 +26,7 @@ export default function TicketValidationPage() {
   useEffect(() => {
     async function loadTicket() {
       try {
-        const res = await fetch(
-          `/api/tickets/validate/${params.qrToken}`
-        );
-
+        const res = await fetch(`/api/tickets/validate/${params.qrToken}`);
         const data = await res.json();
 
         if (!res.ok) {
@@ -38,12 +48,9 @@ export default function TicketValidationPage() {
 
   async function handleCheckin() {
     try {
-      const res = await fetch(
-        `/api/tickets/checkin/${params.qrToken}`,
-        {
-          method: "POST",
-        }
-      );
+      const res = await fetch(`/api/tickets/checkin/${params.qrToken}`, {
+        method: "POST",
+      });
 
       const data = await res.json();
 
@@ -81,23 +88,19 @@ export default function TicketValidationPage() {
       <h1>{ticket.event.title}</h1>
 
       <p>
-        <strong>Asistente:</strong>{" "}
-        {ticket.attendeeName}
+        <strong>Asistente:</strong> {ticket.attendeeName}
       </p>
 
       <p>
-        <strong>Documento:</strong>{" "}
-        {ticket.attendeeDocumentNumber}
+        <strong>Documento:</strong> {ticket.attendeeDocumentNumber}
       </p>
 
       <p>
-        <strong>Tipo:</strong>{" "}
-        {ticket.ticketType.name}
+        <strong>Tipo:</strong> {ticket.ticketType.name}
       </p>
 
       <p>
-        <strong>Estado:</strong>{" "}
-        {ticket.status}
+        <strong>Estado:</strong> {getStatusLabel(ticket.status)}
       </p>
 
       {ticket.status === "VALID" && (
@@ -122,11 +125,7 @@ export default function TicketValidationPage() {
         </h2>
       )}
 
-      {message && (
-        <p style={{ marginTop: 20 }}>
-          {message}
-        </p>
-      )}
+      {message && <p style={{ marginTop: 20 }}>{message}</p>}
     </main>
   );
 }
