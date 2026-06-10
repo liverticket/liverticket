@@ -371,16 +371,26 @@
 }
 
 /* PC / pantallas grandes */
+
 @media (min-width: 901px) {
+  .eventDetailSection {
+    padding-top: 26px;
+  }
+
   .eventDetailContainer {
-    max-width: 1180px;
+    max-width: 1080px;
   }
 
   .eventDetailMainCard {
     display: grid;
-    grid-template-columns: 1.2fr 0.72fr;
-    gap: 28px;
+    grid-template-columns: 1.05fr 0.72fr;
+    gap: 24px;
     align-items: start;
+    padding: 20px;
+  }
+
+  .eventImageLarge {
+    max-height: 520px;
   }
 
   .eventDetailRight {
@@ -388,7 +398,7 @@
     top: 90px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .eventDetailRight .eventTicketsBox,
@@ -397,16 +407,43 @@
     margin-top: 0;
   }
 
+  .eventDescriptionBox h2,
+  .eventTicketsBox h2,
+  .eventAttendeeBox h2,
+  .eventSummaryBox h2,
+  .eventLocationHeader h2 {
+    font-size: 1.55rem;
+  }
+
   .eventDetailRight .eventTicketOption {
     grid-template-columns: 1fr;
+    padding: 14px;
   }
 
   .eventDetailRight .eventTicketBuy {
     justify-content: space-between;
   }
 
+  .eventDetailRight .eventTicketBuy strong {
+    font-size: 1.25rem;
+  }
+
   .eventDetailRight .eventTicketBuy .btn {
-    min-width: 112px;
+    min-width: 105px;
+    min-height: 44px;
+    padding: 0 16px;
+  }
+
+  .eventSummaryBox {
+    padding: 14px;
+  }
+
+  .eventTotalRow strong {
+    font-size: 1.25rem;
+  }
+
+  .eventPayButton {
+    min-height: 44px;
   }
 }
 
