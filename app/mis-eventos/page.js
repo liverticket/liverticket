@@ -40,6 +40,7 @@ export default function MisEventosPage() {
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState([]);
   const [events, setEvents] = useState([]);
+  const [visibleCodeEventId, setVisibleCodeEventId] = useState(null);
 
   useEffect(() => {
     async function loadMyEvents() {
@@ -125,6 +126,8 @@ export default function MisEventosPage() {
                 const isApproved = item.status === "APPROVED" && item.approvedEvent;
                 const isPending = item.status === "PENDING";
                 const isRejected = item.status === "REJECTED";
+                const isCodeVisible =
+                  visibleCodeEventId === item.approvedEvent?.id;
 
                 return (
                   <article className="myEventCard premium" key={item.id}>
@@ -161,7 +164,6 @@ export default function MisEventosPage() {
                         {item.category} · Edad mínima {item.minAge}+
                       </p>
 
-
                       {isPending && (
                         <div className="myEventPendingBox">
                           Tu evento está siendo revisado por el equipo de
@@ -193,6 +195,8 @@ export default function MisEventosPage() {
                             </div>
                           </div>
 
+                          
+
                           <div className="myEventActions">
                             <Link
                               href={`/mis-eventos/${item.approvedEvent.id}`}
@@ -200,6 +204,22 @@ export default function MisEventosPage() {
                             >
                               Administrar
                             </Link>
+                            <div className="myEventScannerCodeBox">
+                              {!isCodeVisible ? (
+                                <button
+                                  type="button"
+                                  className="myEventScannerCodeButton"
+                                  onClick={() => setVisibleCodeEventId(item.approvedEvent.id)}
+                                >
+                                  Ver código para escanear QR
+                                </button>
+                              ) : (
+                                <div className="myEventScannerCodeReveal">
+                                  <span>Código acceso</span>
+                                  <strong>{item.approvedEvent.scannerCode || "----"}</strong>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </>
                       )}

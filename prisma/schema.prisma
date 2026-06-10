@@ -72,6 +72,7 @@ model Event {
 
   minAge          Int
   eventTime       String
+  scannerCode     String?
 
   date            DateTime
   visibility      EventVisibility @default(PUBLISHED)

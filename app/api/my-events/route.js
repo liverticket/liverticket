@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
+function generateScannerCode() {
+  return String(Math.floor(1000 + Math.random() * 9000));
+}
+
 export async function GET() {
   try {
     const user = await getCurrentUser();
@@ -29,6 +33,29 @@ export async function GET() {
         createdAt: "desc",
       },
     });
+
+    const eventsWithoutScannerCode = await prisma.event.findMany({
+      where: {
+        organizerId: user.id,
+        scannerCode: null,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (eventsWithoutScannerCode.length > 0) {
+      await Promise.all(
+        eventsWithoutScannerCode.map((event) =>
+          prisma.event.update({
+            where: { id: event.id },
+            data: {
+              scannerCode: generateScannerCode(),
+            },
+          })
+        )
+      );
+    }
 
     const events = await prisma.event.findMany({
       where: {
@@ -88,6 +115,7 @@ export async function GET() {
         visibility: event.visibility,
         soldTickets: validTickets.length,
         totalSales,
+        scannerCode: event.scannerCode,
       };
     });
 

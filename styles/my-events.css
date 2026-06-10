@@ -528,3 +528,57 @@
     border-radius: 12px;
   }
 }
+
+.myEventScannerCodeBox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.myEventScannerCodeButton {
+  min-height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.myEventScannerCodeButton:hover {
+  background: #222222;
+}
+
+.myEventScannerCodeReveal {
+  width: fit-content;
+  min-width: 170px;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: #111111;
+  color: #ffffff;
+  text-align: center;
+}
+
+.myEventScannerCodeReveal span {
+  display: block;
+  color: #aaaaaa;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 4px;
+}
+
+.myEventScannerCodeReveal strong {
+  display: block;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: 3px;
+  color: #ffffff;
+}
+
+.myEventScannerCodeReveal p {
+  display: none;
+}
