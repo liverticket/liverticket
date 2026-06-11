@@ -71,6 +71,12 @@ export async function POST(request) {
     }
 
     if (existingOrder.status === "PAID") {
+      await prisma.cartItem.deleteMany({
+        where: {
+          userId: existingOrder.userId,
+        },
+      });
+
       return NextResponse.json({
         success: true,
         title: "Pago aprobado",
@@ -142,6 +148,12 @@ export async function POST(request) {
           data: ticketsToCreate,
         });
       }
+
+      await txDb.cartItem.deleteMany({
+        where: {
+          userId: existingOrder.userId,
+        },
+      });
     });
 
     const paidOrder = await prisma.order.findUnique({

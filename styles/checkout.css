@@ -232,6 +232,7 @@
   min-width: 120px;
 }
 
+/* Carrito */
 .checkoutCartList {
   display: flex;
   flex-direction: column;
@@ -317,7 +318,7 @@
   word-break: break-word;
 }
 
-/* Nuevas clases para carrito compacto */
+/* Carrito compacto */
 .checkoutCartItemMain,
 .checkoutCartItemDetails {
   display: contents;
@@ -329,7 +330,94 @@
   display: none;
 }
 
-/* Responsive */
+/* PC / Pantalla grande - carrito con flyer pequeño */
+@media (min-width: 901px) {
+  .checkoutEventGroup {
+    border: 1px solid #eeeeee;
+    border-radius: 22px;
+    padding: 18px;
+    background: #ffffff;
+  }
+
+  .checkoutEventGroupHeader {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+    margin-bottom: 18px;
+  }
+
+  .checkoutEventGroupImage {
+    width: 160px;
+    height: 205px;
+    object-fit: cover;
+    border-radius: 18px;
+  }
+
+  .checkoutEventGroupTitle {
+    font-size: 25px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: #111;
+  }
+
+  .checkoutEventMetaText {
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0 0 8px;
+    color: #444;
+  }
+
+  .checkoutEventAddressText {
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0;
+    color: #555;
+  }
+
+  .checkoutCartList {
+    gap: 12px;
+  }
+
+  .checkoutCartItem {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    padding: 18px;
+    border: 1px solid #eeeeee;
+    border-radius: 18px;
+    background: #fafafa;
+  }
+
+  .checkoutCartItem:last-child {
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .checkoutCartItemMain {
+    display: block;
+  }
+
+  .checkoutCartItemDetails {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .checkoutCartItemName {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .checkoutCartItemMeta {
+    font-size: 16px;
+  }
+
+  .checkoutCartItemRight {
+    display: flex;
+    min-width: 120px;
+  }
+}
+
+/* Responsive tablet */
 @media (max-width: 900px) {
   .checkoutContainer {
     padding-left: 0;
@@ -447,7 +535,7 @@
   }
 }
 
-/* SOLO CELULAR - Carrito optimizado estilo cartelera */
+/* Celular - se mantiene la vista compacta */
 @media (max-width: 640px) {
   .checkoutMainCard.checkoutMainCardLarge {
     border-radius: 24px;
@@ -472,18 +560,18 @@
   }
 
   .checkoutEventGroupHeader {
-    display: grid;
-    grid-template-columns: 120px minmax(0, 1fr);
-    gap: 14px;
-    align-items: stretch;
-    margin-bottom: 16px;
+    display: grid !important;
+    grid-template-columns: 82px minmax(0, 1fr) !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
   }
 
   .checkoutEventGroupImage {
-    width: 120px;
-    height: 120px;
-    border-radius: 18px;
-    object-fit: cover;
+    width: 82px !important;
+    height: 82px !important;
+    object-fit: cover !important;
+    border-radius: 13px !important;
   }
 
   .checkoutEventGroupInfo {
@@ -494,16 +582,16 @@
   }
 
   .checkoutEventGroupTitle {
-    font-size: 1.35rem;
+    font-size: 1.1rem;
     line-height: 1.1;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
     color: #111;
   }
 
   .checkoutEventMetaText {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.25;
-    margin: 0 0 4px;
+    margin: 0 0 2px;
     color: #666666;
   }
 
@@ -512,14 +600,14 @@
   }
 
   .checkoutCartList {
-    gap: 10px;
+    gap: 8px;
   }
 
   .checkoutCartItem {
     display: block;
+    padding: 10px 12px;
     border: 1px solid #eeeeee;
-    border-radius: 18px;
-    padding: 14px;
+    border-radius: 15px;
     background: #fafafa;
   }
 
@@ -528,172 +616,23 @@
   }
 
   .checkoutCartItemMain {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
-    align-items: flex-start;
+    align-items: start;
   }
 
   .checkoutCartItemName {
-    font-size: 1rem;
-    margin-bottom: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
     text-transform: uppercase;
   }
 
   .checkoutCartItemVisibleName {
     display: block;
     color: #666666;
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     line-height: 1.25;
-  }
-
-  .checkoutCartItemPriceBox {
-    display: block;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .checkoutCartItemPriceBox strong {
-    display: block;
-    font-size: 1.15rem;
-    color: #111111;
-    margin-bottom: 4px;
-  }
-
-  .checkoutDetailsToggle {
-    display: inline-flex;
-    border: 0;
-    background: transparent;
-    color: #e50914;
-    font-weight: 900;
-    font-size: 0.88rem;
-    padding: 0;
-    cursor: pointer;
-  }
-
-  .checkoutCartItemDetails {
-    display: block;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #e5e5e5;
-  }
-
-  .checkoutCartItemMeta {
-    font-size: 0.9rem;
-    line-height: 1.35;
-  }
-
-  .checkoutCartItemRight {
-    display: none;
-  }
-
-  .checkoutRemoveItem {
-    margin-top: 12px;
-    font-size: 0.95rem;
-  }
-
-  .checkoutSummaryCard.checkoutSummaryCardLarge {
-    border-radius: 24px;
-    margin: 16px 14px 0;
-    padding: 18px;
-  }
-}
-
-@media (max-width: 520px) {
-  .checkoutMainCard,
-  .checkoutSummaryCard {
-    padding: 20px;
-  }
-
-  .checkoutSectionHeader h2 {
-    font-size: 25px;
-  }
-
-  .checkoutTicketOption {
-    border-radius: 18px;
-    padding: 14px;
-  }
-
-  .checkoutTicketContent strong {
-    font-size: 19px;
-  }
-
-  .checkoutTicketPrice {
-    font-size: 21px;
-  }
-
-  .checkoutTicketInlineButton {
-    min-height: 40px;
-    padding: 0 14px;
-    font-size: 14px;
-  }
-}
-
-/* PC: muestra siempre los datos completos */
-.checkoutCartItemDetails {
-  display: block;
-}
-
-.checkoutCartItemVisibleName,
-.checkoutDetailsToggle,
-.checkoutCartItemPriceBox {
-  display: none;
-}
-
-/* SOLO CELULAR */
-@media (max-width: 640px) {
-  .checkoutEventGroupHeader {
-    display: grid;
-    grid-template-columns: 110px minmax(0, 1fr);
-    gap: 14px;
-    align-items: center;
-  }
-
-  .checkoutEventGroupImage {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 16px;
-  }
-
-  .checkoutEventGroupInfo {
-    min-width: 0;
-  }
-
-  .checkoutEventGroupTitle {
-    font-size: 1.35rem;
-    margin: 0 0 6px;
-    line-height: 1.1;
-  }
-
-  .checkoutEventMetaText {
-    font-size: 0.88rem;
-    line-height: 1.25;
-    margin: 0 0 4px;
-  }
-
-  .checkoutEventAddressText {
-    display: none;
-  }
-
-  .checkoutCartItem {
-    display: block;
-    padding: 14px;
-    border: 1px solid #eeeeee;
-    border-radius: 18px;
-    background: #fafafa;
-  }
-
-  .checkoutCartItemMain {
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-  }
-
-  .checkoutCartItemVisibleName {
-    display: block;
-    color: #666;
-    font-size: 0.95rem;
   }
 
   .checkoutCartItemDetails {
@@ -707,78 +646,26 @@
     display: block;
   }
 
-  .checkoutCartItemPriceBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-
-  .checkoutCartItemPriceBox strong {
-    font-size: 1.25rem;
-  }
-
-  .checkoutDetailsToggle {
-    display: inline-flex;
-    border: 0;
-    background: transparent;
-    color: #e50914;
-    font-weight: 900;
-    padding: 0;
+  .checkoutCartItemMeta {
+    font-size: 0.9rem;
+    line-height: 1.35;
   }
 
   .checkoutCartItemRight {
     display: none;
   }
 
-  .checkoutCartItemPriceBox .checkoutRemoveItem {
-    margin-top: 8px;
-  }
-}
-
-@media (max-width: 640px) {
-  .checkoutEventGroupHeader {
-    display: grid !important;
-    grid-template-columns: 110px minmax(0, 1fr) !important;
-    gap: 14px !important;
-    align-items: center !important;
-  }
-
-  .checkoutEventGroupImage {
-    width: 110px !important;
-    height: 110px !important;
-    object-fit: cover !important;
-    border-radius: 16px !important;
-  }
-
-  .checkoutEventGroupInfo {
-    min-width: 0;
+  .checkoutCartItemPriceBox {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
   }
 
-  .checkoutEventGroupTitle {
-    font-size: 1.3rem;
-    line-height: 1.1;
-    margin: 0 0 6px;
-  }
-
-  .checkoutEventMetaText {
-    font-size: 0.86rem;
-    line-height: 1.25;
-    margin: 0 0 4px;
-  }
-
-  .checkoutEventAddressText {
-    display: none;
-  }
-
-  .checkoutCartItemMain {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
-    align-items: start;
+  .checkoutCartItemPriceBox strong {
+    display: block;
+    font-size: 1rem;
+    color: #111111;
   }
 
   .checkoutDetailsToggle {
@@ -789,88 +676,16 @@
     color: #e50914;
     font-weight: 900;
     padding: 0;
-    font-size: 0.95rem;
-  }
-
-  .checkoutCartItemPriceBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-  }
-
-  .checkoutCartItemPriceBox .checkoutRemoveItem {
-    margin-top: 0;
-  }
-}
-
-/* SOLO CELULAR - reducir scroll hasta Webpay */
-@media (max-width: 640px) {
-  .checkoutMainCard.checkoutMainCardLarge {
-    padding: 14px;
-    margin: 0 10px;
-  }
-
-  .checkoutSectionHeader {
-    margin-bottom: 12px;
-  }
-
-  .checkoutSectionHeader h2 {
-    font-size: 1.65rem;
-  }
-
-  .checkoutEventGroup {
-    padding: 10px;
-    border-radius: 18px;
-  }
-
-  .checkoutEventGroupHeader {
-    grid-template-columns: 82px minmax(0, 1fr) !important;
-    gap: 10px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .checkoutEventGroupImage {
-    width: 82px !important;
-    height: 82px !important;
-    border-radius: 13px !important;
-  }
-
-  .checkoutEventGroupTitle {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-  }
-
-  .checkoutEventMetaText {
-    font-size: 0.8rem;
-    margin-bottom: 2px;
-  }
-
-  .checkoutCartList {
-    gap: 8px;
-  }
-
-  .checkoutCartItem {
-    padding: 10px 12px;
-    border-radius: 15px;
-  }
-
-  .checkoutCartItemName {
-    font-size: 0.9rem;
-    margin-bottom: 2px;
-  }
-
-  .checkoutCartItemVisibleName {
     font-size: 0.82rem;
+    cursor: pointer;
   }
 
-  .checkoutDetailsToggle,
   .checkoutRemoveItem {
     font-size: 0.82rem;
   }
 
-  .checkoutCartItemPriceBox strong {
-    font-size: 1rem;
+  .checkoutCartItemPriceBox .checkoutRemoveItem {
+    margin-top: 0;
   }
 
   .checkoutSummaryCard.checkoutSummaryCardLarge {
@@ -906,5 +721,53 @@
 
   .checkoutHelpText {
     display: none;
+  }
+
+  .checkoutMainCard.checkoutMainCardLarge {
+    padding: 14px;
+    margin: 0 10px;
+  }
+
+  .checkoutSectionHeader {
+    margin-bottom: 12px;
+  }
+
+  .checkoutSectionHeader h2 {
+    font-size: 1.65rem;
+  }
+
+  .checkoutEventGroup {
+    padding: 10px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .checkoutMainCard,
+  .checkoutSummaryCard {
+    padding: 20px;
+  }
+
+  .checkoutSectionHeader h2 {
+    font-size: 25px;
+  }
+
+  .checkoutTicketOption {
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .checkoutTicketContent strong {
+    font-size: 19px;
+  }
+
+  .checkoutTicketPrice {
+    font-size: 21px;
+  }
+
+  .checkoutTicketInlineButton {
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 14px;
   }
 }
