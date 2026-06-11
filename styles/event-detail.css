@@ -6,13 +6,6 @@
   max-width: 760px;
 }
 
-.eventBackLink {
-  display: inline-flex;
-  margin-bottom: 14px;
-  color: #d0d0d0;
-  font-size: 0.85rem;
-}
-
 .eventDetailMainCard {
   background: #ffffff;
   color: #111111;
@@ -377,15 +370,15 @@
   }
 
   .eventDetailContainer {
-    max-width: 1420px;
+    max-width: 1700px;
   }
 
   .eventDetailMainCard {
     display: grid;
-    grid-template-columns: 420px minmax(0, 1fr) 390px;
-    gap: 28px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
     align-items: start;
-    padding: 22px;
+    padding: 24px;
   }
 
   .eventDetailFlyerCol,

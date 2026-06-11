@@ -384,9 +384,6 @@ export default function EventoDetallePage() {
 
       <main className="section eventDetailSection">
         <div className="container eventDetailContainer">
-          <Link href="/" className="eventBackLink">
-            ← Volver a la cartelera
-          </Link>
 
           <section className="eventDetailMainCard">
             <div className="eventDetailFlyerCol">
