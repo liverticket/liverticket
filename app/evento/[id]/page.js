@@ -389,13 +389,15 @@ export default function EventoDetallePage() {
           </Link>
 
           <section className="eventDetailMainCard">
-            <div className="eventDetailLeft">
+            <div className="eventDetailFlyerCol">
               <img
                 src={evento.imageUrl || "/placeholder-event.jpg"}
                 alt={evento.title || "Evento"}
                 className="eventImageLarge"
               />
+            </div>
 
+            <div className="eventDetailInfoCol">
               <div className="eventInfoBlock">
                 <span className="eventDetailBadge">
                   {evento.category?.name || "Evento"}
