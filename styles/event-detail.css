@@ -391,6 +391,9 @@
 
   .eventImageLarge {
     max-height: 360px;
+    max-height: none;
+    object-fit: contain;
+    background: #111111;
   }
 
   .eventDetailRight {
