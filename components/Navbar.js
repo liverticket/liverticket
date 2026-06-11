@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 function playNotificationSound() {
   try {
@@ -33,6 +34,8 @@ function playNotificationSound() {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   const [user, setUser] = useState(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -46,6 +49,23 @@ export default function Navbar() {
   const mobileMenuRef = useRef(null);
   const previousPendingCountRef = useRef(null);
   const toastTimeoutRef = useRef(null);
+
+  function isActive(path) {
+    if (path === "/") return pathname === "/";
+    return pathname === path || pathname.startsWith(`${path}/`);
+  }
+
+  function navClass(path) {
+    return isActive(path) ? "active" : "";
+  }
+
+  function cartClass(extraClass = "") {
+    return `cartNavButton ${extraClass} ${isActive("/carrito") ? "activeCart" : ""}`.trim();
+  }
+
+  function mobileNavClass(path) {
+    return isActive(path) ? "activeMobileNav" : "";
+  }
 
   function showToast(message) {
     setToastMessage(message);
@@ -283,15 +303,29 @@ export default function Navbar() {
           </div>
 
           <nav className="navLinks">
-            <a href="/">Cartelera</a>
-            <a href="/crearevento">Crear Evento</a>
+            <a href="/" className={navClass("/")}>
+              Cartelera
+            </a>
 
-            {hasMyEvents && <a href="/mis-eventos">Mis Eventos</a>}
+            <a href="/crearevento" className={navClass("/crearevento")}>
+              Crear Evento
+            </a>
 
-            <a href="/mis-tickets">Mis Tickets</a>
-            <a href="/contacto">Contacto</a>
+            {hasMyEvents && (
+              <a href="/mis-eventos" className={navClass("/mis-eventos")}>
+                Mis Eventos
+              </a>
+            )}
 
-            <a href="/carrito" className="cartNavButton" title="Carrito">
+            <a href="/mis-tickets" className={navClass("/mis-tickets")}>
+              Mis Tickets
+            </a>
+
+            <a href="/contacto" className={navClass("/contacto")}>
+              Contacto
+            </a>
+
+            <a href="/carrito" className={cartClass()} title="Carrito">
               <span className="cartNavIcon">🛒</span>
               {cartCount > 0 && (
                 <span className="cartNavCount">{cartCount}</span>
@@ -303,7 +337,7 @@ export default function Navbar() {
                 <div
                   className={`adminWrapper ${
                     pendingCount > 0 ? "hasPending" : ""
-                  }`}
+                  } ${isActive("/admin/solicitudes") ? "activeAdmin" : ""}`}
                 >
                   <span className="adminText">Solicitudes</span>
 
@@ -318,7 +352,7 @@ export default function Navbar() {
           <div className="navbarRight">
             <a
               href="/carrito"
-              className="cartNavButton mobileOnlyCart"
+              className={cartClass("mobileOnlyCart")}
               title="Carrito"
             >
               <span className="cartNavIcon">🛒</span>
@@ -423,29 +457,49 @@ export default function Navbar() {
         </div>
 
         <nav className="mobileSideNav">
-          <a href="/" onClick={closeAllMenus}>
+          <a href="/" className={mobileNavClass("/")} onClick={closeAllMenus}>
             Cartelera
           </a>
 
-          <a href="/crearevento" onClick={closeAllMenus}>
+          <a
+            href="/crearevento"
+            className={mobileNavClass("/crearevento")}
+            onClick={closeAllMenus}
+          >
             Crear Evento
           </a>
 
           {hasMyEvents && (
-            <a href="/mis-eventos" onClick={closeAllMenus}>
+            <a
+              href="/mis-eventos"
+              className={mobileNavClass("/mis-eventos")}
+              onClick={closeAllMenus}
+            >
               Mis Eventos
             </a>
           )}
 
-          <a href="/mis-tickets" onClick={closeAllMenus}>
+          <a
+            href="/mis-tickets"
+            className={mobileNavClass("/mis-tickets")}
+            onClick={closeAllMenus}
+          >
             Mis Tickets
           </a>
 
-          <a href="/contacto" onClick={closeAllMenus}>
+          <a
+            href="/contacto"
+            className={mobileNavClass("/contacto")}
+            onClick={closeAllMenus}
+          >
             Contacto
           </a>
 
-          <a href="/carrito" onClick={closeAllMenus}>
+          <a
+            href="/carrito"
+            className={mobileNavClass("/carrito")}
+            onClick={closeAllMenus}
+          >
             Carrito
           </a>
 

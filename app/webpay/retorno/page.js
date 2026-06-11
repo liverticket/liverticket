@@ -50,6 +50,9 @@ export default function WebpayRetornoPage() {
         if (data.success) {
           localStorage.removeItem(CART_STORAGE_KEY);
           window.dispatchEvent(new Event("liverticket-cart-updated"));
+
+          window.location.href = "/mis-tickets";
+          return;
         }
 
         setResult(data);

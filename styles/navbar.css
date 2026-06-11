@@ -487,3 +487,34 @@
     font-size: 0.82rem;
   }
 }
+
+.navLinks a.active {
+  color: #ff0000;
+  font-weight: 800;
+}
+
+.navLinks a.active:hover {
+  color: #ff0000;
+  opacity: 1;
+}
+
+.cartNavButton.activeCart {
+  background: rgba(255, 0, 0, 0.16);
+  border: 1px solid rgba(255, 0, 0, 0.45);
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.32);
+}
+
+.cartNavButton.activeCart .cartNavIcon {
+  filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.7));
+}
+
+.adminWrapper.activeAdmin {
+  background: rgba(255, 0, 0, 0.16);
+  border: 1px solid rgba(255, 0, 0, 0.45);
+}
+
+.mobileSideNav a.activeMobileNav {
+  color: #ff0000;
+  font-weight: 900;
+  background: rgba(255, 0, 0, 0.08);
+}
