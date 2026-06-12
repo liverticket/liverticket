@@ -415,3 +415,308 @@
   margin-top: 24px;
   min-height: 52px;
 }
+
+/* Compra invitado / compra exitosa */
+.guestPurchasePage {
+  color: #fff;
+}
+
+.guestPurchaseHero {
+  position: relative;
+  background: rgba(12, 14, 20, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 34px;
+  margin-bottom: 24px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+.guestSuccessIcon {
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  background: #18c96e;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.guestPurchaseHeroText h1 {
+  margin: 0 0 10px;
+  font-size: 38px;
+  line-height: 1.05;
+}
+
+.guestPurchaseHeroText p {
+  margin: 0;
+  color: #d7d7d7;
+  line-height: 1.5;
+}
+
+.guestPurchaseStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding-top: 26px;
+  margin-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.guestPurchaseStats span,
+.guestTicketMetaGrid span,
+.guestTicketCode span {
+  display: block;
+  font-size: 12px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.guestPurchaseStats strong {
+  font-size: 17px;
+  color: #fff;
+}
+
+.guestPurchaseActions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.guestInfoBox,
+.guestHelpGrid {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 18px 22px;
+  color: #d7d7d7;
+  margin-bottom: 26px;
+}
+
+.guestTicketsPrintArea {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.guestTicketCard {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  background: #fff;
+  color: #111;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 300px;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.guestTicketSide {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding: 32px;
+}
+
+.guestTicketSide::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background: radial-gradient(circle, transparent 9px, #fff 10px);
+  background-size: 20px 28px;
+  background-position: center;
+  z-index: 3;
+}
+
+.guestTicketFlyer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guestTicketSideOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.88)),
+    radial-gradient(circle at 50% 70%, rgba(229, 9, 20, 0.55), transparent 46%);
+  z-index: 1;
+}
+
+.guestTicketSideContent {
+  position: relative;
+  z-index: 2;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.guestTicketStatus {
+  color: #20d879;
+  font-weight: 900;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.guestTicketSide h3 {
+  margin: 10px 0 0;
+  font-size: 26px;
+}
+
+.guestTicketBrand {
+  font-size: 26px;
+  font-weight: 900;
+  margin-top: auto;
+  margin-bottom: 34px;
+}
+
+.guestTicketBrand span {
+  color: #e50914;
+}
+
+.guestTicketSide p {
+  margin: 0;
+  color: #fff;
+  line-height: 1.25;
+  font-size: 18px;
+}
+
+.guestTicketSide p strong {
+  color: #ff0000;
+}
+
+.guestTicketMain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 30px;
+  padding: 38px;
+  align-items: center;
+}
+
+.guestTicketInfo h2 {
+  margin: 0 0 6px;
+  font-size: 34px;
+  line-height: 1.05;
+  color: #111;
+}
+
+.guestTicketVenue {
+  margin: 0 0 8px;
+  color: #e50914;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.guestTicketAddress {
+  margin: 0 0 28px;
+  color: #555;
+  font-size: 15px;
+}
+
+.guestTicketMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 24px;
+  padding-bottom: 20px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #ececec;
+}
+
+.guestTicketMetaGrid strong,
+.guestTicketCode strong {
+  font-size: 16px;
+  color: #111;
+  word-break: break-word;
+}
+
+.guestTicketCode {
+  margin-top: 8px;
+}
+
+.guestTicketQr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.guestTicketQr img {
+  width: 170px;
+  height: 170px;
+  border-radius: 18px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+.guestTicketQr span {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  max-width: 150px;
+  line-height: 1.3;
+}
+
+.guestHelpGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.guestHelpGrid h3 {
+  margin: 0 0 8px;
+  color: #fff;
+}
+
+.guestHelpGrid p {
+  margin: 0;
+  color: #d0d0d0;
+  line-height: 1.5;
+}
+
+.guestHelpGrid strong {
+  color: #ff2b36;
+}
+
+@media (max-width: 900px) {
+  .guestPurchaseStats,
+  .guestHelpGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .guestTicketCard {
+    grid-template-columns: 1fr;
+  }
+
+  .guestTicketSide {
+    min-height: 180px;
+  }
+
+  .guestTicketSide::after {
+    display: none;
+  }
+
+  .guestTicketMain {
+    grid-template-columns: 1fr;
+    padding: 26px;
+  }
+
+  .guestTicketMetaGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -51,6 +51,11 @@ export default function WebpayRetornoPage() {
           localStorage.removeItem(CART_STORAGE_KEY);
           window.dispatchEvent(new Event("liverticket-cart-updated"));
 
+          if (data.isGuestPurchase && data.buyOrder && data.accessToken) {
+            window.location.href = `/compra/${data.buyOrder}?token=${data.accessToken}`;
+            return;
+          }
+
           window.location.href = "/mis-tickets";
           return;
         }

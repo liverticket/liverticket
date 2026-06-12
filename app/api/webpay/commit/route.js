@@ -86,8 +86,12 @@ export async function POST(request) {
         buyOrder: existingOrder.buyOrder,
         amount: existingOrder.amount,
         authorizationCode: existingOrder.authorizationCode,
+        accessToken: existingOrder.accessToken,
+        isGuestPurchase: !existingOrder.userId,
       });
     }
+
+    const accessToken = randomUUID();
 
     await prisma.$transaction(async (txDb) => {
       for (const item of existingOrder.items) {
@@ -123,6 +127,7 @@ export async function POST(request) {
         where: { id: existingOrder.id },
         data: {
           status: "PAID",
+          accessToken,
           authorizationCode: response.authorization_code || null,
           transactionDate: response.transaction_date
             ? new Date(response.transaction_date)
@@ -171,6 +176,8 @@ export async function POST(request) {
       buyOrder: paidOrder?.buyOrder,
       amount: paidOrder?.amount,
       authorizationCode: paidOrder?.authorizationCode,
+      accessToken: paidOrder?.accessToken,
+      isGuestPurchase: !paidOrder?.userId,
     });
   } catch (error) {
     console.error("WEBPAY_COMMIT_ERROR:", error);

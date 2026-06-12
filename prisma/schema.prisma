@@ -229,6 +229,7 @@ model Order {
   rawResponse       Json?
 
   buyerEmail        String?
+  accessToken       String?     @unique
 
   userId            String?
   user              User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
