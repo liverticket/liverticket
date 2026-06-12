@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
+import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EventMap from "@/components/EventMap";
+
+const CART_STORAGE_KEY = "liverticket_cart";
 
 function formatPrice(value) {
   return new Intl.NumberFormat("es-CL", {
@@ -74,9 +75,16 @@ function normalizeDocumentNumber(value) {
   return String(value || "").trim();
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || "").trim());
+}
+
+function makeGuestCartItemId() {
+  return `guest-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+}
+
 export default function EventoDetallePage() {
   const params = useParams();
-  const router = useRouter();
   const eventId = params?.id;
 
   const [loading, setLoading] = useState(true);
@@ -91,9 +99,25 @@ export default function EventoDetallePage() {
   const [attendeeName, setAttendeeName] = useState("");
   const [documentType, setDocumentType] = useState("RUT");
   const [documentNumber, setDocumentNumber] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
   const [isPaying, setIsPaying] = useState(false);
 
-  async function loadCart() {
+  function loadGuestCart() {
+    try {
+      const stored = localStorage.getItem(CART_STORAGE_KEY);
+      const parsed = stored ? JSON.parse(stored) : [];
+      setCartItems(Array.isArray(parsed) ? parsed : []);
+    } catch {
+      setCartItems([]);
+    }
+  }
+
+  async function loadCart(user = currentUser) {
+    if (!user?.id) {
+      loadGuestCart();
+      return;
+    }
+
     try {
       const res = await fetch("/api/cart", { cache: "no-store" });
       const data = await res.json();
@@ -115,19 +139,25 @@ export default function EventoDetallePage() {
           cache: "no-store",
         });
 
+        if (!res.ok) {
+          setCurrentUser(null);
+          loadGuestCart();
+          return;
+        }
+
         const data = await res.json();
         const user = data.user || null;
 
         setCurrentUser(user);
 
         if (user?.id) {
-          await loadCart();
+          await loadCart(user);
         } else {
-          setCartItems([]);
+          loadGuestCart();
         }
       } catch {
         setCurrentUser(null);
-        setCartItems([]);
+        loadGuestCart();
       } finally {
         setIsLoadingUser(false);
       }
@@ -207,13 +237,6 @@ export default function EventoDetallePage() {
   }
 
   async function handleAddToCart() {
-    if (!currentUser?.id) {
-      router.push(
-        `/ingresar?redirect=${encodeURIComponent(`/evento/${eventId}`)}`
-      );
-      return;
-    }
-
     if (!evento || !selectedTicket) {
       alert("Debes seleccionar un tipo de entrada.");
       return;
@@ -242,29 +265,57 @@ export default function EventoDetallePage() {
       return;
     }
 
-    const res = await fetch("/api/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    if (currentUser?.id) {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          eventId: evento.id,
+          ticketTypeId: selectedTicket.id,
+          quantity: 1,
+          attendeeName: cleanName,
+          attendeeDocumentType: cleanDocumentType,
+          attendeeDocumentNumber: cleanDocumentNumber,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data?.error || "No se pudo agregar la entrada al carrito.");
+        return;
+      }
+
+      await loadCart();
+    } else {
+      const guestItem = {
+        cartItemId: makeGuestCartItemId(),
+        id: makeGuestCartItemId(),
         eventId: evento.id,
+        eventTitle: evento.title,
+        eventImageUrl: evento.imageUrl || "/placeholder-event.jpg",
+        eventDate: evento.date,
+        eventVenue: evento.venue || evento.location || "Lugar por definir",
+        eventAddress: [evento.address, evento.city, evento.region]
+          .filter(Boolean)
+          .join(", "),
         ticketTypeId: selectedTicket.id,
+        ticketName: selectedTicket.name,
+        ticketTypeName: selectedTicket.name,
+        price: selectedTicket.price,
         quantity: 1,
         attendeeName: cleanName,
         attendeeDocumentType: cleanDocumentType,
         attendeeDocumentNumber: cleanDocumentNumber,
-      }),
-    });
+      };
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data?.error || "No se pudo agregar la entrada al carrito.");
-      return;
+      const nextItems = [...cartItems, guestItem];
+      setCartItems(nextItems);
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextItems));
     }
 
-    await loadCart();
     window.dispatchEvent(new Event("liverticket-cart-updated"));
 
     resetAttendeeData();
@@ -279,6 +330,17 @@ export default function EventoDetallePage() {
   }
 
   async function handleRemoveItem(cartItemId) {
+    if (!currentUser?.id) {
+      const nextItems = cartItems.filter(
+        (item) => item.cartItemId !== cartItemId && item.id !== cartItemId
+      );
+
+      setCartItems(nextItems);
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextItems));
+      window.dispatchEvent(new Event("liverticket-cart-updated"));
+      return;
+    }
+
     const res = await fetch(`/api/cart/${cartItemId}`, {
       method: "DELETE",
     });
@@ -293,15 +355,13 @@ export default function EventoDetallePage() {
   }
 
   async function handleContinueToPayment() {
-    if (!currentUser?.id) {
-      router.push(
-        `/ingresar?redirect=${encodeURIComponent(`/evento/${eventId}`)}`
-      );
+    if (eventCartItems.length === 0) {
+      alert("Primero debes añadir al menos una entrada al carrito.");
       return;
     }
 
-    if (eventCartItems.length === 0) {
-      alert("Primero debes añadir al menos una entrada al carrito.");
+    if (!currentUser?.id && !isValidEmail(guestEmail)) {
+      alert("Ingresa un correo válido para recibir tus entradas.");
       return;
     }
 
@@ -313,7 +373,10 @@ export default function EventoDetallePage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cartItems: eventCartItems }),
+        body: JSON.stringify({
+          cartItems: eventCartItems,
+          guestEmail: currentUser?.id ? undefined : guestEmail.trim(),
+        }),
       });
 
       const data = await res.json();
@@ -384,7 +447,6 @@ export default function EventoDetallePage() {
 
       <main className="section eventDetailSection">
         <div className="container eventDetailContainer">
-
           <section className="eventDetailMainCard">
             <div className="eventDetailFlyerCol">
               <img
@@ -602,9 +664,16 @@ export default function EventoDetallePage() {
                   <>
                     <div className="eventCartList">
                       {eventCartItems.map((item) => (
-                        <div key={item.cartItemId} className="eventCartItem">
+                        <div
+                          key={item.cartItemId || item.id}
+                          className="eventCartItem"
+                        >
                           <div>
-                            <strong>{item.ticketName}</strong>
+                            <strong>
+                              {item.ticketName ||
+                                item.ticketTypeName ||
+                                "Entrada"}
+                            </strong>
                             <span>{item.attendeeName}</span>
                             <span>
                               {item.attendeeDocumentType}:{" "}
@@ -617,7 +686,9 @@ export default function EventoDetallePage() {
 
                             <button
                               type="button"
-                              onClick={() => handleRemoveItem(item.cartItemId)}
+                              onClick={() =>
+                                handleRemoveItem(item.cartItemId || item.id)
+                              }
                             >
                               Quitar
                             </button>
@@ -625,6 +696,24 @@ export default function EventoDetallePage() {
                         </div>
                       ))}
                     </div>
+
+                    {!currentUser?.id && (
+                      <div className="eventAttendeeBox" style={{ marginTop: 14 }}>
+                        <h2 className="eventSidebarTitle">
+                          Correo para recibir entradas
+                        </h2>
+
+                        <div className="field">
+                          <label>Email</label>
+                          <input
+                            type="email"
+                            value={guestEmail}
+                            onChange={(e) => setGuestEmail(e.target.value)}
+                            placeholder="tu_correo@email.com"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="eventTotalRow">
                       <span>Total</span>

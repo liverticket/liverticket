@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+
+const CART_STORAGE_KEY = "liverticket_cart";
 
 function formatPrice(value) {
   return new Intl.NumberFormat("es-CL", {
@@ -33,16 +34,34 @@ function formatTime(dateString) {
   }).format(new Date(dateString));
 }
 
-export default function CarritoPage() {
-  const router = useRouter();
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || "").trim());
+}
 
+export default function CarritoPage() {
   const [cartItems, setCartItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [isPaying, setIsPaying] = useState(false);
   const [openItems, setOpenItems] = useState({});
+  const [guestEmail, setGuestEmail] = useState("");
+
+  function loadGuestCart() {
+    try {
+      const stored = localStorage.getItem(CART_STORAGE_KEY);
+      const parsed = stored ? JSON.parse(stored) : [];
+      setCartItems(Array.isArray(parsed) ? parsed : []);
+    } catch {
+      setCartItems([]);
+    }
+  }
 
   async function loadCart() {
+    if (!currentUser?.id) {
+      loadGuestCart();
+      return;
+    }
+
     try {
       const res = await fetch("/api/cart", { cache: "no-store" });
       const data = await res.json();
@@ -66,7 +85,7 @@ export default function CarritoPage() {
 
         if (!res.ok) {
           setCurrentUser(null);
-          setCartItems([]);
+          loadGuestCart();
           return;
         }
 
@@ -76,13 +95,26 @@ export default function CarritoPage() {
         setCurrentUser(user);
 
         if (user?.id) {
-          await loadCart();
+          try {
+            const cartRes = await fetch("/api/cart", { cache: "no-store" });
+            const cartData = await cartRes.json();
+
+            if (cartRes.ok) {
+              setCartItems(
+                Array.isArray(cartData.cartItems) ? cartData.cartItems : []
+              );
+            } else {
+              setCartItems([]);
+            }
+          } catch {
+            setCartItems([]);
+          }
         } else {
-          setCartItems([]);
+          loadGuestCart();
         }
       } catch {
         setCurrentUser(null);
-        setCartItems([]);
+        loadGuestCart();
       } finally {
         setIsLoadingUser(false);
       }
@@ -114,7 +146,7 @@ export default function CarritoPage() {
   }, [cartItems]);
 
   const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + Number(item.price || 0) * Number(item.quantity || 1),
     0
   );
 
@@ -129,6 +161,17 @@ export default function CarritoPage() {
   }
 
   async function handleRemoveItem(cartItemId) {
+    if (!currentUser?.id) {
+      const nextItems = cartItems.filter(
+        (item) => item.cartItemId !== cartItemId && item.id !== cartItemId
+      );
+
+      setCartItems(nextItems);
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextItems));
+      window.dispatchEvent(new Event("liverticket-cart-updated"));
+      return;
+    }
+
     try {
       const res = await fetch(`/api/cart/${cartItemId}`, {
         method: "DELETE",
@@ -150,6 +193,13 @@ export default function CarritoPage() {
     const confirmed = window.confirm("¿Seguro que quieres vaciar el carrito?");
     if (!confirmed) return;
 
+    if (!currentUser?.id) {
+      setCartItems([]);
+      localStorage.removeItem(CART_STORAGE_KEY);
+      window.dispatchEvent(new Event("liverticket-cart-updated"));
+      return;
+    }
+
     try {
       await Promise.all(
         cartItems.map((item) =>
@@ -167,13 +217,13 @@ export default function CarritoPage() {
   }
 
   async function handlePay() {
-    if (!currentUser?.id) {
-      router.push("/ingresar?redirect=%2Fcarrito");
+    if (cartItems.length === 0) {
+      alert("Tu carrito está vacío.");
       return;
     }
 
-    if (cartItems.length === 0) {
-      alert("Tu carrito está vacío.");
+    if (!currentUser?.id && !isValidEmail(guestEmail)) {
+      alert("Ingresa un correo válido para recibir tus entradas.");
       return;
     }
 
@@ -185,18 +235,16 @@ export default function CarritoPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cartItems }),
+        body: JSON.stringify({
+          cartItems,
+          guestEmail: currentUser?.id ? undefined : guestEmail.trim(),
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         alert(data?.error || "No se pudo iniciar el pago con Webpay.");
-        return;
-      }
-
-      if (!data.url || !data.token) {
-        alert("No se pudo iniciar el pago con Webpay.");
         return;
       }
 
@@ -212,8 +260,7 @@ export default function CarritoPage() {
       form.appendChild(input);
       document.body.appendChild(form);
       form.submit();
-    } catch (error) {
-      console.error(error);
+    } catch {
       alert("Ocurrió un error al conectar con Webpay.");
     } finally {
       setIsPaying(false);
@@ -230,7 +277,6 @@ export default function CarritoPage() {
             <section className="checkoutMainCard checkoutMainCardLarge">
               <div className="checkoutSectionHeader">
                 <h2>Carrito de compra</h2>
-                <p>Revisa todas las entradas que agregaste antes de pagar.</p>
               </div>
 
               {isLoadingUser ? (
@@ -259,26 +305,29 @@ export default function CarritoPage() {
 
                           <p className="checkoutEventMetaText">
                             {formatDate(group.eventDate)} ·{" "}
-                            {formatTime(group.eventDate)} hrs
+                            {formatTime(group.eventDate)}
                           </p>
 
                           <p className="checkoutEventMetaText">
-                            {group.eventVenue}
+                            {group.eventVenue || "Recinto por confirmar"}
                           </p>
 
-                          <p className="checkoutEventMetaText checkoutEventAddressText">
-                            {group.eventAddress}
-                          </p>
+                          {group.eventAddress && (
+                            <p className="checkoutEventAddressText">
+                              {group.eventAddress}
+                            </p>
+                          )}
                         </div>
                       </div>
 
                       <div className="checkoutCartList">
                         {group.items.map((item) => {
-                          const isOpen = !!openItems[item.cartItemId];
+                          const itemKey = item.cartItemId || item.id;
+                          const isOpen = Boolean(openItems[itemKey]);
 
                           return (
                             <div
-                              key={item.cartItemId}
+                              key={itemKey}
                               className={`checkoutCartItem ${
                                 isOpen ? "open" : ""
                               }`}
@@ -286,52 +335,49 @@ export default function CarritoPage() {
                               <div className="checkoutCartItemMain">
                                 <div>
                                   <div className="checkoutCartItemName">
-                                    {item.ticketName}
+                                    {item.ticketTypeName ||
+                                      item.ticketName ||
+                                      "Entrada"}
                                   </div>
 
-                                  <div className="checkoutCartItemVisibleName">
-                                    {item.attendeeName}
+                                  <div className="checkoutCartItemDetails">
+                                    <div className="checkoutCartItemMeta">
+                                      <strong>Asistente:</strong>{" "}
+                                      {item.attendeeName}
+                                    </div>
+
+                                    <div className="checkoutCartItemMeta">
+                                      <strong>Documento:</strong>{" "}
+                                      {item.attendeeDocumentType}{" "}
+                                      {item.attendeeDocumentNumber}
+                                    </div>
+
+                                    <div className="checkoutCartItemMeta">
+                                      <strong>Cantidad:</strong> {item.quantity}
+                                    </div>
                                   </div>
 
                                   <button
                                     type="button"
                                     className="checkoutDetailsToggle"
-                                    onClick={() => toggleItem(item.cartItemId)}
+                                    onClick={() => toggleItem(itemKey)}
                                   >
-                                    {isOpen ? "Ocultar datos" : "Ver datos"}
+                                    {isOpen ? "Ocultar detalles" : "Ver detalles"}
                                   </button>
-
-                                  <div className="checkoutCartItemDetails">
-                                    <div className="checkoutCartItemMeta">
-                                      {item.attendeeName}
-                                    </div>
-
-                                    <div className="checkoutCartItemMeta">
-                                      {item.attendeeDocumentType}:{" "}
-                                      {item.attendeeDocumentNumber}
-                                    </div>
-
-                                    <div className="checkoutCartItemMeta">
-                                      Cantidad: {item.quantity}
-                                    </div>
-
-                                    <div className="checkoutCartItemMeta">
-                                      {formatPrice(item.price)} c/u
-                                    </div>
-                                  </div>
                                 </div>
 
                                 <div className="checkoutCartItemPriceBox">
                                   <strong>
-                                    {formatPrice(item.price * item.quantity)}
+                                    {formatPrice(
+                                      Number(item.price || 0) *
+                                        Number(item.quantity || 1)
+                                    )}
                                   </strong>
 
                                   <button
                                     type="button"
                                     className="checkoutRemoveItem"
-                                    onClick={() =>
-                                      handleRemoveItem(item.cartItemId)
-                                    }
+                                    onClick={() => handleRemoveItem(itemKey)}
                                   >
                                     Quitar
                                   </button>
@@ -340,15 +386,16 @@ export default function CarritoPage() {
 
                               <div className="checkoutCartItemRight">
                                 <strong>
-                                  {formatPrice(item.price * item.quantity)}
+                                  {formatPrice(
+                                    Number(item.price || 0) *
+                                      Number(item.quantity || 1)
+                                  )}
                                 </strong>
 
                                 <button
                                   type="button"
                                   className="checkoutRemoveItem"
-                                  onClick={() =>
-                                    handleRemoveItem(item.cartItemId)
-                                  }
+                                  onClick={() => handleRemoveItem(itemKey)}
                                 >
                                   Quitar
                                 </button>
@@ -364,44 +411,74 @@ export default function CarritoPage() {
             </section>
 
             <aside className="checkoutSummaryCard checkoutSummaryCardLarge">
-              <h2>Resumen de compra</h2>
+              <h2>Resumen</h2>
 
-              {cartItems.length === 0 ? (
-                <div className="checkoutEmptyBox">
-                  <p>No hay productos en el carrito.</p>
+              {currentUser?.id ? (
+                <div className="checkoutSummaryBlock">
+                  <span>Correo de envío</span>
+                  <strong>{currentUser.email}</strong>
                 </div>
               ) : (
-                <>
-                  <div className="checkoutPriceRow">
-                    <span>Subtotal</span>
-                    <strong>{formatPrice(subtotal)}</strong>
-                  </div>
+                <div className="guestEmailBox">
+                  <div className="guestEmailIcon">✉️</div>
 
-                  <div className="checkoutPriceRow">
-                    <span>Cargo por servicio</span>
-                    <strong>{formatPrice(serviceFee)}</strong>
-                  </div>
-
-                  <div className="checkoutPriceRow total">
-                    <span>Total</span>
-                    <strong>{formatPrice(total)}</strong>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="btn btnPrimary checkoutPayButton"
-                    onClick={handlePay}
-                    disabled={isPaying}
-                  >
-                    {isPaying ? "Redirigiendo..." : "Pagar con Webpay"}
-                  </button>
-
-                  <p className="checkoutHelpText">
-                    Serás redirigido a Webpay para completar tu pago de forma
-                    segura.
+                  <h3>¿A qué correo enviamos tus entradas?</h3>
+                  <p>
+                    Escribe bien tu correo. Aquí recibirás tus tickets y códigos
+                    QR después del pago.
                   </p>
-                </>
+
+                  <input
+                    type="email"
+                    className="guestEmailInput"
+                    value={guestEmail}
+                    onChange={(e) => setGuestEmail(e.target.value)}
+                    placeholder="ejemplo@email.com"
+                  />
+                </div>
               )}
+
+              <div className="checkoutDivider"></div>
+
+              <div className="checkoutPriceRow">
+                <span>Subtotal</span>
+                <strong>{formatPrice(subtotal)}</strong>
+              </div>
+
+              <div className="checkoutPriceRow">
+                <span>Cargo por servicio</span>
+                <strong>{formatPrice(serviceFee)}</strong>
+              </div>
+
+              <div className="checkoutPriceRow total">
+                <span>Total</span>
+                <strong>{formatPrice(total)}</strong>
+              </div>
+
+              <button
+                type="button"
+                className="btn btnPrimary checkoutPayButton"
+                onClick={handlePay}
+                disabled={isPaying || cartItems.length === 0}
+              >
+                {isPaying ? "Conectando con Webpay..." : "Pagar con Webpay"}
+              </button>
+
+              {cartItems.length > 0 && (
+                <button
+                  type="button"
+                  className="btn btnSecondary checkoutClearButton"
+                  onClick={handleClearCart}
+                  style={{ width: "100%", marginTop: 10 }}
+                >
+                  Vaciar carrito
+                </button>
+              )}
+
+              <p className="checkoutHelpText">
+                Si tienes cuenta, tus entradas quedarán guardadas en Mis Tickets
+                y también llegarán a tu correo.
+              </p>
             </aside>
           </div>
         </div>

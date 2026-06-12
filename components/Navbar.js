@@ -141,18 +141,54 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    function loadGuestCartCount() {
+      try {
+        const stored = localStorage.getItem("liverticket_cart");
+
+        const items = stored ? JSON.parse(stored) : [];
+
+        const total = Array.isArray(items)
+          ? items.reduce(
+              (acc, item) => acc + Number(item.quantity || 1),
+              0
+            )
+          : 0;
+
+        setCartCount(total);
+      } catch {
+        setCartCount(0);
+      }
+    }
+
     if (!user?.id) {
-      setCartCount(0);
+      loadGuestCartCount();
       setHasMyEvents(false);
-      return;
+
+      window.addEventListener(
+        "liverticket-cart-updated",
+        loadGuestCartCount
+      );
+
+      return () => {
+        window.removeEventListener(
+          "liverticket-cart-updated",
+          loadGuestCartCount
+        );
+      };
     }
 
     loadCartCount();
 
-    window.addEventListener("liverticket-cart-updated", loadCartCount);
+    window.addEventListener(
+      "liverticket-cart-updated",
+      loadCartCount
+    );
 
     return () => {
-      window.removeEventListener("liverticket-cart-updated", loadCartCount);
+      window.removeEventListener(
+        "liverticket-cart-updated",
+        loadCartCount
+      );
     };
   }, [user]);
 

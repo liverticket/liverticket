@@ -11,22 +11,31 @@ function normalizeDocumentNumber(value) {
   return String(value || "").replace(/\s+/g, " ").trim().toUpperCase();
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || "").trim());
+}
+
 export async function POST(request) {
   try {
     const user = await getCurrentUser();
+    const body = await request.json();
 
-    if (!user) {
+    const { cartItems, guestEmail } = body;
+
+    const buyerEmail = user?.email || String(guestEmail || "").trim().toLowerCase();
+
+    if (!buyerEmail || !isValidEmail(buyerEmail)) {
       return NextResponse.json(
-        { error: "Debes iniciar sesión para pagar." },
-        { status: 401 }
+        { error: "Debes ingresar un correo válido para recibir tus entradas." },
+        { status: 400 }
       );
     }
 
-    const body = await request.json();
-    const { cartItems } = body;
-
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
-      return NextResponse.json({ error: "El carrito está vacío." }, { status: 400 });
+      return NextResponse.json(
+        { error: "El carrito está vacío." },
+        { status: 400 }
+      );
     }
 
     const normalizedItems = cartItems.map((item) => ({
@@ -62,7 +71,9 @@ export async function POST(request) {
       );
     }
 
-    const ticketTypeIds = [...new Set(normalizedItems.map((item) => item.ticketTypeId))];
+    const ticketTypeIds = [
+      ...new Set(normalizedItems.map((item) => item.ticketTypeId)),
+    ];
 
     const ticketTypes = await prisma.ticketType.findMany({
       where: {
@@ -118,7 +129,7 @@ export async function POST(request) {
     }
 
     const buyOrder = makeBuyOrder();
-    const sessionId = user.id;
+    const sessionId = user?.id || `guest-${Date.now()}`;
     const returnUrl = `${process.env.NEXT_PUBLIC_APP_URL}/webpay/retorno`;
 
     const order = await prisma.order.create({
@@ -128,7 +139,8 @@ export async function POST(request) {
         amount,
         status: "PENDING",
         paymentMethod: "webpay",
-        userId: user.id,
+        buyerEmail,
+        userId: user?.id || null,
         items: {
           create: normalizedItems.map((item) => ({
             eventId: item.eventId,

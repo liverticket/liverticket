@@ -71,11 +71,13 @@ export async function POST(request) {
     }
 
     if (existingOrder.status === "PAID") {
-      await prisma.cartItem.deleteMany({
-        where: {
-          userId: existingOrder.userId,
-        },
-      });
+      if (existingOrder.userId) {
+        await prisma.cartItem.deleteMany({
+          where: {
+            userId: existingOrder.userId,
+          },
+        });
+      }
 
       return NextResponse.json({
         success: true,
@@ -138,7 +140,7 @@ export async function POST(request) {
           attendeeDocumentNumber: item.attendeeDocumentNumber,
           pricePaid: item.unitPrice,
           orderId: existingOrder.id,
-          userId: existingOrder.userId,
+          userId: existingOrder.userId || null,
           eventId: item.eventId,
           ticketTypeId: item.ticketTypeId,
           status: "VALID",
@@ -149,11 +151,13 @@ export async function POST(request) {
         });
       }
 
-      await txDb.cartItem.deleteMany({
-        where: {
-          userId: existingOrder.userId,
-        },
-      });
+      if (existingOrder.userId) {
+        await txDb.cartItem.deleteMany({
+          where: {
+            userId: existingOrder.userId,
+          },
+        });
+      }
     });
 
     const paidOrder = await prisma.order.findUnique({
