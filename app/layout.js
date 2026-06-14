@@ -14,8 +14,37 @@ import "@/styles/my-events.css";
 
 
 export const metadata = {
-  title: "LiverTicket",
-  description: "Compra. Entra. Vive.",
+  title: {
+    default: "LiverTicket",
+    template: "%s | LiverTicket",
+  },
+  description:
+    "Compra entradas para conciertos, festivales, tributos, fiestas y eventos en Chile. LiverTicket: compra, entra, vive.",
+  keywords: [
+    "LiverTicket",
+    "entradas eventos Chile",
+    "comprar entradas",
+    "ticketera Chile",
+    "eventos Talca",
+    "conciertos Chile",
+    "festivales Chile",
+  ],
+  authors: [{ name: "LiverTicket" }],
+  creator: "LiverTicket",
+  publisher: "LiverTicket",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "LiverTicket",
+    description:
+      "Compra entradas para conciertos, festivales, tributos, fiestas y eventos en Chile.",
+    url: "https://liverticket.cl",
+    siteName: "LiverTicket",
+    locale: "es_CL",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
