@@ -83,6 +83,18 @@ function makeGuestCartItemId() {
   return `guest-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
 }
 
+function isEventFinishedOneDayAfter(dateString) {
+  if (!dateString) return false;
+
+  const eventDate = new Date(dateString);
+  const finishLimit = new Date(eventDate);
+
+  finishLimit.setDate(finishLimit.getDate() + 1);
+  finishLimit.setHours(0, 0, 0, 0);
+
+  return new Date() >= finishLimit;
+}
+
 export default function EventoDetallePage() {
   const params = useParams();
   const eventId = params?.id;
@@ -218,6 +230,7 @@ export default function EventoDetallePage() {
   );
 
   const total = subtotal;
+  const eventFinished = isEventFinishedOneDayAfter(evento?.date);
 
   function resetAttendeeData() {
     setAttendeeName("");
@@ -226,6 +239,11 @@ export default function EventoDetallePage() {
   }
 
   function handleSelectTicket(ticketId) {
+    if (eventFinished) {
+      alert("Este evento ya se realizó. La venta de entradas no está disponible.");
+      return;
+    }
+
     setSelectedTicketId(ticketId);
     setShowAttendeeForm(true);
 
@@ -237,6 +255,11 @@ export default function EventoDetallePage() {
   }
 
   async function handleAddToCart() {
+    if (eventFinished) {
+      alert("Este evento ya se realizó. La venta de entradas no está disponible.");
+      return;
+    }
+
     if (!evento || !selectedTicket) {
       alert("Debes seleccionar un tipo de entrada.");
       return;
@@ -290,9 +313,11 @@ export default function EventoDetallePage() {
 
       await loadCart();
     } else {
+      const guestItemId = makeGuestCartItemId();
+
       const guestItem = {
-        cartItemId: makeGuestCartItemId(),
-        id: makeGuestCartItemId(),
+        cartItemId: guestItemId,
+        id: guestItemId,
         eventId: evento.id,
         eventTitle: evento.title,
         eventImageUrl: evento.imageUrl || "/placeholder-event.jpg",
@@ -355,6 +380,11 @@ export default function EventoDetallePage() {
   }
 
   async function handleContinueToPayment() {
+    if (eventFinished) {
+      alert("Este evento ya se realizó. La venta de entradas no está disponible.");
+      return;
+    }
+
     if (eventCartItems.length === 0) {
       alert("Primero debes añadir al menos una entrada al carrito.");
       return;
@@ -518,11 +548,11 @@ export default function EventoDetallePage() {
 
             <aside className="eventDetailRight">
               <section className="eventTicketsBox">
-                <h2 className="eventSidebarTitle">Selecciona tu entrada</h2>
+                <h2>Selecciona tu entrada</h2>
 
                 {ticketTypes.length === 0 ? (
                   <div className="eventNoTickets">
-                    <p>Este evento aún no tiene entradas configuradas.</p>
+                    <p>No hay entradas disponibles para este evento.</p>
                   </div>
                 ) : (
                   <div className="eventTicketList">
@@ -531,12 +561,14 @@ export default function EventoDetallePage() {
                         !ticket.unlimitedStock &&
                         Number(ticket.stock || 0) <= 0;
 
+                      const selected = selectedTicketId === ticket.id;
+
                       return (
                         <div
                           key={ticket.id}
                           className={`eventTicketOption ${
-                            selectedTicketId === ticket.id ? "selected" : ""
-                          } ${soldOut ? "soldOut" : ""}`}
+                            selected ? "selected" : ""
+                          } ${soldOut || eventFinished ? "soldOut" : ""}`}
                         >
                           <div>
                             <strong>{ticket.name}</strong>
@@ -546,11 +578,13 @@ export default function EventoDetallePage() {
                             ) : null}
 
                             <span>
-                              {ticket.unlimitedStock
-                                ? "Stock ilimitado"
+                              {eventFinished
+                                ? "Venta finalizada"
                                 : soldOut
                                 ? "Agotado"
-                                : `${ticket.stock} disponibles`}
+                                : ticket.unlimitedStock
+                                ? "Stock ilimitado"
+                                : `Stock disponible: ${ticket.stock}`}
                             </span>
                           </div>
 
@@ -560,10 +594,14 @@ export default function EventoDetallePage() {
                             <button
                               type="button"
                               className="btn btnPrimary"
+                              disabled={soldOut || eventFinished}
                               onClick={() => handleSelectTicket(ticket.id)}
-                              disabled={soldOut}
                             >
-                              Añadir
+                              {eventFinished
+                                ? "No disponible"
+                                : soldOut
+                                ? "Agotado"
+                                : "Añadir"}
                             </button>
                           </div>
                         </div>
@@ -573,12 +611,13 @@ export default function EventoDetallePage() {
                 )}
               </section>
 
-              {showAttendeeForm && selectedTicket ? (
+              {showAttendeeForm && selectedTicket && !eventFinished ? (
                 <section className="eventAttendeeBox" id="datos-asistente">
-                  <h2 className="eventSidebarTitle">Datos del asistente</h2>
+                  <h2>Datos del asistente</h2>
+
                   <p>
-                    Entrada <strong>{selectedTicket.name}</strong> por{" "}
-                    <strong>{formatPrice(selectedTicket.price)}</strong>.
+                    Entrada {selectedTicket.name} por{" "}
+                    {formatPrice(selectedTicket.price)}.
                   </p>
 
                   <div className="eventAttendeeGrid">
@@ -596,16 +635,12 @@ export default function EventoDetallePage() {
                       <label>Tipo de documento</label>
                       <select
                         value={documentType}
-                        onChange={(e) => {
-                          setDocumentType(e.target.value);
-                          setDocumentNumber("");
-                        }}
+                        onChange={(e) => setDocumentType(e.target.value)}
                       >
                         <option value="RUT">RUT / RUN</option>
+                        <option value="PASAPORTE">Pasaporte</option>
                         <option value="DNI">DNI</option>
-                        <option value="PASSPORT">Pasaporte</option>
-                        <option value="FOREIGN_ID">Cédula extranjera</option>
-                        <option value="OTHER">Otro</option>
+                        <option value="OTRO">Otro</option>
                       </select>
                     </div>
 
@@ -615,16 +650,7 @@ export default function EventoDetallePage() {
                         type="text"
                         value={documentNumber}
                         onChange={(e) => setDocumentNumber(e.target.value)}
-                        onBlur={() => {
-                          if (documentType === "RUT") {
-                            setDocumentNumber(formatRut(documentNumber));
-                          }
-                        }}
-                        placeholder={
-                          documentType === "RUT"
-                            ? "Ej: 111111111"
-                            : "Ej: A12345678"
-                        }
+                        placeholder="Ej: 11111111"
                       />
                     </div>
                   </div>
@@ -640,11 +666,11 @@ export default function EventoDetallePage() {
 
                     <button
                       type="button"
-                      className="btn btnGhostDark"
+                      className="btn btnLight"
                       onClick={() => {
                         resetAttendeeData();
-                        setShowAttendeeForm(false);
                         setSelectedTicketId("");
+                        setShowAttendeeForm(false);
                       }}
                     >
                       Cancelar
@@ -654,7 +680,7 @@ export default function EventoDetallePage() {
               ) : null}
 
               <section className="eventSummaryBox" id="resumen-compra">
-                <h2 className="eventSidebarTitle">Resumen de compra</h2>
+                <h2>Resumen de compra</h2>
 
                 {eventCartItems.length === 0 ? (
                   <p className="eventSummaryEmpty">
@@ -674,7 +700,9 @@ export default function EventoDetallePage() {
                                 item.ticketTypeName ||
                                 "Entrada"}
                             </strong>
+
                             <span>{item.attendeeName}</span>
+
                             <span>
                               {item.attendeeDocumentType}:{" "}
                               {item.attendeeDocumentNumber}
@@ -684,33 +712,35 @@ export default function EventoDetallePage() {
                           <div>
                             <strong>{formatPrice(item.price)}</strong>
 
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleRemoveItem(item.cartItemId || item.id)
-                              }
-                            >
-                              Quitar
-                            </button>
+                            {!eventFinished && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleRemoveItem(item.cartItemId || item.id)
+                                }
+                              >
+                                Quitar
+                              </button>
+                            )}
                           </div>
                         </div>
                       ))}
                     </div>
 
-                    {!currentUser?.id && (
-                      <div className="eventAttendeeBox" style={{ marginTop: 14 }}>
-                        <h2 className="eventSidebarTitle">
-                          Correo para recibir entradas
-                        </h2>
+                    {!currentUser?.id && !eventFinished && (
+                      <div className="eventAttendeeBox">
+                        <h2>Correo para recibir entradas</h2>
 
-                        <div className="field">
-                          <label>Email</label>
-                          <input
-                            type="email"
-                            value={guestEmail}
-                            onChange={(e) => setGuestEmail(e.target.value)}
-                            placeholder="tu_correo@email.com"
-                          />
+                        <div className="eventAttendeeGrid">
+                          <div className="field">
+                            <label>Email</label>
+                            <input
+                              type="email"
+                              value={guestEmail}
+                              onChange={(e) => setGuestEmail(e.target.value)}
+                              placeholder="tu_correo@email.com"
+                            />
+                          </div>
                         </div>
                       </div>
                     )}
@@ -723,14 +753,23 @@ export default function EventoDetallePage() {
                     <button
                       type="button"
                       className="btn btnPrimary eventPayButton"
+                      disabled={isPaying || eventFinished}
                       onClick={handleContinueToPayment}
-                      disabled={isPaying}
                     >
-                      {isPaying ? "Redirigiendo..." : "Pagar con Webpay"}
+                      {eventFinished
+                        ? "No disponible"
+                        : isPaying
+                        ? "Redirigiendo..."
+                        : "Pagar con Webpay"}
                     </button>
                   </>
                 )}
               </section>
+              {eventFinished && (
+                <div className="eventFinishedNotice">
+                  Este evento ya se realizó.
+                </div>
+              )}
             </aside>
           </section>
         </div>

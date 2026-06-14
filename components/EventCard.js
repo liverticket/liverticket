@@ -30,7 +30,21 @@ function getMinPriceLabel(evento) {
   }).format(minPrice)}`;
 }
 
+function isEventFinishedOneDayAfter(dateString) {
+  if (!dateString) return false;
+
+  const eventDate = new Date(dateString);
+  const finishLimit = new Date(eventDate);
+
+  finishLimit.setDate(finishLimit.getDate() + 1);
+  finishLimit.setHours(0, 0, 0, 0);
+
+  return new Date() >= finishLimit;
+}
+
 export default function EventCard({ evento }) {
+  const eventFinished = isEventFinishedOneDayAfter(evento.date);
+
   const fechaFormateada = evento.date
     ? new Date(evento.date).toLocaleDateString("es-CL", {
         day: "2-digit",
@@ -58,7 +72,7 @@ export default function EventCard({ evento }) {
 
   return (
     <Link href={`/evento/${evento.id}`} className="eventCardLink">
-      <article className="eventCard">
+      <article className={`eventCard ${eventFinished ? "eventFinishedCard" : ""}`}>
         <div className="eventImageWrap">
           <img
             src={evento.imageUrl || "/placeholder-event.jpg"}
@@ -66,7 +80,9 @@ export default function EventCard({ evento }) {
             className="eventImage"
           />
 
-          {isSoldOut ? (
+          {eventFinished ? (
+            <div className="eventFinishedBadge">EVENTO FINALIZADO</div>
+          ) : isSoldOut ? (
             <div className="eventSoldOutBadge">AGOTADO</div>
           ) : null}
         </div>
@@ -90,8 +106,12 @@ export default function EventCard({ evento }) {
           {ageLabel && <div className="eventAge">Edad: {ageLabel}</div>}
 
           <div className="eventFooter">
-            <span className={isSoldOut ? "eventPrice soldOut" : "eventPrice"}>
-              {isSoldOut ? "Agotado" : priceLabel}
+            <span
+              className={
+                eventFinished || isSoldOut ? "eventPrice soldOut" : "eventPrice"
+              }
+            >
+              {eventFinished ? "Venta finalizada" : isSoldOut ? "Agotado" : priceLabel}
             </span>
 
             <span className="eventCardAction">Ver evento</span>
