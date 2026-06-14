@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { generateQrDataUrl } from "../../lib/qr";
@@ -48,6 +49,8 @@ function getTicketStatusClass(status) {
 }
 
 export default function MisTicketsPage() {
+  const router = useRouter();
+
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [qrMap, setQrMap] = useState({});
@@ -60,8 +63,14 @@ export default function MisTicketsPage() {
           cache: "no-store",
         });
 
+        if (res.status === 401) {
+          router.push("/ingresar?redirect=/mis-tickets");
+          return;
+        }
+
         const data = await res.json();
         const fetchedTickets = data.tickets || [];
+
         setTickets(fetchedTickets);
 
         const qrEntries = await Promise.all(
@@ -82,7 +91,7 @@ export default function MisTicketsPage() {
     }
 
     loadTickets();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     function handleEscape(event) {
@@ -162,7 +171,9 @@ export default function MisTicketsPage() {
                     <div key={ticket.id} className="ticketsTableRow">
                       <div className="ticketsCell ticketsCellPoster">
                         <img
-                          src={ticket.event?.imageUrl || "/placeholder-event.jpg"}
+                          src={
+                            ticket.event?.imageUrl || "/placeholder-event.jpg"
+                          }
                           alt={ticket.event?.title || "Evento"}
                           className="ticketsTablePoster"
                         />
@@ -199,7 +210,9 @@ export default function MisTicketsPage() {
                           {formatTime(ticket.event?.date)} hrs
                         </div>
                         {fullAddress ? (
-                          <div className="ticketsAddressSmall">{fullAddress}</div>
+                          <div className="ticketsAddressSmall">
+                            {fullAddress}
+                          </div>
                         ) : null}
                       </div>
 
@@ -309,7 +322,9 @@ export default function MisTicketsPage() {
 
                   <div>
                     <span className="ticketMetaLabel">Hora</span>
-                    <strong>{formatTime(selectedTicket.event?.date)} hrs</strong>
+                    <strong>
+                      {formatTime(selectedTicket.event?.date)} hrs
+                    </strong>
                   </div>
 
                   <div>
