@@ -147,3 +147,107 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+/* SOLO PC Y TABLETS GRANDES */
+@media (min-width: 901px) {
+
+  /* Header página */
+  .ticketsPage {
+    padding-top: 28px;
+  }
+
+  .ticketsHeader {
+    margin-bottom: 18px;
+  }
+
+  .ticketsTag {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .ticketsHeader h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .ticketsSubtitle {
+    font-size: 14px;
+  }
+
+  .adminFilters,
+  .adminSearchRow {
+    margin-bottom: 18px;
+  }
+
+  .adminFilters input,
+  .adminFilters select,
+  .adminSearchRow input,
+  .adminSearchRow select {
+    min-height: 46px;
+    font-size: 14px;
+    border-radius: 14px;
+  }
+
+  /* Tarjetas */
+  .ticketCard {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .ticketCard h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .ticketRequestSection {
+    margin-top: 12px;
+  }
+
+  .ticketRequestMessage,
+  .ticketRequestLocationText,
+  .ticketRequestMuted {
+    font-size: 12px;
+  }
+
+  .ticketRequestTicketCard {
+    padding: 10px;
+  }
+
+  .ticketRequestActions {
+    margin-top: 14px;
+  }
+
+  .ticketRejectButton {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 105px;
+  }
+
+  /* Preparado para desplegables */
+  .adminRequestHeader {
+    cursor: pointer;
+  }
+
+  .adminRequestCompactInfo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .adminRequestToggle {
+    margin-left: auto;
+    border: 0;
+    background: #111;
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .adminRequestBodyHidden {
+    display: none;
+  }
+}
