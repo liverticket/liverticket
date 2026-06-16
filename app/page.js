@@ -60,6 +60,26 @@ function isUpcomingEvent(date) {
   return eventDate >= today;
 }
 
+function sortEventsByStatusAndDate(events) {
+  return [...events].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    const aUpcoming = isUpcomingEvent(a.date);
+    const bUpcoming = isUpcomingEvent(b.date);
+
+    if (aUpcoming !== bUpcoming) {
+      return aUpcoming ? -1 : 1;
+    }
+
+    if (aUpcoming && bUpcoming) {
+      return dateA - dateB;
+    }
+
+    return dateB - dateA;
+  });
+}
+
 function normalizeEvent(evento) {
   return {
     ...evento,
@@ -128,9 +148,10 @@ export default function Home() {
         const data = await res.json();
         const rawEvents = data.eventos || data.events || [];
         const normalizedEvents = rawEvents.map(normalizeEvent);
+        const sortedEvents = sortEventsByStatusAndDate(normalizedEvents);
 
-        setEventos(normalizedEvents);
-        setFilteredEventos(normalizedEvents);
+        setEventos(sortedEvents);
+        setFilteredEventos(sortedEvents);
       } catch (error) {
         console.error("Error cargando eventos:", error);
         setEventos([]);
@@ -182,7 +203,9 @@ export default function Home() {
       );
     });
 
-    setFilteredEventos(results);
+    const sortedResults = sortEventsByStatusAndDate(results);
+
+    setFilteredEventos(sortedResults);
   }, [filters, eventos]);
 
   const upcomingEventos = useMemo(() => {
@@ -304,7 +327,6 @@ export default function Home() {
 
       <section className="section">
         <div className="container">
-
           <div className="eventsGrid">
             {loadingEvents ? (
               <p>Cargando eventos...</p>
@@ -322,7 +344,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="ctaBox">
-            <h2>¿Quieres vender tu evento con liverTicket?</h2>
+            <h2>¿Quieres vender tu evento con LiverTicket?</h2>
             <p>
               Publica tu evento, gestiona tus asistentes y controla tus ventas en
               una sola plataforma.

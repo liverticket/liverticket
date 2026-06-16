@@ -169,15 +169,20 @@
 }
 
 .loginButton {
-  border-radius: 12px;
+  border-radius: 10px;
   background: #ff0000;
   color: #ffffff;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
   text-decoration: none;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  padding: 10px 20px; /* antes seguramente era más grande */
+  min-height: 46px;
+
   box-shadow: 0 10px 24px rgba(255, 0, 0, 0.28);
   transition: transform 0.2s ease, background 0.2s ease;
 }
