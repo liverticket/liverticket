@@ -188,14 +188,15 @@ export async function POST(request) {
 
     try {
       if (emailToSend && paidOrder?.tickets?.length > 0) {
-        
+
         console.log("ENVIANDO_CORREO_A:", emailToSend);
 
         await sendTicketsEmail({
           to: emailToSend,
           order: paidOrder,
           tickets: paidOrder.tickets,
-        });
+        }); 
+        console.log("CORREO_ENVIADO_OK");
       }
     } catch (emailError) {
       console.error("SEND_TICKETS_EMAIL_ERROR:", emailError);
