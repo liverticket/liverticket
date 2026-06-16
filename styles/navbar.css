@@ -518,3 +518,35 @@
   font-weight: 900;
   background: rgba(255, 0, 0, 0.08);
 }
+
+/* =========================
+   LOGO LIVERTICKET
+========================= */
+
+.logoImageLink {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.navbarLogoImage {
+  width: 190px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.35));
+}
+
+@media (max-width: 900px) {
+  .navbarLogoImage {
+    width: 145px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarLogoImage {
+    width: 125px;
+  }
+}

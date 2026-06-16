@@ -333,8 +333,12 @@ export default function Navbar() {
               <span></span>
             </button>
 
-            <a href="/" className="logo" onClick={closeAllMenus}>
-              <span className="logoAccent">L</span>iverTicket
+            <a href="/" className="logoImageLink" onClick={closeAllMenus}>
+              <img
+                src="/images/liverticket-logo.png"
+                alt="LiverTicket"
+                className="navbarLogoImage"
+              />
             </a>
           </div>
 
