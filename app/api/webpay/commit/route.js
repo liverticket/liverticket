@@ -169,7 +169,37 @@ export async function POST(request) {
 
     const paidOrder = await prisma.order.findUnique({
       where: { buyOrder: response.buy_order },
+      include: {
+        user: true,
+        tickets: {
+          include: {
+            event: true,
+            ticketType: true,
+          },
+        },
+      },
     });
+
+    const emailToSend = paidOrder?.user?.email || paidOrder?.buyerEmail;
+
+    console.log("EMAIL_TO_SEND:", emailToSend);
+    console.log("TICKETS_TO_SEND:", paidOrder?.tickets?.length);
+    console.log("INTENTANDO_ENVIAR_CORREO_TICKETS");
+
+    try {
+      if (emailToSend && paidOrder?.tickets?.length > 0) {
+        
+        console.log("ENVIANDO_CORREO_A:", emailToSend);
+
+        await sendTicketsEmail({
+          to: emailToSend,
+          order: paidOrder,
+          tickets: paidOrder.tickets,
+        });
+      }
+    } catch (emailError) {
+      console.error("SEND_TICKETS_EMAIL_ERROR:", emailError);
+    }
 
     return NextResponse.json({
       success: true,
