@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
 import { getWebpayTx } from "../../../../lib/transbank";
+import { sendTicketsEmail } from "../../../../lib/email";
 
 function makeTicketCode() {
   return `TKT-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
@@ -49,6 +50,7 @@ export async function POST(request) {
     const existingOrder = await prisma.order.findUnique({
       where: { buyOrder: response.buy_order },
       include: {
+        user: true,
         items: {
           include: {
             ticketType: true,
