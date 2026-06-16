@@ -42,8 +42,12 @@ function getTicketStatus(status) {
 }
 
 function getQrUrl(token) {
+  if (typeof window === "undefined") return "";
+
+  const qrValue = `${window.location.origin}/ticket/${token}`;
+
   return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(
-    token || ""
+    qrValue
   )}`;
 }
 
