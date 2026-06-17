@@ -197,3 +197,35 @@
   font-size: 0.9rem;
   opacity: 0.75;
 }
+
+.passwordInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.loginForm .passwordInputWrapper input {
+  width: 100%;
+  padding-right: 52px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.passwordToggle:hover {
+  color: #111827;
+}

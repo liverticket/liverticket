@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import Navbar from "../../components/Navbar";
 
 function validatePassword(password) {
@@ -18,7 +19,7 @@ function validatePassword(password) {
     errors.push("Al menos 1 número");
   }
 
-  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/ .test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(password)) {
     errors.push("Al menos 1 símbolo");
   }
 
@@ -37,6 +38,8 @@ export default function RegistrarsePage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [passwordErrors, setPasswordErrors] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -89,7 +92,10 @@ export default function RegistrarsePage() {
         return;
       }
 
-      setSuccess("Te enviamos un correo de verificación. Tu cuenta se activará cuando confirmes tu email.");
+      setSuccess(
+        "Te enviamos un correo de verificación de cuenta. Revisa tu bandeja de entrada, Spam o Correo no deseado."
+      );
+
       setFormData({
         name: "",
         email: "",
@@ -97,6 +103,8 @@ export default function RegistrarsePage() {
         confirmPassword: "",
       });
       setPasswordErrors([]);
+      setShowPassword(false);
+      setShowConfirmPassword(false);
     } catch (error) {
       setError("Ocurrió un error inesperado al registrar la cuenta.");
     } finally {
@@ -107,7 +115,9 @@ export default function RegistrarsePage() {
   const hasMinLength = formData.password.length >= 8;
   const hasUppercase = /[A-Z]/.test(formData.password);
   const hasNumber = /[0-9]/.test(formData.password);
-  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(formData.password);
+  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(
+    formData.password
+  );
   const passwordsMatch =
     formData.confirmPassword.length > 0 &&
     formData.password === formData.confirmPassword;
@@ -142,32 +152,62 @@ export default function RegistrarsePage() {
               required
             />
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="passwordInputWrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Contraseña"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+
+              <button
+                type="button"
+                className="passwordToggle"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
 
             {formData.password && (
               <ul className="passwordRules">
-                <li className={hasMinLength ? "ok" : ""}>Mínimo 8 caracteres</li>
+                <li className={hasMinLength ? "ok" : ""}>
+                  Mínimo 8 caracteres
+                </li>
                 <li className={hasUppercase ? "ok" : ""}>1 letra mayúscula</li>
                 <li className={hasNumber ? "ok" : ""}>1 número</li>
                 <li className={hasSymbol ? "ok" : ""}>1 símbolo</li>
               </ul>
             )}
 
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirmar contraseña"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div className="passwordInputWrapper">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirmar contraseña"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+
+              <button
+                type="button"
+                className="passwordToggle"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                aria-label={
+                  showConfirmPassword
+                    ? "Ocultar contraseña"
+                    : "Mostrar contraseña"
+                }
+              >
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
 
             {formData.confirmPassword && (
               <p className={passwordsMatch ? "formSuccess" : "formError"}>
