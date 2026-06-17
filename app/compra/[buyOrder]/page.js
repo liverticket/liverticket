@@ -203,31 +203,16 @@ export default function CompraExitosaPage() {
           ) : (
             <>
               <section className="guestPurchaseHero noPrint">
-                <div className="guestSuccessIcon">✓</div>
+                
 
                 <div className="guestPurchaseHeroText">
                   <h1>¡Compra exitosa!</h1>
+
+                  
                   <p>
                     Tus entradas están listas. También las enviaremos al correo{" "}
                     <strong>{order?.buyerEmail}</strong>.
                   </p>
-                </div>
-
-                <div className="guestPurchaseStats">
-                  <div>
-                    <span>Orden de compra</span>
-                    <strong>{order?.buyOrder}</strong>
-                  </div>
-
-                  <div>
-                    <span>Fecha de compra</span>
-                    <strong>{formatDateTime(order?.transactionDate)}</strong>
-                  </div>
-
-                  <div>
-                    <span>Total pagado</span>
-                    <strong>{formatPrice(order?.amount)}</strong>
-                  </div>
                 </div>
 
                 <div className="guestPurchaseActions">
@@ -246,10 +231,7 @@ export default function CompraExitosaPage() {
                 </div>
               </section>
 
-              <div className="guestInfoBox noPrint">
-                Puedes descargar tus entradas en PDF. También las encontrarás en
-                tu correo electrónico.
-              </div>
+              
 
               <section className="guestTicketsPrintArea">
                 {tickets.map((ticket) => {
@@ -377,8 +359,7 @@ export default function CompraExitosaPage() {
                 <div>
                   <h3>¿Tienes problemas?</h3>
                   <p>
-                    Escríbenos a contacto@liverticket.cl o visita nuestra
-                    sección de ayuda.
+                    Escríbenos aL correo liverticket06@gmail.com o al WhatsApp +56922551661.
                   </p>
                 </div>
               </section>
