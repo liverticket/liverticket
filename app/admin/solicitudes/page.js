@@ -144,6 +144,7 @@ export default function AdminSolicitudesPage() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [collapsedRequests, setCollapsedRequests] = useState({});
 
   async function loadRequests() {
     try {
@@ -168,7 +169,17 @@ export default function AdminSolicitudesPage() {
   const filteredRequests = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
-    return requests.filter((request) => {
+    const sortedRequests = [...requests].sort((a, b) => {
+      const order = {
+        PENDING: 0,
+        APPROVED: 1,
+        REJECTED: 2,
+      };
+
+      return order[a.status] - order[b.status];
+    });
+
+    return sortedRequests.filter((request) => {
       const isApproved = request.status === "APPROVED" && request.event;
 
       const title = isApproved
@@ -643,12 +654,41 @@ export default function AdminSolicitudesPage() {
                 const displayTickets = isApproved
                   ? request.event.ticketTypes || []
                   : request.ticketRequests || [];
+                  
+                const isCollapsed =
+                  request.status !== "PENDING" &&
+                  !collapsedRequests[request.id];
 
                 return (
                   <div key={request.id} className="ticketCard">
-                    <div className="ticketInfo">
-                      <div className="ticketTopRow">
-                        <span className="ticketType">{displayCategory}</span>
+                    {request.status !== "PENDING" && (
+                      <div
+                        onClick={() =>
+                          setCollapsedRequests((prev) => ({
+                            ...prev,
+                            [request.id]: !prev[request.id],
+                          }))
+                        }
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          padding: "18px 24px",
+                        }}
+                      >
+                        <strong>{displayTitle}</strong>
+
+                        <span style={{ fontSize: 22 }}>
+                          {isCollapsed ? "▼" : "▲"}
+                        </span>
+                      </div>
+                    )}
+
+                    {isCollapsed ? null : (
+                      <div className="ticketInfo">
+                        <div className="ticketTopRow">
+                          <span className="ticketType">{displayCategory}</span>
 
                         <span
                           className={`ticketStatus ${
@@ -1385,6 +1425,7 @@ export default function AdminSolicitudesPage() {
                         </div>
                       ) : null}
                     </div>
+                    )}
                   </div>
                 );
               })}
