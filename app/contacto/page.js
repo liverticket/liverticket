@@ -19,8 +19,8 @@ export default function ContactoPage() {
           <div className="contactBox">
             <div className="contactCard">
               <h2>Soporte</h2>
-              <p>Email: contacto@liverticket.cl</p>
-              <p>WhatsApp: +56 9 1234 5678</p>
+              <p>Email: liverticket06@gmail.com </p>
+              <p>WhatsApp: +56922551661  o +56948037611</p>
             </div>
 
             <div className="contactCard">
