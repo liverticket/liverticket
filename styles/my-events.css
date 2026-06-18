@@ -609,8 +609,19 @@
 .myEventRightColumn {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   height: 100%;
+}
+
+.myEventAttendeesCard {
+  margin-bottom: 16px;
+}
+
+.myEventExcelButton {
+  margin-bottom: 6px;
+}
+
+.myEventExcelNote {
+  margin: 0;
 }
 
 .myEventAttendeesCard {
