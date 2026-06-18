@@ -16,7 +16,7 @@ export default function EventMap({
   );
   const fullLocation = queryParts.join(", ");
 
-  if (!fullLocation) {
+  if (!cleanAddress) {
     return null;
   }
 
