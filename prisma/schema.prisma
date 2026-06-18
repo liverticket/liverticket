@@ -23,6 +23,7 @@ model User {
   sessions  Session[]
   requests  EventRequest[]
   cartItems CartItem[]
+  passwordResetTokens PasswordResetToken[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,6 +43,22 @@ model PendingUser {
 
   @@index([email])
   @@index([verificationToken])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
   @@index([expiresAt])
 }
 

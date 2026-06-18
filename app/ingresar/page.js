@@ -98,10 +98,9 @@ function IngresarContent() {
               </button>
             </div>
 
-            <a href="#" className="loginLink">
+            <a href="/recuperar-contrasena" className="loginLink">
               ¿Olvidaste tu contraseña?
             </a>
-
             {error ? <p className="formError">{error}</p> : null}
 
             <button className="loginButton" type="submit" disabled={loading}>
