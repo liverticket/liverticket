@@ -64,13 +64,26 @@ export default function MyEventDetailPage() {
   const serviceFee = Math.round(subtotal * 0.1);
   const producerTotal = subtotal - serviceFee;
 
+  const allAttendees = event?.attendees || [];
+
   const usedAttendees =
-    event?.attendees?.filter((attendee) =>
+    allAttendees.filter((attendee) =>
       ["USED", "SCANNED", "CHECKED_IN"].includes(attendee.status)
     ) || [];
 
+  const excelAvailableUntil = event?.date
+    ? new Date(event.date)
+    : null;
+
+  if (excelAvailableUntil) {
+    excelAvailableUntil.setDate(excelAvailableUntil.getDate() + 1);
+  }
+
+  const canDownloadExcel =
+    excelAvailableUntil && new Date() <= excelAvailableUntil;
+
   function handleDownloadAttendeesExcel() {
-    const rows = [...usedAttendees]
+    const rows = [...allAttendees]
       .sort((a, b) =>
         (a.attendeeName || "").localeCompare(b.attendeeName || "", "es", {
           sensitivity: "base",
@@ -215,10 +228,15 @@ export default function MyEventDetailPage() {
                     type="button"
                     className="myEventExcelButton"
                     onClick={handleDownloadAttendeesExcel}
-                    disabled={usedAttendees.length === 0}
+                    disabled={!canDownloadExcel || allAttendees.length === 0}
                   >
-                    Descargar excel con lista de entradas
+                    {canDownloadExcel
+                      ? "Descargar excel con lista de entradas"
+                      : "Excel no disponible"}
                   </button>
+                  <p className="myEventExcelNote">
+                    Disponible hasta 1 día después del evento.
+                  </p>
                 </div>
               </div>
             </>
