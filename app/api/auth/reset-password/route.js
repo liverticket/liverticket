@@ -14,11 +14,17 @@ export async function POST(request) {
       );
     }
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: "La contraseña debe tener al menos 6 caracteres." },
+    const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+    if (!strongPasswordRegex.test(password)) {
+    return NextResponse.json(
+        {
+        error:
+            "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.",
+        },
         { status: 400 }
-      );
+    );
     }
 
     const resetToken = await prisma.passwordResetToken.findUnique({

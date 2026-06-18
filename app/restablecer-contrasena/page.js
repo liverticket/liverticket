@@ -30,6 +30,16 @@ function RestablecerContent() {
       return;
     }
 
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+    if (!strongPasswordRegex.test(password)) {
+      setError(
+        "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo."
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
