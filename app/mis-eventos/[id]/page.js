@@ -66,7 +66,7 @@ export default function MyEventDetailPage() {
 
   const usedAttendees =
     event?.attendees?.filter((attendee) =>
-      ["USED", "SCANNED", "CHECKED_IN", "VALID"].includes(attendee.status)
+      ["USED", "SCANNED", "CHECKED_IN"].includes(attendee.status)
     ) || [];
 
   function handleDownloadAttendeesExcel() {
