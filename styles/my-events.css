@@ -625,7 +625,7 @@
 }
 
 .myEventAttendeesCard {
-  flex: 1;
+  flex: none;
   background: #fff;
   border-radius: 22px;
   padding: 28px 20px;
