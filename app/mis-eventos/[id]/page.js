@@ -235,7 +235,7 @@ export default function MyEventDetailPage() {
                       : "Excel no disponible"}
                   </button>
                   <p className="myEventExcelNote">
-                    Disponible hasta 1 día después del evento.
+                    Excel disponible hasta 1 día después del evento.
                   </p>
                 </div>
               </div>

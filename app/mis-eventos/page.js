@@ -190,7 +190,9 @@ export default function MisEventosPage() {
                             <div>
                               <span>Recaudación</span>
                               <strong>
-                                {formatMoney(item.approvedEvent.totalSales || 0)}
+                                {formatMoney(
+                                  Math.round((item.approvedEvent.totalSales || 0) * 0.9)
+                                )}
                               </strong>
                             </div>
                           </div>
