@@ -149,9 +149,7 @@ export default function MyEventDetailPage() {
 
       <section className="myEventDetailPage">
         <div className="container">
-          <Link href="/mis-eventos" className="myEventBack">
-            ← Volver a Mis Eventos
-          </Link>
+          
 
           {loading ? (
             <div className="myEventsEmpty">
