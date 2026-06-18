@@ -582,3 +582,118 @@
 .myEventScannerCodeReveal p {
   display: none;
 }
+
+.myEventAttendeesCount {
+  color: #111827;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.myEventAttendeesCount strong {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.myEventDashboardRow {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.myEventSalesBlock {
+  margin: 0;
+  height: 100%;
+}
+
+.myEventRightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.myEventAttendeesCard {
+  flex: 1;
+  background: #fff;
+  border-radius: 22px;
+  padding: 28px 20px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.myEventExcelButton {
+  width: 100%;
+  min-height: 58px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.myEventExcelButton:hover {
+  background: #15803d;
+}
+
+.myEventExcelButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.myEventAttendeesCard span {
+  font-size: 12px;
+  font-weight: 800;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.myEventAttendeesCard strong {
+  font-size: 52px;
+  line-height: 1;
+  color: #111827;
+  font-weight: 900;
+  margin: 10px 0;
+}
+
+.myEventAttendeesCard p {
+  margin: 0;
+  color: #111827;
+  font-weight: 700;
+}
+
+.myEventSalesSummary {
+  margin-top: 16px;
+  border-radius: 16px;
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.myEventSalesSummary div {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 18px;
+  color: #111827;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.myEventSalesSummary div:last-child {
+  border-bottom: none;
+}
+
+.myEventSalesSummary .final {
+  background: #111827;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .myEventDashboardRow {
+    grid-template-columns: 1fr;
+  }
+}

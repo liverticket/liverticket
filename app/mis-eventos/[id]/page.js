@@ -60,6 +60,76 @@ export default function MyEventDetailPage() {
 
   const salesRows = event?.salesByTicketType || [];
 
+  const subtotal = event?.totalSales || 0;
+  const serviceFee = Math.round(subtotal * 0.1);
+  const producerTotal = subtotal - serviceFee;
+
+  const usedAttendees =
+    event?.attendees?.filter((attendee) =>
+      ["USED", "SCANNED", "CHECKED_IN", "VALID"].includes(attendee.status)
+    ) || [];
+
+  function handleDownloadAttendeesExcel() {
+    const rows = [...usedAttendees]
+      .sort((a, b) =>
+        (a.attendeeName || "").localeCompare(b.attendeeName || "", "es", {
+          sensitivity: "base",
+        })
+      )
+      .map((attendee) => ({
+        Nombre: attendee.attendeeName || "",
+        "Nº Documento": attendee.attendeeDocumentNumber || "",
+        Tipo: attendee.ticketType || "",
+      }));
+
+    const tableRows = rows
+      .map(
+        (row) => `
+          <tr>
+            <td>${row.Nombre}</td>
+            <td>${row["Nº Documento"]}</td>
+            <td>${row.Tipo}</td>
+          </tr>
+        `
+      )
+      .join("");
+
+    const excelContent = `
+      <html>
+        <head>
+          <meta charset="UTF-8" />
+        </head>
+        <body>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Nº Documento</th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `;
+
+    const blob = new Blob([excelContent], {
+      type: "application/vnd.ms-excel;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `lista-entradas-${event.title || "evento"}.xls`;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <main className="page">
       <Navbar />
@@ -82,96 +152,74 @@ export default function MyEventDetailPage() {
           ) : (
             <>
               <div className="myEventAdminHeader">
-                <span className="myEventStatus status-PUBLISHED">Publicado</span>
+                <span className="myEventStatus status-PUBLISHED">
+                  Publicado
+                </span>
 
                 <h1>{event.title}</h1>
-
-                <div className="myEventAdminMeta">
-                  <span>{formatDate(event.date)}</span>
-                  <span>{event.eventTime}</span>
-                  <span>
-                    {event.venue || event.location}
-                    {event.city ? ` · ${event.city}` : ""}
-                  </span>
-                  <span>Edad mínima {event.minAge}+</span>
-                </div>
               </div>
 
-              <div className="myEventDetailBlock">
-                <div className="myEventDetailBlockHeader">
-                  <div>
-                    <h2>Resumen de ventas</h2>
-                    <p>Detalle contable por tipo de entrada.</p>
-                  </div>
-                </div>
-
-                <div className="myEventSalesTable">
-                  <div className="myEventSalesHead">
-                    <span>Tipo de entrada</span>
-                    <span>Vendidas</span>
-                    <span>Precio</span>
-                    <span>Recaudación</span>
-                  </div>
-
-                  {salesRows.map((row) => (
-                    <div className="myEventSalesRow" key={row.id}>
-                      <span>{row.name}</span>
-                      <span>{row.sold}</span>
-                      <span>{formatMoney(row.price)}</span>
-                      <span>{formatMoney(row.revenue)}</span>
+              <div className="myEventDashboardRow">
+                <div className="myEventDetailBlock myEventSalesBlock">
+                  <div className="myEventDetailBlockHeader">
+                    <div>
+                      <h2>Resumen de ventas</h2>
+                      <p>Detalle contable por tipo de entrada.</p>
                     </div>
-                  ))}
+                  </div>
 
-                  <div className="myEventSalesRow total">
-                    <span>Total</span>
-                    <span>{event.soldTickets}</span>
-                    <span>—</span>
-                    <span>{formatMoney(event.totalSales)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="myEventDetailBlock">
-                <div className="myEventDetailBlockHeader">
-                  <div>
-                    <h2>Asistentes</h2>
-                    <p>
-                      Disponible hasta {formatDate(event.attendeesVisibleUntil)}.
-                    </p>
-                  </div>
-                </div>
-
-                {!event.canViewAttendees ? (
-                  <div className="myEventPrivacyBox">
-                    La lista de asistentes expiró por protección de datos. Solo
-                    se mantienen estadísticas generales del evento.
-                  </div>
-                ) : event.attendees.length === 0 ? (
-                  <div className="myEventPrivacyBox">
-                    Aún no hay asistentes registrados.
-                  </div>
-                ) : (
-                  <div className="myEventAttendeeTable">
-                    <div className="myEventAttendeeHead">
-                      <span>Nombre</span>
-                      <span>Documento</span>
-                      <span>Ticket</span>
-                      <span>Estado</span>
+                  <div className="myEventSalesTable">
+                    <div className="myEventSalesHead">
+                      <span>Tipo de entrada</span>
+                      <span>Vendidas</span>
+                      <span>Precio</span>
+                      <span>Recaudación</span>
                     </div>
 
-                    {event.attendees.map((attendee) => (
-                      <div className="myEventAttendeeRow" key={attendee.id}>
-                        <span>{attendee.attendeeName}</span>
-                        <span>
-                          {attendee.attendeeDocumentType}{" "}
-                          {attendee.attendeeDocumentNumber}
-                        </span>
-                        <span>{attendee.ticketType}</span>
-                        <span>{attendee.status}</span>
+                    {salesRows.map((row) => (
+                      <div className="myEventSalesRow" key={row.id}>
+                        <span>{row.name}</span>
+                        <span>{row.sold}</span>
+                        <span>{formatMoney(row.price)}</span>
+                        <span>{formatMoney(row.revenue)}</span>
                       </div>
                     ))}
                   </div>
-                )}
+
+                  <div className="myEventSalesSummary">
+                    <div>
+                      <span>Subtotal ventas</span>
+                      <strong>{formatMoney(subtotal)}</strong>
+                    </div>
+
+                    <div>
+                      <span>Comisión LiverTicket 10%</span>
+                      <strong>-{formatMoney(serviceFee)}</strong>
+                    </div>
+
+                    <div className="final">
+                      <span>Total a pagar al productor</span>
+                      <strong>{formatMoney(producerTotal)}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="myEventRightColumn">
+                  <div className="myEventAttendeesCard">
+                    <span>Entradas usadas</span>
+                    <strong>{usedAttendees.length}</strong>
+                    <p>personas asistieron al evento</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="myEventExcelButton"
+                    onClick={handleDownloadAttendeesExcel}
+                    disabled={usedAttendees.length === 0}
+                  >
+                    Descargar excel con lista de entradas
+                  </button>
+                </div>
               </div>
             </>
           )}
