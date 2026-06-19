@@ -32,7 +32,7 @@ export default function RecuperarContrasenaPage() {
       }
 
       setMessage(
-        "Si el correo existe en LiverTicket, enviaremos un enlace para recuperar la contraseña."
+        "Si el correo existe en LiverTicket, enviaremos un enlace para restablecer la contraseña."
       );
       setEmail("");
     } catch (err) {

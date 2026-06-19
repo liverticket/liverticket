@@ -30,6 +30,20 @@ function formatDateInput(value) {
   return local.toISOString().split("T")[0];
 }
 
+function formatDisplayDate(value) {
+  if (!value) return "Fecha no especificada";
+
+  const date = new Date(value);
+  const offset = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - offset * 60 * 1000);
+
+  return local.toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 function createEditableTicket(ticket = {}) {
   return {
     id: ticket.id || `tmp-${Date.now()}-${Math.random()}`,
@@ -650,6 +664,10 @@ export default function AdminSolicitudesPage() {
                 const displayEventTime = isApproved
                   ? request.event.eventTime
                   : request.eventTime;
+                
+                const displayDate = isApproved
+                  ? request.event.date
+                  : request.tentativeDate;
 
                 const displayTickets = isApproved
                   ? request.event.ticketTypes || []
@@ -717,18 +735,27 @@ export default function AdminSolicitudesPage() {
                         {displayCity} · {displayVenue}
                       </p>
 
-                      <div className="ticketMeta" style={{ marginTop: 16 }}>
+                      <div
+                        className="ticketMeta"
+                        style={{
+                          marginTop: 16,
+                          display: "grid",
+                          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                          gap: 18,
+                        }}
+                      >
                         <div>
-                          <span className="ticketMetaLabel">
-                            Edad permitida
-                          </span>
+                          <span className="ticketMetaLabel">Edad permitida</span>
                           <strong>{getAgeLabel(displayMinAge)}</strong>
                         </div>
 
                         <div>
-                          <span className="ticketMetaLabel">
-                            Hora del evento
-                          </span>
+                          <span className="ticketMetaLabel">Fecha</span>
+                          <strong>{formatDisplayDate(displayDate)}</strong>
+                        </div>
+
+                        <div>
+                          <span className="ticketMetaLabel">Hora del evento</span>
                           <strong>{getTimeLabel(displayEventTime)}</strong>
                         </div>
 
@@ -748,13 +775,16 @@ export default function AdminSolicitudesPage() {
                           <span className="ticketMetaLabel">Correo</span>
                           <strong>{request.email}</strong>
                         </div>
-                      </div>
 
-                      <div style={{ marginTop: 12 }}>
-                        <span className="ticketMetaLabel">Teléfono</span>
-                        <p style={{ margin: "6px 0 0", color: "#444" }}>
-                          {request.phone || "Sin teléfono"}
-                        </p>
+                        <div>
+                          <span className="ticketMetaLabel">Teléfono</span>
+                          <strong>{request.phone || "Sin teléfono"}</strong>
+                        </div>
+
+                        <div>
+                          <span className="ticketMetaLabel">Ciudad</span>
+                          <strong>{displayCity}</strong>
+                        </div>
                       </div>
 
                       <div style={{ marginTop: 16 }}>
@@ -868,47 +898,58 @@ export default function AdminSolicitudesPage() {
                         )}
                       </div>
 
-                      {displayImage ? (
-                        <div style={{ marginTop: 20 }}>
+                      <div
+                        style={{
+                          marginTop: 24,
+                          display: "grid",
+                          gridTemplateColumns: "280px minmax(0, 1fr)",
+                          gap: 20,
+                          alignItems: "start",
+                        }}
+                      >
+                        <div>
                           <span className="ticketMetaLabel">Flyer</span>
-                          <div style={{ marginTop: 10 }}>
-                            <img
-                              src={displayImage}
-                              alt={displayTitle}
-                              style={{
-                                width: 260,
-                                maxWidth: "100%",
-                                borderRadius: 14,
-                                border: "1px solid #ddd",
-                                display: "block",
-                              }}
+
+                          {displayImage ? (
+                            <div style={{ marginTop: 10 }}>
+                              <img
+                                src={displayImage}
+                                alt={displayTitle}
+                                style={{
+                                  width: "100%",
+                                  maxWidth: 260,
+                                  borderRadius: 14,
+                                  border: "1px solid #ddd",
+                                  display: "block",
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <p style={{ color: "#888", marginTop: 10 }}>Sin flyer</p>
+                          )}
+                        </div>
+
+                        <div>
+                          <span className="ticketMetaLabel">Ubicación</span>
+
+                          <p
+                            style={{
+                              color: "#888",
+                              marginTop: 6,
+                              fontSize: "0.95rem",
+                            }}
+                          >
+                            {[displayAddress, displayCity, displayRegion].filter(Boolean).join(", ")}
+                          </p>
+
+                          <div style={{ marginTop: 12 }}>
+                            <EventMap
+                              address={displayAddress}
+                              city={displayCity}
+                              region={displayRegion}
+                              height={240}
                             />
                           </div>
-                        </div>
-                      ) : null}
-
-                      <div style={{ marginTop: 24 }}>
-                        <span className="ticketMetaLabel">Ubicación</span>
-
-                        <p
-                          style={{
-                            color: "#888",
-                            marginTop: 6,
-                            fontSize: "0.95rem",
-                          }}
-                        >
-                          {[displayAddress, displayCity, displayRegion]
-                            .filter(Boolean)
-                            .join(", ")}
-                        </p>
-
-                        <div style={{ marginTop: 12 }}>
-                          <EventMap
-                            address={displayAddress}
-                            city={displayCity}
-                            region={displayRegion}
-                            height={240}
-                          />
                         </div>
                       </div>
 
