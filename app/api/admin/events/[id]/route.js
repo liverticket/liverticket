@@ -137,20 +137,31 @@ export async function PUT(request, { params }) {
 
     const normalizedTicketTypes = normalizeTicketTypes(body.ticketTypes || []);
 
-    if (!normalizedTicketTypes.length) {
+    const ticketTypesToProcess = normalizedTicketTypes.length
+      ? normalizedTicketTypes
+      : existingEvent.ticketTypes.map((ticket) => ({
+          id: ticket.id,
+          name: ticket.name,
+          description: ticket.description,
+          price: ticket.price,
+          stock: ticket.stock,
+          unlimitedStock: ticket.unlimitedStock,
+        }));
+
+    if (!ticketTypesToProcess.length) {
       return NextResponse.json(
         { error: "Debes dejar al menos un tipo de entrada." },
         { status: 400 }
       );
     }
 
-    const invalidTicket = normalizedTicketTypes.find(
+    const invalidTicket = ticketTypesToProcess.find(
       (ticket) =>
         !ticket.name ||
-        !Number.isFinite(ticket.price) ||
-        ticket.price <= 0 ||
+        !Number.isFinite(Number(ticket.price)) ||
+        Number(ticket.price) <= 0 ||
         (!ticket.unlimitedStock &&
-          (!Number.isFinite(ticket.stock) || ticket.stock <= 0))
+          (!Number.isFinite(Number(ticket.stock)) || Number(ticket.stock) <= 0))
     );
 
     if (invalidTicket) {
@@ -169,38 +180,62 @@ export async function PUT(request, { params }) {
       create: { name: normalizedCategory },
     });
 
-    const updatedEvent = await prisma.event.update({
-      where: { id },
-      data: {
-        title: normalizedTitle,
-        description: normalizeNullableText(body.description),
-        imageUrl: normalizeNullableText(body.imageUrl),
-        venue: normalizeNullableText(body.venue),
-        city: normalizeNullableText(body.city),
-        region: normalizeNullableText(body.region),
-        address: normalizeNullableText(body.address),
-        location:
-          normalizeNullableText(body.venue) ||
-          normalizeNullableText(body.address) ||
-          normalizeNullableText(body.city) ||
-          "Lugar por definir",
-        date: new Date(`${normalizedDate}T00:00:00`),
+    const existingTicketTypeIds = existingEvent.ticketTypes.map(
+      (ticket) => ticket.id
+    );
 
-        minAge,
-        eventTime,
-
-        categoryId: categoryRecord.id,
-        ticketTypes: {
-          deleteMany: {},
-          create: normalizedTicketTypes.map((ticket) => ({
-            name: ticket.name,
-            description: ticket.description,
-            price: ticket.price,
-            stock: ticket.unlimitedStock ? null : ticket.stock,
-            unlimitedStock: ticket.unlimitedStock,
-          })),
+    await prisma.$transaction(async (tx) => {
+      await tx.event.update({
+        where: { id },
+        data: {
+          title: normalizedTitle,
+          description: normalizeNullableText(body.description),
+          imageUrl: normalizeNullableText(body.imageUrl),
+          venue: normalizeNullableText(body.venue),
+          city: normalizeNullableText(body.city),
+          region: normalizeNullableText(body.region),
+          address: normalizeNullableText(body.address),
+          location:
+            normalizeNullableText(body.venue) ||
+            normalizeNullableText(body.address) ||
+            normalizeNullableText(body.city) ||
+            "Lugar por definir",
+          date: new Date(`${normalizedDate}T00:00:00`),
+          minAge,
+          eventTime,
+          categoryId: categoryRecord.id,
         },
-      },
+      });
+
+      for (const ticket of ticketTypesToProcess) {
+        if (ticket.id && existingTicketTypeIds.includes(ticket.id)) {
+          await tx.ticketType.update({
+            where: { id: ticket.id },
+            data: {
+              name: ticket.name,
+              description: ticket.description,
+              price: Number(ticket.price),
+              stock: ticket.unlimitedStock ? null : Number(ticket.stock),
+              unlimitedStock: Boolean(ticket.unlimitedStock),
+            },
+          });
+        } else {
+          await tx.ticketType.create({
+            data: {
+              eventId: id,
+              name: ticket.name,
+              description: ticket.description,
+              price: Number(ticket.price),
+              stock: ticket.unlimitedStock ? null : Number(ticket.stock),
+              unlimitedStock: Boolean(ticket.unlimitedStock),
+            },
+          });
+        }
+      }
+    });
+
+    const updatedEvent = await prisma.event.findUnique({
+      where: { id },
       include: {
         category: true,
         ticketTypes: {
