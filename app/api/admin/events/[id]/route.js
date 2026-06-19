@@ -200,7 +200,7 @@ export async function PUT(request, { params }) {
             normalizeNullableText(body.address) ||
             normalizeNullableText(body.city) ||
             "Lugar por definir",
-          date: new Date(`${normalizedDate}T00:00:00`),
+          date: new Date(`${normalizedDate}T12:00:00`),
           minAge,
           eventTime,
           categoryId: categoryRecord.id,
