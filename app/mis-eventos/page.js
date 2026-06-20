@@ -79,14 +79,14 @@ export default function MisEventosPage() {
         request,
         approvedEvent,
         status: request.status,
-        title: request.eventName,
-        flyerUrl: request.flyerUrl,
-        date: request.tentativeDate,
-        eventTime: request.eventTime,
-        venue: request.venue,
-        city: request.city,
-        category: request.category,
-        minAge: request.minAge,
+        title: approvedEvent?.title || request.eventName,
+        flyerUrl: approvedEvent?.imageUrl || request.flyerUrl,
+        date: approvedEvent?.date || request.tentativeDate,
+        eventTime: approvedEvent?.eventTime || request.eventTime,
+        venue: approvedEvent?.venue || request.venue,
+        city: approvedEvent?.city || request.city,
+        category: approvedEvent?.category || request.category,
+        minAge: approvedEvent?.minAge ?? request.minAge,
       };
     });
   }, [requests, events]);

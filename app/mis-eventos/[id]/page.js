@@ -204,12 +204,12 @@ export default function MyEventDetailPage() {
                     </div>
 
                     <div>
-                      <span>Comisión LiverTicket 10%</span>
+                      <span>Comisión 10%</span>
                       <strong>-{formatMoney(serviceFee)}</strong>
                     </div>
 
                     <div className="final">
-                      <span>Total a pagar al productor</span>
+                      <span>Total</span>
                       <strong>{formatMoney(producerTotal)}</strong>
                     </div>
                   </div>

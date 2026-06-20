@@ -12,10 +12,7 @@ export async function GET() {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json(
-        { error: "No autorizado" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
     const requests = await prisma.eventRequest.findMany({
@@ -26,6 +23,20 @@ export async function GET() {
         event: {
           select: {
             id: true,
+            title: true,
+            imageUrl: true,
+            date: true,
+            eventTime: true,
+            venue: true,
+            location: true,
+            city: true,
+            region: true,
+            minAge: true,
+            category: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -62,6 +73,11 @@ export async function GET() {
         organizerId: user.id,
       },
       include: {
+        category: {
+          select: {
+            name: true,
+          },
+        },
         tickets: {
           select: {
             id: true,
@@ -79,16 +95,16 @@ export async function GET() {
     const normalizedRequests = requests.map((request) => ({
       id: request.id,
       eventId: request.event?.id || null,
-      eventName: request.eventName,
-      category: request.category,
-      tentativeDate: request.tentativeDate,
-      eventTime: request.eventTime,
-      minAge: request.minAge,
-      city: request.city,
-      region: request.region,
-      venue: request.venue,
+      eventName: request.event?.title || request.eventName,
+      category: request.event?.category?.name || request.category,
+      tentativeDate: request.event?.date || request.tentativeDate,
+      eventTime: request.event?.eventTime || request.eventTime,
+      minAge: request.event?.minAge ?? request.minAge,
+      city: request.event?.city || request.city,
+      region: request.event?.region || request.region,
+      venue: request.event?.venue || request.venue,
       address: request.address,
-      flyerUrl: request.flyerUrl,
+      flyerUrl: request.event?.imageUrl || request.flyerUrl,
       status: request.status,
       createdAt: request.createdAt,
     }));
@@ -112,6 +128,8 @@ export async function GET() {
         location: event.location,
         city: event.city,
         region: event.region,
+        category: event.category?.name || null,
+        minAge: event.minAge,
         visibility: event.visibility,
         soldTickets: validTickets.length,
         totalSales,
