@@ -1,32 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import cloudinary from "@/lib/cloudinary";
 import { getCurrentUser } from "@/lib/auth";
-
-function uploadToCloudinary(buffer, folder, originalFilename) {
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: "image",
-        use_filename: true,
-        unique_filename: true,
-        overwrite: false,
-        filename_override: originalFilename,
-      },
-      (error, result) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-
-        resolve(result);
-      }
-    );
-
-    uploadStream.end(buffer);
-  });
-}
 
 export async function POST(request) {
   try {
@@ -61,7 +35,8 @@ export async function POST(request) {
     const venue = String(formData.get("venue") || "").trim();
     const address = String(formData.get("address") || "").trim();
     const message = String(formData.get("message") || "").trim();
-    const flyer = formData.get("flyer");
+
+    const flyerUrl = String(formData.get("flyerUrl") || "").trim();
 
     const rawTicketTypes = String(formData.get("ticketTypes") || "[]");
 
@@ -99,6 +74,13 @@ export async function POST(request) {
       );
     }
 
+    if (!flyerUrl) {
+      return NextResponse.json(
+        { error: "Debes subir un flyer del evento." },
+        { status: 400 }
+      );
+    }
+
     const minAge = Number(minAgeRaw);
 
     if (!Number.isFinite(minAge) || minAge < 0) {
@@ -111,13 +93,6 @@ export async function POST(request) {
     if (!/^\d{2}:\d{2}$/.test(eventTime)) {
       return NextResponse.json(
         { error: "La hora del evento no es válida." },
-        { status: 400 }
-      );
-    }
-
-    if (!flyer || typeof flyer.arrayBuffer !== "function") {
-      return NextResponse.json(
-        { error: "Debes subir un flyer del evento." },
         { status: 400 }
       );
     }
@@ -156,15 +131,6 @@ export async function POST(request) {
       );
     }
 
-    const bytes = await flyer.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadedFlyer = await uploadToCloudinary(
-      buffer,
-      "liverticket/event-requests",
-      flyer.name || "flyer"
-    );
-
     const eventRequest = await prisma.eventRequest.create({
       data: {
         userId: user.id,
@@ -185,7 +151,7 @@ export async function POST(request) {
         venue,
         address,
         message,
-        flyerUrl: uploadedFlyer.secure_url,
+        flyerUrl,
         status: "PENDING",
 
         ticketRequests: {

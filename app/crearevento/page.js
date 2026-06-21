@@ -185,6 +185,29 @@ export default function CrearEventoPage() {
     );
   }
 
+
+
+  async function uploadFlyerToCloudinary(file) {
+    const data = new FormData();
+
+    data.append("file", file);
+    data.append("upload_preset", "liverticket");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dx5rgijv7/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("No se pudo subir el flyer a Cloudinary");
+    }
+
+    const result = await res.json();
+    return result.secure_url;
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -264,6 +287,8 @@ export default function CrearEventoPage() {
     }
 
     try {
+      const flyerUrl = await uploadFlyerToCloudinary(flyer);
+
       const payload = new FormData();
 
       Object.entries(formData).forEach(([key, value]) => {
@@ -275,7 +300,7 @@ export default function CrearEventoPage() {
       });
 
       payload.append("ticketTypes", JSON.stringify(normalizedTicketTypes));
-      payload.append("flyer", flyer);
+      payload.append("flyerUrl", flyerUrl);
 
       const res = await fetch("/api/event-requests", {
         method: "POST",
