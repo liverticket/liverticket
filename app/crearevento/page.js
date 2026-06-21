@@ -200,12 +200,13 @@ export default function CrearEventoPage() {
         body: data,
       }
     );
+    const result = await res.json();
 
     if (!res.ok) {
+      console.error(result);
       throw new Error("No se pudo subir el flyer a Cloudinary");
     }
 
-    const result = await res.json();
     return result.secure_url;
   }
   async function handleSubmit(e) {
