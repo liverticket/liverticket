@@ -613,7 +613,10 @@
 .homeHeroBanner {
   position: relative;
   width: 100vw;
-  height: 450px;
+  aspect-ratio: 3 / 1;
+  max-height: 450px;
+  min-height: 320px;
+  height: auto;
   margin-top: 22px;
   margin-left: calc(50% - 50vw);
   overflow: hidden;
@@ -712,5 +715,5 @@
 }
 
 .homeSection {
-  padding-top: 15 !important;
+  padding-top: 15px !important;
 }
