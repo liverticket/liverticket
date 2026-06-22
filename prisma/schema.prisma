@@ -94,6 +94,10 @@ model Event {
   date            DateTime
   visibility      EventVisibility @default(PUBLISHED)
 
+  isFeatured       Boolean @default(false)
+  featuredOrder    Int?
+  featuredImageUrl String?
+
   categoryId      String?
   organizerId     String
   sourceRequestId String?         @unique

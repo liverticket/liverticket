@@ -387,6 +387,18 @@ export default function Navbar() {
                 </div>
               </a>
             )}
+
+            {user?.role === "ADMIN" && (
+              <a href="/admin/destacados" className="adminBtn">
+                <div
+                  className={`adminWrapper ${
+                    isActive("/admin/destacados") ? "activeAdmin" : ""
+                  }`}
+                >
+                  <span className="adminText">Destacados</span>
+                </div>
+              </a>
+            )}
           </nav>
 
           <div className="navbarRight">
@@ -457,6 +469,12 @@ export default function Navbar() {
                     {user.role === "ADMIN" && (
                       <a href="/admin/solicitudes" className="userDropdownItem">
                         Solicitudes
+                      </a>
+                    )}
+
+                    {user.role === "ADMIN" && (
+                      <a href="/admin/destacados" className="userDropdownItem">
+                        Destacados
                       </a>
                     )}
 
@@ -553,6 +571,12 @@ export default function Navbar() {
             <a href="/admin/solicitudes" onClick={closeAllMenus}>
               Solicitudes
               {pendingCount > 0 ? ` (${pendingCount})` : ""}
+            </a>
+          )}
+
+          {user?.role === "ADMIN" && (
+            <a href="/admin/destacados" onClick={closeAllMenus}>
+              Destacados
             </a>
           )}
 

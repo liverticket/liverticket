@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import SearchBar from "@/components/SearchBar";
 import EventCard from "@/components/EventCard";
 import { chileRegions } from "@/lib/chileLocations";
+import HomeHeroBanner from "@/components/HomeHeroBanner";
 
 const initialFilters = {
   query: "",
@@ -210,8 +211,20 @@ export default function Home() {
 
   const upcomingEventos = useMemo(() => {
     return eventos
-      .filter((evento) => isUpcomingEvent(evento.date) && evento.imageUrl)
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
+      .filter(
+        (evento) =>
+          isUpcomingEvent(evento.date) &&
+          evento.isFeatured &&
+          (evento.featuredImageUrl || evento.imageUrl)
+      )
+      .sort((a, b) => {
+        const orderA = a.featuredOrder ?? 999;
+        const orderB = b.featuredOrder ?? 999;
+
+        if (orderA !== orderB) return orderA - orderB;
+
+        return new Date(a.date) - new Date(b.date);
+      });
   }, [eventos]);
 
   useEffect(() => {
@@ -290,38 +303,13 @@ export default function Home() {
             categories={categoryOptions}
           />
 
-          {upcomingEventos.length > 0 && (
-            <div className="homeFlyerCarousel">
-              <button
-                type="button"
-                className="homeFlyerArrow homeFlyerArrowLeft"
-                onClick={goToPrevSlide}
-                aria-label="Evento anterior"
-              >
-                ‹
-              </button>
-
-              <Link
-                href={`/evento/${upcomingEventos[activeSlide].id}`}
-                className="homeFlyerSlide"
-              >
-                <img
-                  src={upcomingEventos[activeSlide].imageUrl}
-                  alt={upcomingEventos[activeSlide].title}
-                  className="homeFlyerImage"
-                />
-              </Link>
-
-              <button
-                type="button"
-                className="homeFlyerArrow homeFlyerArrowRight"
-                onClick={goToNextSlide}
-                aria-label="Evento siguiente"
-              >
-                ›
-              </button>
-            </div>
-          )}
+          <HomeHeroBanner
+            events={upcomingEventos}
+            activeSlide={activeSlide}
+            onPrev={goToPrevSlide}
+            onNext={goToNextSlide}
+          />
+          
         </div>
       </section>
 

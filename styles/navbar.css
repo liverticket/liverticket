@@ -180,7 +180,7 @@
   align-items: center;
   justify-content: center;
 
-  padding: 10px 20px; /* antes seguramente era más grande */
+  padding: 10px 20px; 
   min-height: 46px;
 
   box-shadow: 0 10px 24px rgba(255, 0, 0, 0.28);
