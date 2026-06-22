@@ -66,23 +66,25 @@ export default function AdminDestacadosPage() {
         const img = new Image();
 
         img.onload = async () => {
-            if (img.width < 1200) {
-              alert("La imagen debe tener al menos 1200 px de ancho");
-              return;
-            }
+          if (img.width !== 1920 || img.height !== 450) {
+            alert(
+              `La imagen debe ser exactamente 1920x450 px.\n\nLa imagen seleccionada es ${img.width}x${img.height}px`
+            );
+            return;
+          }
 
-            setUploadingEventId(eventId);
+          setUploadingEventId(eventId);
 
-            try {
+          try {
             const imageUrl = await uploadFeaturedImageToCloudinary(file);
 
             updateEvent(eventId, "featuredImageUrl", imageUrl);
-            } catch (error) {
+          } catch (error) {
             console.error(error);
             alert("No se pudo subir la imagen destacada.");
-            } finally {
+          } finally {
             setUploadingEventId("");
-            }
+          }
         };
 
         img.src = URL.createObjectURL(file);
