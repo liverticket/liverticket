@@ -66,9 +66,17 @@ export default function AdminDestacadosPage() {
         const img = new Image();
 
         img.onload = async () => {
-          if (img.width !== 1350 || img.height !== 450) {
+          const validWidth =
+            img.width >= 1340 &&
+            img.width <= 1360;
+
+          const validHeight =
+            img.height >= 440 &&
+            img.height <= 460;
+
+          if (!validWidth || !validHeight) {
             alert(
-              `La imagen debe ser exactamente 1350x450 px.\n\nLa imagen seleccionada es ${img.width}x${img.height}px`
+              `La imagen debe tener aproximadamente 1350x450 px.\n\nLa imagen seleccionada es ${img.width}x${img.height}px`
             );
             return;
           }
@@ -329,7 +337,7 @@ export default function AdminDestacadosPage() {
                             <p style={{ color: "#777", marginTop: 8 }}>
                                 {uploadingEventId === event.id
                                 ? "Subiendo imagen..."
-                                : "Tamaño obligatorio imagen: 1920 x 600 px"}
+                                : "Tamaño recomendado: 1350x450 px"}
                             </p>
 
                             {event.featuredImageUrl ? (
