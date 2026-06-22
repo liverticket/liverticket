@@ -613,7 +613,7 @@
 .homeHeroBanner {
   position: relative;
   width: 100vw;
-  height: 520px;
+  height: 480px;
   margin-top: 22px;
   margin-left: calc(50% - 50vw);
   overflow: hidden;
