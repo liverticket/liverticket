@@ -292,7 +292,7 @@ export default function Home() {
 
       <section className="hero">
         <div className="container heroContent">
-          <h1 className="heroTitle">Encuentra tus próximos eventos</h1>
+          
 
           <SearchBar
             filters={filters}
