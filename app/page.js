@@ -290,7 +290,7 @@ export default function Home() {
     <main className="page">
       <Navbar />
 
-      <section className="hero">
+      <section className="section homeSection">
         <div className="container heroContent">
           
 

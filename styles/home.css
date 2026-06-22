@@ -710,3 +710,7 @@
     right: 12px;
   }
 }
+
+.homeSection {
+  padding-top: 10 !important;
+}
