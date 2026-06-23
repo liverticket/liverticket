@@ -715,3 +715,98 @@
 .homeSection {
   padding-top: 15px !important;
 }
+
+/* =====================================
+   CARTELERA DESKTOP PROFESIONAL
+   Solo computador / pantallas grandes
+   ===================================== */
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1650px;
+    width: 95%;
+  }
+
+  .eventsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  .eventCard {
+    background: #ffffff;
+    border: 1px solid rgba(229, 9, 20, 0.12);
+    border-radius: 18px;
+    color: #111111;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.26);
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .eventImageWrap {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .eventImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: cover;
+    background: transparent;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .eventCardLink:hover .eventImage {
+    transform: none;
+    filter: none;
+  }
+
+  .eventBody {
+    background: #ffffff;
+    padding: 14px 16px;
+    border-top: 1px solid #ececec;
+  }
+
+  .eventBadge {
+    background: #f1f1f1;
+    color: #e50914;
+  }
+
+  .eventBody h3 {
+    color: #111111;
+    font-size: 18px;
+  }
+
+  .eventPlace,
+  .eventMeta {
+    color: #444444;
+  }
+
+  .eventAge {
+    background: #eeeeee;
+    color: #111111;
+  }
+
+  .eventPrice {
+    color: #111111;
+    font-size: 14px;
+  }
+
+  .eventCardAction {
+    opacity: 1;
+    transform: none;
+    color: #e50914;
+  }
+
+  .eventCardLink:hover .eventCard {
+    transform: translateY(-5px);
+    border-color: rgba(229, 9, 20, 0.45);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, 0.34);
+  }
+}
