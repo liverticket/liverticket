@@ -66,17 +66,9 @@ export default function AdminDestacadosPage() {
         const img = new Image();
 
         img.onload = async () => {
-          const validWidth =
-            img.width >= 1340 &&
-            img.width <= 1360;
-
-          const validHeight =
-            img.height >= 440 &&
-            img.height <= 460;
-
-          if (!validWidth || !validHeight) {
+          if (img.width < 1200) {
             alert(
-              `La imagen debe tener aproximadamente 1350x450 px.\n\nLa imagen seleccionada es ${img.width}x${img.height}px`
+              `La imagen debe tener al menos 1200 px de ancho.\n\nLa imagen seleccionada es ${img.width}x${img.height}px`
             );
             return;
           }
