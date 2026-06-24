@@ -92,9 +92,13 @@ export default function EventCard({ evento }) {
 
           <h3>{evento.title || "Sin título"}</h3>
 
-          <p className="eventInfoLine">
+          <p className="eventPlace">
             {evento.city ? `${evento.city} · ` : ""}
-            {evento.location || evento.venue || "Lugar por definir"} · {fechaFormateada} · {horaFormateada}
+            {evento.location || evento.venue || "Lugar por definir"}
+          </p>
+
+          <p className="eventDate">
+            {fechaFormateada} · {horaFormateada}
           </p>
 
           {ageLabel && <div className="eventAge">Edad: {ageLabel}</div>}
