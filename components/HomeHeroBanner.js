@@ -14,7 +14,12 @@ export default function HomeHeroBanner({
   const bannerImage = event.featuredImageUrl || event.imageUrl;
 
   return (
-    <section className="homeHeroBanner">
+    <section
+      className="homeHeroBanner"
+      style={{
+        "--banner-image": `url(${bannerImage})`,
+      }}
+    >
       <img
         src={bannerImage}
         alt={event.title || "Evento destacado"}

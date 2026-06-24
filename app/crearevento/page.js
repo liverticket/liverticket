@@ -155,8 +155,48 @@ export default function CrearEventoPage() {
   }
 
   function handleFileChange(e) {
-    const file = e.target.files?.[0] || null;
-    setFlyer(file);
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      setFlyer(null);
+      return;
+    }
+
+    const img = new Image();
+
+    img.onload = () => {
+      const ratio = img.width / img.height;
+
+      const validRatio =
+        ratio >= 0.78 &&
+        ratio <= 0.82;
+
+      if (!validRatio) {
+        alert(
+          `El flyer debe tener proporción 4:5.\n\n` +
+          `Ejemplos válidos:\n` +
+          `• 1080 x 1350\n` +
+          `• 2160 x 2700\n` +
+          `• 3240 x 4050\n` +
+          `• 3375 x 4219\n\n` +
+          `La imagen seleccionada es ${img.width} x ${img.height}`
+        );
+
+        setFlyer(null);
+        e.target.value = "";
+        return;
+      }
+
+      setFlyer(file);
+    };
+
+    img.onerror = () => {
+      alert("No se pudo leer la imagen.");
+      setFlyer(null);
+      e.target.value = "";
+    };
+
+    img.src = URL.createObjectURL(file);
   }
 
   function addTicketType() {
@@ -701,6 +741,11 @@ export default function CrearEventoPage() {
                     onChange={handleFileChange}
                     required
                   />
+                  <small className="fieldHint">
+                    Formato recomendado: 1080 x 1350 px (4:5).
+                    <br />
+                    También se aceptan: 2160x2700, 3240x4050, 3375x4219 y cualquier imagen vertical con proporción 4:5.
+                  </small>
                 </div>
               </div>
             </section>

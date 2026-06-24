@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import EventMap from "@/components/EventMap";
 
+
 const categoryOptions = [
   "Concierto",
   "Festival",
@@ -426,6 +427,120 @@ export default function AdminSolicitudesPage() {
       ...prev,
       [field]: value,
     }));
+  }
+
+  function compressImage(file, maxWidth = 1600, quality = 0.82) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+
+        const scale = Math.min(1, maxWidth / img.width);
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("No se pudo comprimir la imagen"));
+              return;
+            }
+
+            resolve(
+              new File(
+                [blob],
+                file.name.replace(/\.[^.]+$/, ".jpg"),
+                {
+                  type: "image/jpeg",
+                }
+              )
+            );
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("No se pudo leer la imagen"));
+      };
+
+      img.src = url;
+    });
+  }
+
+  async function handleEventFlyerChange(e) {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    const img = new Image();
+
+    img.onload = async () => {
+      const ratio = img.width / img.height;
+
+      const validRatio =
+        ratio >= 0.78 &&
+        ratio <= 0.82;
+
+      if (!validRatio) {
+        alert(
+          `El flyer debe tener proporción 4:5.\n\n` +
+          `Ejemplos válidos:\n` +
+          `1080x1350\n` +
+          `2160x2700\n` +
+          `3240x4050\n` +
+          `3375x4219`
+        );
+
+        e.target.value = "";
+        return;
+      }
+
+      try {
+        const compressedFlyer = await compressImage(file);
+
+        const formData = new FormData();
+
+        formData.append("file", compressedFlyer);
+        formData.append("upload_preset", "liverticket");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dx5rgijv7/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data?.error?.message || "Error Cloudinary");
+        }
+
+        setEventDraft((prev) => ({
+          ...prev,
+          imageUrl: data.secure_url,
+        }));
+      } catch (error) {
+        console.error(error);
+        alert("No se pudo subir el flyer.");
+      }
+
+      e.target.value = "";
+    };
+
+    img.src = URL.createObjectURL(file);
   }
 
   function updateEventTicket(id, field, value) {
@@ -1365,12 +1480,37 @@ export default function AdminSolicitudesPage() {
                             </div>
 
                             <div className="field fieldFull">
-                              <label>Image URL</label>
+                              <label>Flyer del evento</label>
+
+                              {eventDraft.imageUrl && (
+                                <img
+                                  src={eventDraft.imageUrl}
+                                  alt="Flyer actual"
+                                  style={{
+                                    width: "180px",
+                                    borderRadius: "12px",
+                                    marginBottom: "12px",
+                                    display: "block",
+                                  }}
+                                />
+                              )}
+
+                              <input
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                onChange={handleEventFlyerChange}
+                              />
+
+                              <small style={{ display: "block", marginTop: 8, color: "#555" }}>
+                                Formato recomendado: 1080 x 1350 px. También se aceptan 2160x2700,
+                                3240x4050, 3375x4219 o cualquier imagen vertical 4:5.
+                              </small>
+
                               <input
                                 value={eventDraft.imageUrl}
-                                onChange={(e) =>
-                                  updateEventField("imageUrl", e.target.value)
-                                }
+                                onChange={(e) => updateEventField("imageUrl", e.target.value)}
+                                placeholder="URL del flyer"
+                                style={{ marginTop: "10px" }}
                               />
                             </div>
 
