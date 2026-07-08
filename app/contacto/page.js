@@ -20,7 +20,7 @@ export default function ContactoPage() {
             <div className="contactCard">
               <h2>Soporte</h2>
               <p>Email: liverticket06@gmail.com </p>
-              <p>WhatsApp: +56922551661  o +56948037611</p>
+              <p>WhatsApp: +56931055917</p>
             </div>
 
             <div className="contactCard">
