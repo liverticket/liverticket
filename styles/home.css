@@ -652,7 +652,7 @@
   .homeHeroBanner {
     height: auto;
     margin-top: 16px;
-    padding-bottom: 22px;
+    padding-bottom: 0;
   }
 
   .homeHeroBannerImage {
@@ -663,35 +663,35 @@
   }
 
   .homeHeroBannerActions {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 18px;
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
     z-index: 10;
+    margin-top: 0;
   }
 
   .homeHeroBannerButton {
-    min-width: 150px;
-    height: 44px;
-    font-size: 13px;
+    min-width: 105px;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 12px;
+    font-weight: 800;
   }
 
   .homeHeroBannerArrow {
-    top: 38%;
-    width: 36px;
-    height: 36px;
-    font-size: 30px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 28px;
   }
 
   .homeHeroBannerArrowLeft {
-    left: 12px;
+    left: 10px;
   }
 
   .homeHeroBannerArrowRight {
-    right: 12px;
+    right: 10px;
   }
 }
 /* =====================================
