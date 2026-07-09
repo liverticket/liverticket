@@ -663,12 +663,7 @@
   }
 
   .homeHeroBannerActions {
-    position: absolute;
-    left: 50%;
-    bottom: 10px;
-    transform: translateX(-50%);
-    z-index: 10;
-    margin-top: 0;
+    display: none;
   }
 
   .homeHeroBannerButton {
@@ -858,4 +853,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* color fecha y hora celular */
+
+@media (max-width: 700px) {
+  .eventInfoLine,
+  .eventDate {
+    color: #b9b9b9;
+    font-size: 12px;
+    font-weight: 500;
+  }
 }
