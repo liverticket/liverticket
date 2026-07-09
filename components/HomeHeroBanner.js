@@ -20,17 +20,17 @@ export default function HomeHeroBanner({
         "--banner-image": `url(${bannerImage})`,
       }}
     >
-      <img
-        src={bannerImage}
-        alt={event.title || "Evento destacado"}
-        className="homeHeroBannerImage"
-      />
+      <Link href={`/evento/${event.id}`} className="homeHeroBannerClickArea">
+        <img
+          src={bannerImage}
+          alt={event.title || "Evento destacado"}
+          className="homeHeroBannerImage"
+        />
 
-      <div className="homeHeroBannerActions">
-        <Link href={`/evento/${event.id}`} className="homeHeroBannerButton">
-          Ver más
-        </Link>
-      </div>
+        <div className="homeHeroBannerActions">
+          <span className="homeHeroBannerButton">Ver más</span>
+        </div>
+      </Link>
 
       {events.length > 1 && (
         <>
