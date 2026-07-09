@@ -650,36 +650,37 @@
 /* Banner móvil */
 @media (max-width: 700px) {
   .homeHeroBanner {
-    height: 300px;
+    height: auto;
     margin-top: 16px;
+    padding-bottom: 22px;
   }
 
   .homeHeroBannerImage {
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .homeHeroBanner::before {
-    filter: blur(30px);
-    transform: scale(1.35);
-    opacity: 0.75;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   .homeHeroBannerActions {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
     z-index: 10;
-    transform: translateX(-50%);
   }
 
   .homeHeroBannerButton {
-    min-width: 120px;
-    height: 40px;
-    font-size: 12px;
+    min-width: 150px;
+    height: 44px;
+    font-size: 13px;
   }
 
   .homeHeroBannerArrow {
+    top: 38%;
     width: 36px;
     height: 36px;
     font-size: 30px;
