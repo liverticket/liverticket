@@ -672,11 +672,11 @@
   }
 
   .homeHeroBannerButton {
-    min-width: 105px;
-    height: 36px;
-    padding: 0 16px;
-    font-size: 12px;
-    font-weight: 800;
+    min-width: 85px;
+    height: 30px;
+    padding: 0 12px;
+    font-size: 10px;
+    font-weight: 700;
   }
 
   .homeHeroBannerArrow {
