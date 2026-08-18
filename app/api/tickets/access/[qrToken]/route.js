@@ -18,7 +18,9 @@ export async function POST(request, { params }) {
       where: { qrToken },
       include: {
         event: true,
-        ticketType: true,
+        ticketType: {
+          select: { id: true, name: true, description: true, price: true },
+        },
       },
     });
 

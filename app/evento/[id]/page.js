@@ -557,9 +557,7 @@ export default function EventoDetallePage() {
                 ) : (
                   <div className="eventTicketList">
                     {ticketTypes.map((ticket) => {
-                      const soldOut =
-                        !ticket.unlimitedStock &&
-                        Number(ticket.stock || 0) <= 0;
+                      const soldOut = ticket.soldOut === true;
 
                       const selected = selectedTicketId === ticket.id;
 
@@ -582,9 +580,9 @@ export default function EventoDetallePage() {
                                 ? "Venta finalizada"
                                 : soldOut
                                 ? "Agotado"
-                                : ticket.unlimitedStock
-                                ? "Stock ilimitado"
-                                : `Stock disponible: ${ticket.stock}`}
+                                : soldOut
+                                ? "Agotado"
+                                : "Disponible"}
                             </span>
                           </div>
 

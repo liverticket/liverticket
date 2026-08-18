@@ -15,7 +15,7 @@ export async function GET(request, context) {
     const event = await prisma.event.findFirst({
       where: {
         id,
-        organizerId: user.id,
+        ...(user.role === "ADMIN" ? {} : { organizerId: user.id }),
       },
       include: {
         ticketTypes: true,
@@ -70,6 +70,12 @@ export async function GET(request, context) {
         price: ticketType.price,
         stock: ticketType.stock,
         unlimitedStock: ticketType.unlimitedStock,
+        capacity: ticketType.unlimitedStock
+          ? null
+          : Number(ticketType.stock || 0) + sold,
+        remaining: ticketType.unlimitedStock
+          ? null
+          : Number(ticketType.stock || 0),
         sold,
         revenue,
       };
@@ -84,6 +90,9 @@ export async function GET(request, context) {
           ticketType: ticket.ticketType?.name || "Ticket",
           status: ticket.status,
           pricePaid: ticket.pricePaid || 0,
+          code: ticket.code,
+          qrToken: ticket.qrToken,
+          orderNumber: ticket.order?.buyOrder || null,
           createdAt: ticket.createdAt,
         }))
       : [];

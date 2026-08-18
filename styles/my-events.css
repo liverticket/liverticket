@@ -395,7 +395,7 @@
 .myEventSalesHead,
 .myEventSalesRow {
   display: grid;
-  grid-template-columns: 1.6fr 0.7fr 0.9fr 1fr;
+  grid-template-columns: 1.4fr repeat(5, 0.8fr);
   gap: 12px;
   padding: 13px 16px;
   align-items: center;
@@ -454,16 +454,26 @@
   }
 
   .myEventSalesRow span:nth-child(2)::before {
-    content: "Vendidas: ";
+    content: "Capacidad: ";
     font-weight: 800;
   }
 
   .myEventSalesRow span:nth-child(3)::before {
-    content: "Precio: ";
+    content: "Vendidas: ";
     font-weight: 800;
   }
 
   .myEventSalesRow span:nth-child(4)::before {
+    content: "Disponibles: ";
+    font-weight: 800;
+  }
+
+  .myEventSalesRow span:nth-child(5)::before {
+    content: "Precio: ";
+    font-weight: 800;
+  }
+
+  .myEventSalesRow span:nth-child(6)::before {
     content: "Recaudación: ";
     font-weight: 800;
   }
@@ -707,4 +717,17 @@
   .myEventDashboardRow {
     grid-template-columns: 1fr;
   }
+}
+
+.myEventPrintButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 9px;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
 }

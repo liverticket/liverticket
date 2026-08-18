@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+function toPublicTicketType(ticketType) {
+  return {
+    id: ticketType.id,
+    name: ticketType.name,
+    description: ticketType.description,
+    price: ticketType.price,
+    unlimitedStock: ticketType.unlimitedStock,
+    soldOut:
+      !ticketType.unlimitedStock && Number(ticketType.stock || 0) <= 0,
+  };
+}
+
 export async function GET(request, { params }) {
   try {
     const resolvedParams = await params;
@@ -28,7 +40,12 @@ export async function GET(request, { params }) {
       );
     }
 
-    return NextResponse.json({ event });
+    return NextResponse.json({
+      event: {
+        ...event,
+        ticketTypes: event.ticketTypes.map(toPublicTicketType),
+      },
+    });
   } catch (error) {
     console.error("GET event error:", error);
 

@@ -24,7 +24,9 @@ export async function GET(request, { params }) {
         tickets: {
           include: {
             event: true,
-            ticketType: true,
+            ticketType: {
+              select: { id: true, name: true, description: true, price: true },
+            },
           },
           orderBy: {
             createdAt: "asc",

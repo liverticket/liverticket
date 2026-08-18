@@ -1130,6 +1130,13 @@ export default function AdminSolicitudesPage() {
                               Editar evento
                             </button>
 
+                            <a
+                              href={`/mis-eventos/${request.event.id}`}
+                              className="btn btnLight"
+                            >
+                              Ventas e impresión
+                            </a>
+
                             <button
                               type="button"
                               onClick={() =>

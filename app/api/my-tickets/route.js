@@ -19,7 +19,9 @@ export async function GET() {
       },
       include: {
         event: true,
-        ticketType: true,
+        ticketType: {
+          select: { id: true, name: true, description: true, price: true },
+        },
         order: true,
       },
       orderBy: {

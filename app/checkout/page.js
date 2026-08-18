@@ -315,7 +315,7 @@ function CheckoutContent() {
       return;
     }
 
-    if (!selectedTicket.unlimitedStock && selectedTicket.stock < 1) {
+    if (selectedTicket.soldOut === true) {
       alert("No queda stock disponible para esta entrada.");
       return;
     }
@@ -524,8 +524,7 @@ function CheckoutContent() {
                     <div className="checkoutTicketList">
                       {ticketTypes.map((ticket) => {
                         const isSelected = selectedTicketId === ticket.id;
-                        const soldOut =
-                          !ticket.unlimitedStock && ticket.stock <= 0;
+                        const soldOut = ticket.soldOut === true;
 
                         return (
                           <div
@@ -538,11 +537,7 @@ function CheckoutContent() {
                               <div>
                                 <strong>{ticket.name}</strong>
                                 <p>
-                                  {ticket.unlimitedStock
-                                    ? "Stock ilimitado"
-                                    : soldOut
-                                    ? "Agotado"
-                                    : `Stock disponible: ${ticket.stock}`}
+                                  {soldOut ? "Agotado" : "Disponible"}
                                 </p>
                               </div>
 

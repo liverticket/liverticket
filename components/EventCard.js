@@ -63,9 +63,7 @@ export default function EventCard({ evento }) {
 
   const isSoldOut =
     ticketTypes.length > 0 &&
-    ticketTypes.every(
-      (ticket) => !ticket.unlimitedStock && Number(ticket.stock || 0) <= 0
-    );
+    ticketTypes.every((ticket) => ticket.soldOut === true);
 
   const ageLabel = getAgeLabel(evento);
   const priceLabel = getMinPriceLabel(evento);

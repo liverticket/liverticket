@@ -182,7 +182,9 @@ export default function MyEventDetailPage() {
                   <div className="myEventSalesTable">
                     <div className="myEventSalesHead">
                       <span>Tipo de entrada</span>
+                      <span>Capacidad</span>
                       <span>Vendidas</span>
+                      <span>Disponibles</span>
                       <span>Precio</span>
                       <span>Recaudación</span>
                     </div>
@@ -190,7 +192,9 @@ export default function MyEventDetailPage() {
                     {salesRows.map((row) => (
                       <div className="myEventSalesRow" key={row.id}>
                         <span>{row.name}</span>
+                        <span>{row.unlimitedStock ? "Ilimitada" : row.capacity}</span>
                         <span>{row.sold}</span>
+                        <span>{row.unlimitedStock ? "Ilimitadas" : row.remaining}</span>
                         <span>{formatMoney(row.price)}</span>
                         <span>{formatMoney(row.revenue)}</span>
                       </div>
@@ -236,6 +240,47 @@ export default function MyEventDetailPage() {
                     Excel disponible hasta 1 día después del evento.
                   </p>
                 </div>
+              </div>
+
+              <div className="myEventDetailBlock">
+                <div className="myEventDetailBlockHeader">
+                  <div>
+                    <h2>Entradas emitidas</h2>
+                    <p>Imprime cada entrada individualmente con su propio QR.</p>
+                  </div>
+                </div>
+
+                {!event.canViewAttendees ? (
+                  <div className="myEventPrivacyBox">
+                    El detalle de asistentes ya no está disponible.
+                  </div>
+                ) : allAttendees.length === 0 ? (
+                  <div className="myEventPrivacyBox">Aún no hay entradas emitidas.</div>
+                ) : (
+                  <div className="myEventAttendeeTable">
+                    <div className="myEventAttendeeHead">
+                      <span>Asistente</span>
+                      <span>Tipo</span>
+                      <span>Código</span>
+                      <span>Acción</span>
+                    </div>
+                    {allAttendees.map((attendee) => (
+                      <div className="myEventAttendeeRow" key={attendee.id}>
+                        <span>{attendee.attendeeName}</span>
+                        <span>{attendee.ticketType}</span>
+                        <span>{attendee.code}</span>
+                        <Link
+                          className="myEventPrintButton"
+                          href={`/gestion/tickets/${attendee.id}/imprimir`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Imprimir entrada
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </>
           )}
