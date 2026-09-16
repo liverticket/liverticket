@@ -1,13 +1,16 @@
+import { requireAdmin } from "@/lib/auth";
+import { chileToday, toDatabaseDate } from "@/lib/event-date.mjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
+    if (!await requireAdmin()) return NextResponse.json({ error: "No autorizado." }, { status: 403 });
     const events = await prisma.event.findMany({
       where: {
         visibility: "PUBLISHED",
         date: {
-          gte: new Date(),
+          gte: toDatabaseDate(chileToday()),
         },
       },
       include: {
@@ -33,6 +36,7 @@ export async function GET() {
 
 export async function PUT(request) {
   try {
+    if (!await requireAdmin()) return NextResponse.json({ error: "No autorizado." }, { status: 403 });
     const body = await request.json();
     const events = Array.isArray(body.events) ? body.events : [];
 

@@ -1,6 +1,9 @@
 "use client";
+import { calendarDate, formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
+import DeleteEventButton from "@/components/DeleteEventButton";
 import Navbar from "@/components/Navbar";
 import EventMap from "@/components/EventMap";
 
@@ -24,25 +27,11 @@ function formatPrice(value) {
 }
 
 function formatDateInput(value) {
-  if (!value) return "";
-  const date = new Date(value);
-  const offset = date.getTimezoneOffset();
-  const local = new Date(date.getTime() - offset * 60 * 1000);
-  return local.toISOString().split("T")[0];
+  return calendarDate(value);
 }
 
 function formatDisplayDate(value) {
-  if (!value) return "Fecha no especificada";
-
-  const date = new Date(value);
-  const offset = date.getTimezoneOffset();
-  const local = new Date(date.getTime() - offset * 60 * 1000);
-
-  return local.toLocaleDateString("es-CL", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  return formatEventDate(value);
 }
 
 function createEditableTicket(ticket = {}) {
@@ -148,6 +137,7 @@ function getTimeLabel(eventTime) {
 
 export default function AdminSolicitudesPage() {
   const [requests, setRequests] = useState([]);
+  const [deleteMessage, setDeleteMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [actionLoadingId, setActionLoadingId] = useState("");
@@ -163,8 +153,9 @@ export default function AdminSolicitudesPage() {
 
   async function loadRequests() {
     try {
-      const res = await fetch("/api/admin/event-requests");
+      const res = await fetch("/api/admin/event-requests", { cache: "no-store" });
       const data = await res.json();
+      if (!res.ok) { setRequests([]); return; }
       setRequests(data.requests || []);
     } catch (error) {
       console.error(error);
@@ -662,6 +653,7 @@ export default function AdminSolicitudesPage() {
   return (
     <>
       <Navbar />
+      {deleteMessage ? <p role="status" className="deleteEventSuccess">{deleteMessage}</p> : null}
 
       <main className="ticketsPage">
         <div className="ticketsShell">
@@ -1165,6 +1157,16 @@ export default function AdminSolicitudesPage() {
                           </>
                         ) : null}
 
+                        <DeleteEventButton
+                          eventId={request.event?.id}
+                          requestId={request.id}
+                          title={displayTitle}
+                          disabled={Boolean(actionLoadingId) || Boolean(editingRequestId) || Boolean(editingEventId)}
+                          onDeleted={() => {
+                            setRequests((current) => current.filter((item) => item.id !== request.id));
+                            setDeleteMessage(`El evento «${displayTitle}» se eliminó correctamente.`);
+                          }}
+                        />
                         {whatsappUrl ? (
                           <a
                             href={whatsappUrl}

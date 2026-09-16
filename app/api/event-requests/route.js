@@ -1,3 +1,4 @@
+import { isCalendarDate, toDatabaseDate } from "@/lib/event-date.mjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
@@ -23,6 +24,10 @@ export async function POST(request) {
     const eventName = String(formData.get("eventName") || "").trim();
     const category = String(formData.get("category") || "").trim();
     const tentativeDate = String(formData.get("tentativeDate") || "").trim();
+
+    if (!isCalendarDate(tentativeDate)) {
+      return NextResponse.json({ error: "La fecha no es válida. Usa YYYY-MM-DD." }, { status: 400 });
+    }
 
     const minAgeRaw = String(
       formData.get("minAge") || formData.get("ageMin") || ""
@@ -141,7 +146,7 @@ export async function POST(request) {
         phone,
         eventName,
         category,
-        tentativeDate: new Date(`${tentativeDate}T00:00:00`),
+        tentativeDate: toDatabaseDate(tentativeDate),
 
         minAge,
         eventTime,

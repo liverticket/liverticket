@@ -1,4 +1,6 @@
 "use client";
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
@@ -16,11 +18,11 @@ function formatPrice(value) {
 function formatDate(dateString) {
   if (!dateString) return "Fecha por confirmar";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(dateString, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(dateString));
+  });
 }
 
 function formatDateTime(dateString) {

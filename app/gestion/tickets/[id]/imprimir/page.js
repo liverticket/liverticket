@@ -1,3 +1,4 @@
+import { formatEventDate } from "@/lib/event-date.mjs";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -15,13 +16,13 @@ export const metadata = {
 function formatDate(value) {
   if (!value) return null;
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(value, {
     weekday: "long",
     day: "2-digit",
     month: "long",
     year: "numeric",
     timeZone: "America/Santiago",
-  }).format(new Date(value));
+  });
 }
 
 async function getOrigin() {

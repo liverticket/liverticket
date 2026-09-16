@@ -1,3 +1,5 @@
+import { eventDeletionHandler } from "@/lib/delete-event-handler";
+import { isCalendarDate, toDatabaseDate } from "@/lib/event-date.mjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
@@ -38,6 +40,7 @@ function normalizeTicketTypes(ticketTypes = []) {
 
 export async function GET(request, { params }) {
   try {
+    if (!await requireAdmin()) return NextResponse.json({ error: "No autorizado." }, { status: 403 });
     const { id } = await params;
 
     const event = await prisma.event.findUnique({
@@ -112,6 +115,10 @@ export async function PUT(request, { params }) {
         { error: "La categoría es obligatoria." },
         { status: 400 }
       );
+    }
+
+    if (!isCalendarDate(normalizedDate)) {
+      return NextResponse.json({ error: "La fecha no es válida. Usa YYYY-MM-DD." }, { status: 400 });
     }
 
     if (!normalizedDate) {
@@ -200,7 +207,7 @@ export async function PUT(request, { params }) {
             normalizeNullableText(body.address) ||
             normalizeNullableText(body.city) ||
             "Lugar por definir",
-          date: new Date(`${normalizedDate}T12:00:00`),
+          date: toDatabaseDate(normalizedDate),
           minAge,
           eventTime,
           categoryId: categoryRecord.id,
@@ -260,3 +267,4 @@ export async function PUT(request, { params }) {
     );
   }
 }
+export const DELETE = eventDeletionHandler("event");

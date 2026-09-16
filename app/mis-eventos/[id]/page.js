@@ -1,4 +1,8 @@
 "use client";
+import { addCalendarDays, chileToday } from "@/lib/event-date.mjs";
+
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -18,11 +22,11 @@ function formatMoney(value) {
 function formatDate(date) {
   if (!date) return "Sin fecha";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(date, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  });
 }
 
 export default function MyEventDetailPage() {
@@ -71,16 +75,8 @@ export default function MyEventDetailPage() {
       ["USED", "SCANNED", "CHECKED_IN"].includes(attendee.status)
     ) || [];
 
-  const excelAvailableUntil = event?.date
-    ? new Date(event.date)
-    : null;
-
-  if (excelAvailableUntil) {
-    excelAvailableUntil.setDate(excelAvailableUntil.getDate() + 1);
-  }
-
-  const canDownloadExcel =
-    excelAvailableUntil && new Date() <= excelAvailableUntil;
+  const excelAvailableUntil = event?.date ? addCalendarDays(event.date, 1) : null;
+  const canDownloadExcel = excelAvailableUntil && chileToday() <= excelAvailableUntil;
 
   function handleDownloadAttendeesExcel() {
     const rows = [...allAttendees]

@@ -12,7 +12,9 @@ export async function POST(request, context) {
 
     const { id } = await context.params;
 
-    const eventRequest = await prisma.eventRequest.findUnique({
+    return await prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT "id" FROM "EventRequest" WHERE "id" = ${id} FOR UPDATE`;
+    const eventRequest = await tx.eventRequest.findUnique({
       where: { id },
       include: {
         ticketRequests: true,
@@ -40,7 +42,7 @@ export async function POST(request, context) {
       );
     }
 
-    const existingEvent = await prisma.event.findUnique({
+    const existingEvent = await tx.event.findUnique({
       where: { sourceRequestId: eventRequest.id },
     });
 
@@ -83,14 +85,14 @@ export async function POST(request, context) {
     const categoryName = String(eventRequest.category || "").trim();
 
     const categoryRecord = categoryName
-      ? await prisma.category.upsert({
+      ? await tx.category.upsert({
           where: { name: categoryName },
           update: {},
           create: { name: categoryName },
         })
       : null;
 
-    const createdEvent = await prisma.event.create({
+    const createdEvent = await tx.event.create({
       data: {
         title: eventRequest.eventName,
         description: eventRequest.message,
@@ -131,7 +133,7 @@ export async function POST(request, context) {
       },
     });
 
-    await prisma.eventRequest.update({
+    await tx.eventRequest.update({
       where: { id },
       data: {
         status: "APPROVED",
@@ -141,6 +143,7 @@ export async function POST(request, context) {
     return NextResponse.json({
       ok: true,
       event: createdEvent,
+    });
     });
   } catch (error) {
     console.error("APPROVE_EVENT_REQUEST_ERROR:", error);

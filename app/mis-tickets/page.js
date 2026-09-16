@@ -1,4 +1,8 @@
 "use client";
+import { formatEventTime } from "@/lib/event-date.mjs";
+
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,21 +13,15 @@ import { generateQrDataUrl } from "../../lib/qr";
 function formatDate(dateString) {
   if (!dateString) return "Fecha por confirmar";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(dateString, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(dateString));
+  });
 }
 
-function formatTime(dateString) {
-  if (!dateString) return "Hora por confirmar";
-
-  return new Intl.DateTimeFormat("es-CL", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(dateString));
+function formatTime(eventTime) {
+  return formatEventTime(eventTime);
 }
 
 function formatPrice(value) {
@@ -207,7 +205,7 @@ export default function MisTicketsPage() {
                           {formatDate(ticket.event?.date)}
                         </div>
                         <div className="ticketsDateLine">
-                          {formatTime(ticket.event?.date)} hrs
+                          {formatTime(ticket.event?.eventTime)}
                         </div>
                         {fullAddress ? (
                           <div className="ticketsAddressSmall">
@@ -323,7 +321,7 @@ export default function MisTicketsPage() {
                   <div>
                     <span className="ticketMetaLabel">Hora</span>
                     <strong>
-                      {formatTime(selectedTicket.event?.date)} hrs
+                      {formatTime(selectedTicket.event?.eventTime)}
                     </strong>
                   </div>
 

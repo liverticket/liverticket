@@ -11,7 +11,7 @@ function validatePassword(password) {
   if (password.length < 8) errors.push("Mínimo 8 caracteres");
   if (!/[A-Z]/.test(password)) errors.push("Al menos 1 mayúscula");
   if (!/[0-9]/.test(password)) errors.push("Al menos 1 número");
-  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]/+=;']/.test(password)) {
     errors.push("Al menos 1 símbolo");
   }
 
@@ -35,7 +35,7 @@ function RestablecerContent() {
   const hasMinLength = password.length >= 8;
   const hasUppercase = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(password);
+  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]/+=;']/.test(password);
   const passwordsMatch =
     confirmPassword.length > 0 && password === confirmPassword;
 

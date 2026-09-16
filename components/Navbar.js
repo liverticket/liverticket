@@ -1,4 +1,5 @@
 "use client";
+import { refreshStoredCart } from "@/lib/stored-cart";
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -30,7 +31,7 @@ function playNotificationSound() {
 
     oscillator.start();
     oscillator.stop(audioContext.currentTime + 0.3);
-  } catch {}
+  } catch { /* Optional UI operation: keep the current interface usable. */ }
 }
 
 export default function Navbar() {
@@ -141,11 +142,9 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    function loadGuestCartCount() {
+    async function loadGuestCartCount() {
       try {
-        const stored = localStorage.getItem("liverticket_cart");
-
-        const items = stored ? JSON.parse(stored) : [];
+        const items = await refreshStoredCart("liverticket_cart");
 
         const total = Array.isArray(items)
           ? items.reduce(
@@ -251,7 +250,7 @@ export default function Navbar() {
 
         previousPendingCountRef.current = pending;
         setPendingCount(pending);
-      } catch {}
+      } catch { /* Optional UI operation: keep the current interface usable. */ }
     }
 
     loadPending();
@@ -308,7 +307,7 @@ export default function Navbar() {
         method: "POST",
         credentials: "include",
       });
-    } catch {}
+    } catch { /* Optional UI operation: keep the current interface usable. */ }
 
     window.location.href = "/";
   }

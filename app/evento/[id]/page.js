@@ -1,4 +1,9 @@
 "use client";
+import { refreshStoredCart } from "@/lib/stored-cart";
+import { isEventFinished } from "@/lib/event-date.mjs";
+
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
@@ -19,11 +24,11 @@ function formatPrice(value) {
 function formatDate(dateString) {
   if (!dateString) return "Fecha por confirmar";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(dateString, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(dateString));
+  });
 }
 
 function formatEventTime(eventTime) {
@@ -84,15 +89,7 @@ function makeGuestCartItemId() {
 }
 
 function isEventFinishedOneDayAfter(dateString) {
-  if (!dateString) return false;
-
-  const eventDate = new Date(dateString);
-  const finishLimit = new Date(eventDate);
-
-  finishLimit.setDate(finishLimit.getDate() + 1);
-  finishLimit.setHours(0, 0, 0, 0);
-
-  return new Date() >= finishLimit;
+  return isEventFinished(dateString);
 }
 
 export default function EventoDetallePage() {
@@ -114,14 +111,8 @@ export default function EventoDetallePage() {
   const [guestEmail, setGuestEmail] = useState("");
   const [isPaying, setIsPaying] = useState(false);
 
-  function loadGuestCart() {
-    try {
-      const stored = localStorage.getItem(CART_STORAGE_KEY);
-      const parsed = stored ? JSON.parse(stored) : [];
-      setCartItems(Array.isArray(parsed) ? parsed : []);
-    } catch {
-      setCartItems([]);
-    }
+  async function loadGuestCart() {
+    setCartItems(await refreshStoredCart(CART_STORAGE_KEY));
   }
 
   async function loadCart(user = currentUser) {
@@ -322,6 +313,7 @@ export default function EventoDetallePage() {
         eventTitle: evento.title,
         eventImageUrl: evento.imageUrl || "/placeholder-event.jpg",
         eventDate: evento.date,
+        eventTime: evento.eventTime,
         eventVenue: evento.venue || evento.location || "Lugar por definir",
         eventAddress: [evento.address, evento.city, evento.region]
           .filter(Boolean)

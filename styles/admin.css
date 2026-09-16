@@ -251,3 +251,9 @@
     display: none;
   }
 }
+.deleteEventAction { max-width: 100%; }
+.btnDeleteEvent { background: #b42318; color: #fff; border: 1px solid #b42318; }
+.btnDeleteEvent:hover { background: #912018; }
+.btnDeleteEvent:disabled { opacity: .6; cursor: wait; }
+.deleteEventError { color: #b42318; max-width: 34rem; margin: 8px 0; overflow-wrap: anywhere; }
+.deleteEventSuccess { background: #e9f7ed; color: #185b2b; padding: 16px; margin: 20px auto; max-width: 1100px; }

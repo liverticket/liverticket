@@ -1,4 +1,6 @@
 "use client";
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -79,7 +81,7 @@ export default function EventoDetallePage() {
           </p>
 
           <p>
-            {new Date(evento.eventDate).toLocaleDateString("es-CL")}
+            {formatEventDate(evento.eventDate)}
           </p>
 
           {/* 🔥 UBICACIÓN PRO */}

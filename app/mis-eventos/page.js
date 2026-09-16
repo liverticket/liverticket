@@ -1,4 +1,6 @@
 "use client";
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -9,11 +11,11 @@ import Footer from "@/components/Footer";
 function formatDate(date) {
   if (!date) return "Fecha no definida";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(date, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  });
 }
 
 function formatMoney(value) {

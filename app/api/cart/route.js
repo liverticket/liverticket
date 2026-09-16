@@ -13,6 +13,7 @@ function mapCartItem(item) {
     eventTitle: item.event.title,
     eventImageUrl: item.event.imageUrl || "/placeholder-event.jpg",
     eventDate: item.event.date,
+    eventTime: item.event.eventTime,
     eventVenue: item.event.venue || item.event.location || "Lugar por definir",
     eventAddress: [item.event.address, item.event.city, item.event.region]
       .filter(Boolean)

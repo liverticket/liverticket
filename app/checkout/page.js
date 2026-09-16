@@ -1,4 +1,9 @@
 "use client";
+import { refreshStoredCart } from "@/lib/stored-cart";
+import { formatEventTime } from "@/lib/event-date.mjs";
+
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,21 +23,15 @@ function formatPrice(value) {
 function formatDate(dateString) {
   if (!dateString) return "Fecha por confirmar";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(dateString, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(dateString));
+  });
 }
 
-function formatTime(dateString) {
-  if (!dateString) return "Hora por confirmar";
-
-  return new Intl.DateTimeFormat("es-CL", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(dateString));
+function formatTime(eventTime) {
+  return formatEventTime(eventTime);
 }
 
 function normalizeDocumentNumber(value) {
@@ -175,7 +174,7 @@ function CheckoutContent() {
 
         if (!res.ok) {
           setCurrentUser(null);
-          setCartItems(getCart(null));
+          setCartItems(await refreshStoredCart(GUEST_CART_KEY));
           return;
         }
 
@@ -184,14 +183,14 @@ function CheckoutContent() {
         setCurrentUser(user);
 
         if (user?.id) {
-          const merged = mergeGuestCartIntoUserCart(user.id);
-          setCartItems(merged);
+          mergeGuestCartIntoUserCart(user.id);
+          setCartItems(await refreshStoredCart(getActiveCartKey(user.id)));
         } else {
-          setCartItems(getCart(null));
+          setCartItems(await refreshStoredCart(GUEST_CART_KEY));
         }
       } catch {
         setCurrentUser(null);
-        setCartItems(getCart(null));
+        setCartItems(await refreshStoredCart(GUEST_CART_KEY));
       } finally {
         setIsLoadingUser(false);
       }
@@ -231,8 +230,8 @@ function CheckoutContent() {
   }, [eventId]);
 
   useEffect(() => {
-    const syncCart = () => {
-      setCartItems(getCart(currentUser?.id || null));
+    const syncCart = async () => {
+      setCartItems(await refreshStoredCart(getActiveCartKey(currentUser?.id || null)));
     };
 
     syncCart();
@@ -347,6 +346,7 @@ function CheckoutContent() {
       eventTitle: evento.title,
       eventImageUrl: evento.imageUrl || "/placeholder-event.jpg",
       eventDate: evento.date,
+      eventTime: evento.eventTime,
       eventVenue: evento.venue || evento.location || "Lugar por definir",
       eventAddress: fullAddress,
       ticketTypeId: selectedTicket.id,
@@ -486,7 +486,7 @@ function CheckoutContent() {
 
                       <div>
                         <span>Hora</span>
-                        <strong>{formatTime(evento.date)} hrs</strong>
+                        <strong>{formatTime(evento.eventTime)}</strong>
                       </div>
 
                       <div className="wide">

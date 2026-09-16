@@ -1,3 +1,5 @@
+import { eventDeletionHandler } from "@/lib/delete-event-handler";
+import { isCalendarDate, toDatabaseDate } from "@/lib/event-date.mjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
@@ -165,6 +167,10 @@ export async function PUT(request, context) {
 
     const normalizedDate = normalizeText(body.tentativeDate);
 
+    if (!isCalendarDate(normalizedDate)) {
+      return NextResponse.json({ error: "La fecha no es válida. Usa YYYY-MM-DD." }, { status: 400 });
+    }
+
     if (!normalizedDate) {
       return NextResponse.json(
         { error: "La fecha tentativa es obligatoria." },
@@ -182,7 +188,7 @@ export async function PUT(request, context) {
         phone: normalizeText(body.phone),
         eventName: normalizeText(body.eventName),
         category: normalizeText(body.category),
-        tentativeDate: new Date(`${normalizedDate}T00:00:00`),
+        tentativeDate: toDatabaseDate(normalizedDate),
 
         minAge,
         eventTime,
@@ -227,3 +233,4 @@ export async function PUT(request, context) {
     );
   }
 }
+export const DELETE = eventDeletionHandler("request");

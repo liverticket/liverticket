@@ -19,7 +19,7 @@ function validatePassword(password) {
     errors.push("Al menos 1 número");
   }
 
-  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>_\-\\[\]/+=;']/.test(password)) {
     errors.push("Al menos 1 símbolo");
   }
 
@@ -115,7 +115,7 @@ export default function RegistrarsePage() {
   const hasMinLength = formData.password.length >= 8;
   const hasUppercase = /[A-Z]/.test(formData.password);
   const hasNumber = /[0-9]/.test(formData.password);
-  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]\/+=;']/.test(
+  const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]/+=;']/.test(
     formData.password
   );
   const passwordsMatch =

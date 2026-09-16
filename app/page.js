@@ -1,4 +1,6 @@
 "use client";
+import { calendarDate, chileToday } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -37,28 +39,11 @@ function normalizeText(value) {
 }
 
 function sameDate(dateA, dateB) {
-  if (!dateA || !dateB) return false;
-
-  const a = new Date(dateA);
-  const b = new Date(dateB);
-
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
+  return Boolean(calendarDate(dateA)) && calendarDate(dateA) === calendarDate(dateB);
 }
 
 function isUpcomingEvent(date) {
-  if (!date) return false;
-
-  const eventDate = new Date(date);
-  const today = new Date();
-
-  eventDate.setHours(23, 59, 59, 999);
-  today.setHours(0, 0, 0, 0);
-
-  return eventDate >= today;
+  return Boolean(calendarDate(date)) && calendarDate(date) >= chileToday();
 }
 
 function sortEventsByStatusAndDate(events) {

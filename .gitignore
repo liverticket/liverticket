@@ -2,3 +2,7 @@ node_modules/
 .next/
 .env
 public/uploads/
+
+.test-runtime/
+test-results/
+playwright-report/

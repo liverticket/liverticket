@@ -91,7 +91,7 @@ model Event {
   eventTime       String
   scannerCode     String?
 
-  date            DateTime
+  date            DateTime        @db.Date
   visibility      EventVisibility @default(PUBLISHED)
 
   isFeatured       Boolean @default(false)
@@ -132,7 +132,7 @@ model EventRequest {
   phone          String
   eventName      String
   category       String
-  tentativeDate  DateTime
+  tentativeDate  DateTime                @db.Date
 
   minAge         Int
   eventTime      String
@@ -281,10 +281,10 @@ model OrderItem {
   order                  Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   eventId                String
-  event                  Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event                  Event      @relation(fields: [eventId], references: [id], onDelete: Restrict)
 
   ticketTypeId           String
-  ticketType             TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
+  ticketType             TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Restrict)
 
   createdAt              DateTime   @default(now())
 
@@ -313,7 +313,7 @@ model Ticket {
   user                   User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   eventId                String
-  event                  Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event                  Event        @relation(fields: [eventId], references: [id], onDelete: Restrict)
 
   ticketTypeId           String
   ticketType             TicketType   @relation(fields: [ticketTypeId], references: [id], onDelete: Restrict)

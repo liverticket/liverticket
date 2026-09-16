@@ -1,12 +1,15 @@
 "use client";
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
+import DeleteEventButton from "@/components/DeleteEventButton";
 import Navbar from "@/components/Navbar";
 
 function formatDate(value) {
   if (!value) return "Fecha no especificada";
 
-  return new Date(value).toLocaleDateString("es-CL", {
+  return formatEventDate(value, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -15,6 +18,7 @@ function formatDate(value) {
 
 export default function AdminDestacadosPage() {
   const [events, setEvents] = useState([]);
+  const [deleteMessage, setDeleteMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -159,6 +163,7 @@ export default function AdminDestacadosPage() {
   return (
     <>
       <Navbar />
+      {deleteMessage ? <p role="status" className="deleteEventSuccess">{deleteMessage}</p> : null}
 
       <main className="ticketsPage">
         <div className="ticketsShell">
@@ -249,6 +254,13 @@ export default function AdminDestacadosPage() {
                       </div>
 
                       <h2>{event.title}</h2>
+                      <DeleteEventButton eventId={event.id} title={event.title}
+                        disabled={saving || Boolean(uploadingEventId)}
+                        onDeleted={() => {
+                          setEvents((current) => current.filter((item) => item.id !== event.id));
+                          setDeleteMessage(`El evento «${event.title}» se eliminó correctamente.`);
+                        }}
+                      />
 
                       <p className="ticketPlace">
                         {event.city ? `${event.city} · ` : ""}

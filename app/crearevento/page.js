@@ -1,4 +1,6 @@
 "use client";
+import { chileToday } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -39,10 +41,7 @@ function createEmptyTicketType() {
 }
 
 function getTodayLocalDate() {
-  const today = new Date();
-  const offset = today.getTimezoneOffset();
-  const local = new Date(today.getTime() - offset * 60 * 1000);
-  return local.toISOString().split("T")[0];
+  return chileToday();
 }
 
 export default function CrearEventoPage() {

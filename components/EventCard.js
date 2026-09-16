@@ -1,3 +1,5 @@
+import { isEventFinished } from "@/lib/event-date.mjs";
+import { formatEventDate } from "@/lib/event-date.mjs";
 import Link from "next/link";
 
 function getAgeLabel(evento) {
@@ -31,22 +33,14 @@ function getMinPriceLabel(evento) {
 }
 
 function isEventFinishedOneDayAfter(dateString) {
-  if (!dateString) return false;
-
-  const eventDate = new Date(dateString);
-  const finishLimit = new Date(eventDate);
-
-  finishLimit.setDate(finishLimit.getDate() + 1);
-  finishLimit.setHours(0, 0, 0, 0);
-
-  return new Date() >= finishLimit;
+  return isEventFinished(dateString);
 }
 
 export default function EventCard({ evento }) {
   const eventFinished = isEventFinishedOneDayAfter(evento.date);
 
   const fechaFormateada = evento.date
-    ? new Date(evento.date).toLocaleDateString("es-CL", {
+    ? formatEventDate(evento.date, {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",

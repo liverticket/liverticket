@@ -1,4 +1,9 @@
 "use client";
+import { refreshStoredCart } from "@/lib/stored-cart";
+import { formatEventTime } from "@/lib/event-date.mjs";
+
+import { formatEventDate } from "@/lib/event-date.mjs";
+
 
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "../../components/Navbar";
@@ -17,21 +22,15 @@ function formatPrice(value) {
 function formatDate(dateString) {
   if (!dateString) return "Fecha por confirmar";
 
-  return new Intl.DateTimeFormat("es-CL", {
+  return formatEventDate(dateString, {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(dateString));
+  });
 }
 
-function formatTime(dateString) {
-  if (!dateString) return "Hora por confirmar";
-
-  return new Intl.DateTimeFormat("es-CL", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(dateString));
+function formatTime(eventTime) {
+  return formatEventTime(eventTime);
 }
 
 function isValidEmail(email) {
@@ -46,14 +45,8 @@ export default function CarritoPage() {
   const [openItems, setOpenItems] = useState({});
   const [guestEmail, setGuestEmail] = useState("");
 
-  function loadGuestCart() {
-    try {
-      const stored = localStorage.getItem(CART_STORAGE_KEY);
-      const parsed = stored ? JSON.parse(stored) : [];
-      setCartItems(Array.isArray(parsed) ? parsed : []);
-    } catch {
-      setCartItems([]);
-    }
+  async function loadGuestCart() {
+    setCartItems(await refreshStoredCart(CART_STORAGE_KEY));
   }
 
   async function loadCart() {
@@ -133,6 +126,7 @@ export default function CarritoPage() {
           eventTitle: item.eventTitle,
           eventImageUrl: item.eventImageUrl,
           eventDate: item.eventDate,
+          eventTime: item.eventTime,
           eventVenue: item.eventVenue,
           eventAddress: item.eventAddress,
           items: [],
@@ -305,7 +299,7 @@ export default function CarritoPage() {
 
                           <p className="checkoutEventMetaText">
                             {formatDate(group.eventDate)} ·{" "}
-                            {formatTime(group.eventDate)}
+                            {formatTime(group.eventTime)}
                           </p>
 
                           <p className="checkoutEventMetaText">

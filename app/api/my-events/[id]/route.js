@@ -1,3 +1,4 @@
+import { addCalendarDays, chileToday } from "@/lib/event-date.mjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
@@ -38,10 +39,9 @@ export async function GET(request, context) {
       );
     }
 
-    const eventEndLimit = new Date(event.date);
-    eventEndLimit.setDate(eventEndLimit.getDate() + 7);
+    const eventEndLimit = addCalendarDays(event.date, 7);
 
-    const canViewAttendees = new Date() <= eventEndLimit;
+    const canViewAttendees = chileToday() <= eventEndLimit;
 
     const validTickets = event.tickets.filter(
       (ticket) => ticket.status !== "CANCELLED"
