@@ -398,6 +398,7 @@ export default function Navbar() {
                 </div>
               </a>
             )}
+            {user?.role === "ADMIN" && <a href="/admin/entradas" className={navClass("/admin/entradas")}>Entradas</a>}
           </nav>
 
           <div className="navbarRight">
@@ -477,6 +478,7 @@ export default function Navbar() {
                       </a>
                     )}
 
+                    {user?.role === "ADMIN" && <a href="/admin/entradas" className="userDropdownItem">Entradas</a>}
                     <button
                       type="button"
                       onClick={handleLogout}
@@ -579,6 +581,7 @@ export default function Navbar() {
             </a>
           )}
 
+          {user?.role === "ADMIN" && <a href="/admin/entradas" onClick={closeAllMenus}>Entradas</a>}
           {user ? (
             <>
               <a href="/perfil" onClick={closeAllMenus}>
