@@ -144,8 +144,8 @@ export default function TicketValidationPage() {
   function handleAuthorize() {
     const cleanCode = scannerCode.trim();
 
-    if (!cleanCode) {
-      setMessage("Ingresa el código de acceso.");
+    if (!/^[0-9]{2}$/.test(cleanCode)) {
+      setMessage("Ingresa el código de acceso de 2 dígitos.");
       return;
     }
 
@@ -180,10 +180,10 @@ export default function TicketValidationPage() {
 
         <input
           value={scannerCode}
-          onChange={(event) => setScannerCode(event.target.value)}
-          placeholder="Ej: 9274"
+          onChange={(event) => setScannerCode(event.target.value.replace(/[^0-9]/g, "").slice(0, 2))}
+          placeholder="Ej: 74"
           inputMode="numeric"
-          maxLength={4}
+          maxLength={2}
           style={{
             width: "100%",
             maxWidth: 220,

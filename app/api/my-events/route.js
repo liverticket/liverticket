@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
+import { getScannerCode } from "@/lib/scanner-code.mjs";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
 function generateScannerCode() {
-  return String(Math.floor(1000 + Math.random() * 9000));
+  return String(Math.floor(10 + Math.random() * 90));
 }
 
 export async function GET() {
@@ -133,7 +134,7 @@ export async function GET() {
         visibility: event.visibility,
         soldTickets: validTickets.length,
         totalSales,
-        scannerCode: event.scannerCode,
+        scannerCode: getScannerCode(event.scannerCode),
       };
     });
 

@@ -28,7 +28,8 @@ test("legacy midnight UTC, Chilean midnight and noon preserve stored day", () =>
     assert.equal(calendarDate(new Date(value)), "2026-09-19");
     assert.equal(formatEventDate(value), "19-09-2026");
   }
-  assert.equal(formatEventDate("2026-09-19", { weekday: "long" }), "sÃ¡bado, 19-09-2026");
+  // Intl punctuation can vary between ICU versions; the weekday and date must match.
+  assert.match(formatEventDate("2026-09-19", { weekday: "long" }), /^s\u00e1bado,?\s+19-09-2026$/u);
 });
 
 test("reject impossible dates and timestamp payloads", () => {

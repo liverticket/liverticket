@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { matchesScannerCode } from "@/lib/scanner-code.mjs";
 import prisma from "@/lib/prisma";
 
 export async function POST(request, { params }) {
@@ -31,7 +32,7 @@ export async function POST(request, { params }) {
       );
     }
 
-    if (!ticket.event?.scannerCode || ticket.event.scannerCode !== scannerCode) {
+    if (!matchesScannerCode(ticket.event?.scannerCode, scannerCode)) {
       return NextResponse.json(
         { success: false, message: "Código de acceso incorrecto." },
         { status: 403 }

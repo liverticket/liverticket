@@ -220,7 +220,7 @@ export default function MisEventosPage() {
                               ) : (
                                 <div className="myEventScannerCodeReveal">
                                   <span>Código acceso</span>
-                                  <strong>{item.approvedEvent.scannerCode || "----"}</strong>
+                                  <strong>{item.approvedEvent.scannerCode || "--"}</strong>
                                 </div>
                               )}
                             </div>
